@@ -12,6 +12,7 @@ enum class Direction
 class Entity 
 {
 public:
+	Entity();
 	Entity(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed); 
 
 	void move(Direction direction);
