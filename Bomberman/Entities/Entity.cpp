@@ -1,6 +1,11 @@
 #include "Entity.h"
 
 
+Entity::Entity()
+{
+	pos_x = pos_y = speed = size_x = size_y = 0;
+}
+
 Entity::Entity(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed):
 		pos_x(pos_x), pos_y(pos_y), size_x(size_x), size_y(size_y), speed(speed){}
 
