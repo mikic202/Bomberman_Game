@@ -21,7 +21,7 @@ public:
 	virtual sf::Sprite item_sprite() const;
 	virtual void laad_immage_from_file(std::string image_path);
 	virtual void draw_to(sf::RenderWindow& window) const;
-	void set_position(sf::Vector2f position);
+	void set_position(std::vector<int> position);
 	sf::Vector2f position() const;
 	void rescale(sf::Vector2f scale);
 };
