@@ -17,7 +17,7 @@ sf::Sprite Item::item_sprite() const
 	return item_sprite_;
 }
 
-void Item::laad_immage_from_file(std::string image_path)
+void Item::load_immage_from_file(std::string image_path)
 {
     item_sprite_.setOrigin(sprite_size_[0] / 2, sprite_size_[1] / 2);
     sf::Texture item_texture;

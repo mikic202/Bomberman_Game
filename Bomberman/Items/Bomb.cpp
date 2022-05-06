@@ -3,13 +3,15 @@
 #include <cmath>
 
 
-Bomb::Bomb(std::vector<int> position, int radius, int delay, int strength)
+Bomb::Bomb(std::vector<int> position, int radius, int delay, int strength, sf::Vector2f scale, std::string image_path)
 {
 	set_name("Bomb");
 	set_position(position);
 	set_radius(radius);
 	set_delay(delay);
 	set_strength(strength);
+	rescale(scale);
+	load_immage_from_file(image_path);
 }
 
 void Bomb::set_radius(int new_radius)

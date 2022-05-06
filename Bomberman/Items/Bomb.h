@@ -11,7 +11,7 @@ private:
 	int strength_;
 public:
 	Bomb() {};
-	Bomb(std::vector<int> position, int radius, int delay, int strength);
+	Bomb(std::vector<int> position, int radius, int delay, int strength, sf::Vector2f scale, std::string image_path);
 	void set_radius(int new_radius);
 	int radius();
 	void set_delay(int new_delay);

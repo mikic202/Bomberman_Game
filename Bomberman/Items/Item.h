@@ -19,7 +19,7 @@ public:
 	/*void set_position(std::vector<int> new_postion);
 	std::vector<int> position();*/
 	virtual sf::Sprite item_sprite() const;
-	virtual void laad_immage_from_file(std::string image_path);
+	virtual void load_immage_from_file(std::string image_path);
 	virtual void draw_to(sf::RenderWindow& window) const;
 	void set_position(std::vector<int> position);
 	sf::Vector2f position() const;
