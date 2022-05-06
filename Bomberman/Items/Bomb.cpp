@@ -12,6 +12,7 @@ Bomb::Bomb(std::vector<int> position, int radius, int delay, int strength, sf::V
 	set_strength(strength);
 	rescale(scale);
 	load_immage_from_file(image_path);
+	placement_time_ = std::chrono::high_resolution_clock::now();
 }
 
 void Bomb::set_radius(int new_radius)
@@ -43,4 +44,9 @@ void Bomb::set_strength(int new_strength)
 int Bomb::strength()
 {
 	return strength_;
+}
+
+bool Bomb::did_blow()
+{
+	return(delay_ < std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - placement_time_).count());
 }
