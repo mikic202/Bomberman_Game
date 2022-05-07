@@ -6,7 +6,7 @@
 class Box : public Wall	
 {
 private:
-	int hits_to_brake_;
+	int hits_to_brake_ = 1;
 	bool chek_if_broken_();
 public:
 	Box() {  };
