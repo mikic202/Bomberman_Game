@@ -1,12 +1,10 @@
 #include "Box.h"
 
 
-Box::Box(std::vector<int> position, int hits_to_brake, sf::Vector2f scale, std::string image_path)
+Box::Box(std::vector<int> position, int hits_to_brake, sf::Vector2f scale, std::string image_path) : 
+	Wall(position, scale, image_path)
 {
 	set_hits_to_brake(hits_to_brake);
-	set_position(position);
-	rescale(scale);
-	load_immage_from_file(image_path);
 }
 
 void Box::set_hits_to_brake(int new_hits)
