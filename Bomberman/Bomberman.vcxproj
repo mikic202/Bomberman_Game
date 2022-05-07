@@ -165,6 +165,7 @@
     <ClInclude Include="Entities\Enemy\Enemy.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\Player\Player.h" />
+    <ClInclude Include="Exceptions\Item_exceptions.h" />
     <ClInclude Include="Items\Bomb.h" />
     <ClInclude Include="Items\Box.h" />
     <ClInclude Include="Items\Item.h" />
