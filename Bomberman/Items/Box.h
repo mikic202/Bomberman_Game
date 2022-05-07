@@ -1,9 +1,9 @@
 #ifndef Box_H
 #define Box_H
-#include "Item.h"
+#include "Wall.h"
 
 
-class Box : public Item
+class Box : public Wall	
 {
 private:
 	int hits_to_brake_;
