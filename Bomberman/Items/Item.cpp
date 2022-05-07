@@ -1,5 +1,6 @@
 #include "Item.h"
 #include "../Consts.h"
+#include "../Exceptions/Item_exceptions.h"
 
 
 void Item::set_name(std::string new_name)
@@ -24,7 +25,7 @@ void Item::load_immage_from_file(std::string image_path)
 
     if (!item_texture.loadFromFile(image_path))
     {
-        throw std::exception("Image file not found");
+        throw (FliePathException());
     }
     item_sprite_.setTexture(item_texture);
 }

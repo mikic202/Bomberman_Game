@@ -1,6 +1,7 @@
 #include "Bomb.h"
 #include "../Consts.h"
 #include <cmath>
+#include "../Exceptions/Item_exceptions.h"
 
 
 Bomb::Bomb(std::vector<int> position, int radius, int delay, int strength, sf::Vector2f scale, std::string image_path)
@@ -27,7 +28,7 @@ int Bomb::radius()
 
 void Bomb::set_delay(int new_delay)
 {
-	if (new_delay > MAX_EXPLOSION_DELAY) throw(std::exception("Too big Delay"));
+	if (new_delay > MAX_EXPLOSION_DELAY) throw(DelayException());
 	delay_ = new_delay;
 }
 
