@@ -42,7 +42,7 @@
     <ClCompile Include="Game Board\GameBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game Board\Wall.cpp">
+    <ClCompile Include="Items\Wall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,7 +77,7 @@
     <ClInclude Include="Game Board\GameBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game Board\Wall.h">
+    <ClInclude Include="Items\Wall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

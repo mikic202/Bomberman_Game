@@ -155,10 +155,10 @@
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Player\Player.cpp" />
     <ClCompile Include="Game Board\GameBoard.cpp" />
-    <ClCompile Include="Game Board\Wall.cpp" />
     <ClCompile Include="Items\Bomb.cpp" />
     <ClCompile Include="Items\Box.cpp" />
     <ClCompile Include="Items\Item.cpp" />
+    <ClCompile Include="Items\Wall.cpp" />
     <ClCompile Include="testng_merging.cpp" />
     <ClCompile Include="tests\catch_config.cpp" />
   </ItemGroup>
@@ -169,10 +169,10 @@
     <ClInclude Include="Entities\Player\Player.h" />
     <ClInclude Include="Exceptions\Item_exceptions.h" />
     <ClInclude Include="Game Board\GameBoard.h" />
-    <ClInclude Include="Game Board\Wall.h" />
     <ClInclude Include="Items\Bomb.h" />
     <ClInclude Include="Items\Box.h" />
     <ClInclude Include="Items\Item.h" />
+    <ClInclude Include="Items\Wall.h" />
     <ClInclude Include="tests\catch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
