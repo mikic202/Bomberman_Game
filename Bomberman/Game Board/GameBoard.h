@@ -7,9 +7,9 @@
 class GameBoard
 {
 protected:
-	sf::Texture background;
-	std::vector<std::shared_ptr<Item> > items_on_board;
-	int max_boxes_on_board;
+	sf::Texture background_;
+	std::vector<std::shared_ptr<Item> > items_on_board_;
+	int max_boxes_on_board_;
 public:
 	void load_bacground(std::string backgroung_image);
 	sf::Texture bacground();
