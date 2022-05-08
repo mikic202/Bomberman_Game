@@ -156,6 +156,7 @@
     <ClCompile Include="Entities\Player\Player.cpp" />
     <ClCompile Include="Game Board\GameBoard.cpp" />
     <ClCompile Include="Game Board\StoryModeBoard.cpp" />
+    <ClCompile Include="Game Board\VersusModeBoard.cpp" />
     <ClCompile Include="Items\Bomb.cpp" />
     <ClCompile Include="Items\Box.cpp" />
     <ClCompile Include="Items\Item.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Exceptions\Item_exceptions.h" />
     <ClInclude Include="Game Board\GameBoard.h" />
     <ClInclude Include="Game Board\StoryModeBoard.h" />
+    <ClInclude Include="Game Board\VersusModeBoard.h" />
     <ClInclude Include="Items\Bomb.h" />
     <ClInclude Include="Items\Box.h" />
     <ClInclude Include="Items\Item.h" />

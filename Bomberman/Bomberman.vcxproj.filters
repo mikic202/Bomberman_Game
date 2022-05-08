@@ -48,6 +48,9 @@
     <ClCompile Include="Game Board\StoryModeBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game Board\VersusModeBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests\catch.hpp">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game Board\StoryModeBoard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game Board\VersusModeBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
