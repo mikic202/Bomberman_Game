@@ -4,7 +4,7 @@
 #include "../Exceptions/Item_exceptions.h"
 
 
-Bomb::Bomb(std::vector<int> position, int radius, int delay, int strength, sf::Vector2f scale, std::string image_path)
+Bomb::Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vector2f scale)
 {
 	set_name("Bomb");
 	set_position(position);
@@ -12,7 +12,7 @@ Bomb::Bomb(std::vector<int> position, int radius, int delay, int strength, sf::V
 	set_delay(delay);
 	set_strength(strength);
 	rescale(scale);
-	load_immage_from_file(image_path);
+	load_immage_from_file(texture_path_);
 	placement_time_ = std::chrono::high_resolution_clock::now();
 }
 

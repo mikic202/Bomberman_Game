@@ -6,7 +6,7 @@ sf::FloatRect Wall::get_global_bounds()
 	return item_sprite_.getGlobalBounds();
 }
 
-Wall::Wall(std::vector<int> position, sf::Vector2f scale, std::string image_path)
+Wall::Wall(sf::Vector2f position, sf::Vector2f scale, std::string image_path)
 {
 	set_position(position);
 	rescale(scale);

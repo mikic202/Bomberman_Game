@@ -1,7 +1,7 @@
 #include "Box.h"
 
 
-Box::Box(std::vector<int> position, int hits_to_brake, sf::Vector2f scale, std::string image_path) : 
+Box::Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale, std::string image_path) :
 	Wall(position, scale, image_path)
 {
 	set_hits_to_brake(hits_to_brake);

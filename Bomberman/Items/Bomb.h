@@ -7,13 +7,14 @@
 class Bomb : public Item
 {
 private:
-	int radius_;
-	int delay_;
-	int strength_;
+	int radius_ = 0;
+	int delay_ = 0;
+	int strength_ = 0;
 	std::chrono::time_point<std::chrono::steady_clock> placement_time_;
+	std::string texture_path_ = "Assets/Bomb.png";
 public:
 	Bomb() {};
-	Bomb(std::vector<int> position, int radius, int delay, int strength, sf::Vector2f scale, std::string image_path);
+	Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vector2f scale);
 	void set_radius(int new_radius);
 	int radius();
 	void set_delay(int new_delay);

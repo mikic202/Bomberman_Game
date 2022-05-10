@@ -35,9 +35,9 @@ void Item::draw_to(sf::RenderWindow& window) const
     window.draw(item_sprite_);
 }
 
-void Item::set_position(std::vector<int> position)
+void Item::set_position(sf::Vector2f position)
 {
-    item_sprite_.setPosition({position[0], position[1]});
+    item_sprite_.setPosition(position);
 }
 
 sf::Vector2f Item::position() const
