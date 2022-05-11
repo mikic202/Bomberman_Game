@@ -13,6 +13,7 @@ protected:
 	//void check_position_(std::vector<int> postion);
 	sf::Sprite item_sprite_;
 	std::vector<int> sprite_size_;
+	sf::Texture item_texture_;
 public:
 	void set_name(std::string nem_name);
 	std::string name() const;
