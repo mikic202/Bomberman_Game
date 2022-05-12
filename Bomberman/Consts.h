@@ -7,6 +7,8 @@ const int DIMENSIONS = 2;
 const std::vector<int> MAX_SIZE = { 1000, 1000 };
 const int MAX_EXPLOSION_DELAY = 10;
 
+const int GRID_SLOT_SIZE = 50;
+
 
 #endif // !Consts_H
 
