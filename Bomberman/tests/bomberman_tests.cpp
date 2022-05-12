@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "../Items/Bomb.h"
+#include"../Items/Box.h"
 
 
 TEST_CASE("Tests for Item class")
@@ -64,5 +65,18 @@ TEST_CASE("Tests for Bomb class")
 
 		//bool n = bomb.did_blow();
 		//REQUIRE(bomb.did_blow());
+	}
+}
+
+
+TEST_CASE("Testing Wall class")
+{
+	SECTION("Ititialization tests")
+	{
+		Wall wall({ 1, 2 }, { 3, 4 });
+
+		sf::Sprite wall_sprite = wall.item_sprite();
+
+		REQUIRE(wall.get_global_bounds() == wall_sprite.getGlobalBounds());
 	}
 }
