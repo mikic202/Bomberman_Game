@@ -80,3 +80,31 @@ TEST_CASE("Testing Wall class")
 		REQUIRE(wall.get_global_bounds() == wall_sprite.getGlobalBounds());
 	}
 }
+
+
+TEST_CASE("Tsting Box class")
+{
+	SECTION("Initialization tests")
+	{
+		Box box({ 1, 2 }, 2, { 5, 6 });
+
+		REQUIRE(box.hits_to_brake() == 2);
+	}
+
+	SECTION("Setters tests")
+	{
+		Box box({ 1, 2 }, 2, { 5, 6 });
+
+		box.set_hits_to_brake(4);
+		REQUIRE(box.hits_to_brake() == 4);
+	}
+
+	SECTION("Box hitting test")
+	{
+		Box box({ 1, 2 }, 5, { 5, 6 });
+
+		REQUIRE(!box.hit(2));
+
+		REQUIRE(box.hit(4));
+	}
+}
