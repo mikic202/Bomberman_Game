@@ -6,7 +6,7 @@
 class Wall : public Item
 {
 private:
-	std::string wall_texture_path_ = "";
+	std::string wall_texture_path_ = "Assets/Bomb.png";
 public:
 	Wall() {};
 	Wall(sf::Vector2f position, sf::Vector2f scale);
