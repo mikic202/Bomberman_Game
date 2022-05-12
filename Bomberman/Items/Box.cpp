@@ -29,6 +29,6 @@ bool Box::hit(int strength)
 bool Box::chek_if_broken_()
 {
 	if (hits_to_brake_ > 0)
-		return true;
-	return false;
+		return false;
+	return true;
 }
