@@ -18,7 +18,7 @@
     <ClCompile Include="testng_merging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\catch_config.cpp">
+    <ClCompile Include="tests\bomberman_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Entities\Player\Player.cpp">

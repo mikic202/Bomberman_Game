@@ -162,7 +162,7 @@
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Wall.cpp" />
     <ClCompile Include="testng_merging.cpp" />
-    <ClCompile Include="tests\catch_config.cpp" />
+    <ClCompile Include="tests\bomberman_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Consts.h" />
