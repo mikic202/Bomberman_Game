@@ -1,5 +1,6 @@
 #include "GameBoard.h"
 #include "../Exceptions/Item_exceptions.h"
+#include "../Items/Wall.h"
 
 void GameBoard::load_bacground(std::string backgroung_image)
 {
@@ -33,4 +34,19 @@ void GameBoard::add_player(Player new_player)
 {
 	std::shared_ptr<Player> ptr = std::make_shared<Player>(new_player);
 	players_.push_back(std::move(ptr));;
+}
+
+void GameBoard::place_walls_(int size_x, int size_y = -1)
+{
+	if (size_y == -1) size_y = size_x;
+	for (int y = 1; y <= size_y; y++)
+	{
+		for (int x = 1; x <= size_x; x++)
+		{
+			if (x % 2 == 0)
+			{
+				add_item(Wall({x*GRID_SLOT_SIZE, y*GRID_SLOT_SIZE}, {1, 1}));
+			}
+		}
+	}
 }

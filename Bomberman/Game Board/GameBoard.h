@@ -4,6 +4,7 @@
 #include <vector>
 #include"../Items/Item.h"
 #include"../Entities/Player/Player.h"
+#include"../Consts.h"
 
 class GameBoard
 {
@@ -12,6 +13,7 @@ protected:
 	std::vector<std::shared_ptr<Item> > items_on_board_;
 	int max_boxes_on_board_;
 	std::vector<std::shared_ptr<Player> > players_;
+	void place_walls_(int size_x, int size_y = -1);
 public:
 	void load_bacground(std::string backgroung_image);
 	sf::Texture bacground();
