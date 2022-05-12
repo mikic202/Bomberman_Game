@@ -1,7 +1,7 @@
 #include "Box.h"
 
 
-Box::Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale, std::string image_path)
+Box::Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale)
 {
 	set_position(position);
 	rescale(scale);

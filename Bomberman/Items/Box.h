@@ -11,7 +11,7 @@ private:
 	std::string box_texture_path_ = "Assets/Bomb.png";
 public:
 	Box() {  };
-	Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale, std::string image_path);
+	Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale);
 	void set_hits_to_brake(int new_hits);
 	int hits_to_brake();
 	bool hit(int strength);
