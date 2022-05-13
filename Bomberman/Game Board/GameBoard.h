@@ -17,6 +17,8 @@ protected:
 	sf::Texture wall_texture_;
 	sf::Texture bomb_texture_;
 	sf::Texture box_texture_;
+	virtual void generate_board_();
+	virtual void place_boxes_();
 public:
 	void load_bacground(std::string backgroung_image);
 	sf::Texture bacground();
