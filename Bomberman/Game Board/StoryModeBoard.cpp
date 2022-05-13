@@ -8,6 +8,7 @@ StoryModeBoard::StoryModeBoard(int levels_pased, int number_of_players)
     {
         players_.push_back(Player());
     }*/
+    generate_board_();
 }
 
 sf::Vector2f StoryModeBoard::door_position() const
