@@ -159,6 +159,7 @@
     <ClCompile Include="Game Board\VersusModeBoard.cpp" />
     <ClCompile Include="Items\Bomb.cpp" />
     <ClCompile Include="Items\Box.cpp" />
+    <ClCompile Include="Items\Door.cpp" />
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Wall.cpp" />
     <ClCompile Include="testng_merging.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Game Board\VersusModeBoard.h" />
     <ClInclude Include="Items\Bomb.h" />
     <ClInclude Include="Items\Box.h" />
+    <ClInclude Include="Items\Door.h" />
     <ClInclude Include="Items\Item.h" />
     <ClInclude Include="Items\Wall.h" />
     <ClInclude Include="tests\catch.hpp" />
