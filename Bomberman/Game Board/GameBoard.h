@@ -14,6 +14,9 @@ protected:
 	int max_boxes_on_board_;
 	std::vector<std::shared_ptr<Player> > players_;
 	void place_walls_(int size_x, int size_y = -1);
+	sf::Texture wall_texture_;
+	sf::Texture bomb_texture_;
+	sf::Texture box_texture_;
 public:
 	void load_bacground(std::string backgroung_image);
 	sf::Texture bacground();
