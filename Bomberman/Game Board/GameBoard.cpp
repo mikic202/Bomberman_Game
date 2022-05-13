@@ -1,6 +1,6 @@
 #include "GameBoard.h"
 #include "../Exceptions/Item_exceptions.h"
-#include "../Items/Wall.h"
+#include "../Items/Box.h"
 
 void GameBoard::load_bacground(std::string backgroung_image)
 {
@@ -72,7 +72,7 @@ void GameBoard::generate_board_()
 	place_walls_(MAX_SIZE[0], MAX_SIZE[1]);
 }
 
-void GameBoard::place_boxes_()
+void GameBoard::place_boxes_(int size_x, int size_y)
 {
 
 }
