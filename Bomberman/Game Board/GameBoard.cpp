@@ -36,16 +36,27 @@ void GameBoard::add_player(Player new_player)
 	players_.push_back(std::move(ptr));;
 }
 
+void GameBoard::draw_to(sf::RenderWindow& window)
+{
+	for (std::shared_ptr<Item> item : items_on_board_)
+	{
+		item->draw_to(window);
+	}
+}
+
 void GameBoard::place_walls_(int size_x, int size_y = -1)
 {
 	if (size_y == -1) size_y = size_x;
 	for (int y = 1; y <= size_y; y++)
 	{
-		for (int x = 1; x <= size_x; x++)
+		if (y % 2 == 0)
 		{
-			if (x % 2 == 0)
+			for (int x = 1; x <= size_x; x++)
 			{
-				add_item(Wall({x*GRID_SLOT_SIZE, y*GRID_SLOT_SIZE}, {1, 1}));
+				if (x % 2 == 0)
+				{
+					add_item(Wall({ x * GRID_SLOT_SIZE, y * GRID_SLOT_SIZE }, { 1, 1 }));
+				}
 			}
 		}
 	}

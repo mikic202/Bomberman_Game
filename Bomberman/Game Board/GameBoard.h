@@ -22,6 +22,7 @@ public:
 	std::shared_ptr<Item> item(int item_position);
 	std::vector<std::shared_ptr<Player> > players();
 	void add_player(Player new_player);
+	void draw_to(sf::RenderWindow& window);
 };
 
 
