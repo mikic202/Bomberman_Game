@@ -9,6 +9,11 @@ const int MAX_EXPLOSION_DELAY = 10;
 
 const int GRID_SLOT_SIZE = 50;
 
+const std::string BOMB_PATH = "Assets/Bomb.png";
+const std::string WALL_PATH = "Assets/Bomb.png";
+const std::string BOX_PATH = "Assets/Bomb.png";
+
+
 
 #endif // !Consts_H
 
