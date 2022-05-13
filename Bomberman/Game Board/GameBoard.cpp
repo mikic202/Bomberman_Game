@@ -59,7 +59,7 @@ void GameBoard::place_walls_(int size_x, int size_y)
 			{
 				if (x % 2 == 0)
 				{
-					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, { .29, .29 }, wall_texture_);
+					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, { .14286, .14286 }, wall_texture_);
 					add_item(wall);
 				}
 			}
