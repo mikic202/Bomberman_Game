@@ -1,5 +1,8 @@
 //#include <SFML/Graphics.hpp>
 //#include"Items/Bomb.h"
+//#include "Game Board/StoryModeBoard.h"
+//#include "Game Board/GameBoard.h"
+//#include "Items/Box.h"
 //
 //int main()
 //{
@@ -8,9 +11,11 @@
 //    shape.setFillColor(sf::Color::Green);
 //    Bomb bomb({ 10, 10 }, 5, 6, 6, {0.5, 0.5});
 //
-//    sf::Sprite item_sprite_;
-//    sf::Texture item_texture;
+//    //sf::Sprite item_sprite_;
+//    //sf::Texture item_texture;
 //
+//    StoryModeBoard board(2, 1);
+//    
 //
 //    std::cout << "a";
 //    while (window.isOpen())
@@ -23,7 +28,8 @@
 //        }
 //
 //        window.clear();
-//        bomb.draw_to(window);
+//        board.draw_to(window);
+//        //bomb.draw_to(window);
 //        //window.draw(bomb.item_sprite_);
 //        //window.draw(item_sprite_);
 //        //window.draw(shape);
