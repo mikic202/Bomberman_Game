@@ -44,8 +44,12 @@ void GameBoard::draw_to(sf::RenderWindow& window)
 	}
 }
 
-void GameBoard::place_walls_(int size_x, int size_y = -1)
+void GameBoard::place_walls_(int size_x, int size_y)
 {
+	if (!wall_texture_.loadFromFile(WALL_PATH))
+	{
+		throw (FliePathException());
+	}
 	if (size_y == -1) size_y = size_x;
 	for (int y = 1; y <= size_y; y++)
 	{
@@ -55,9 +59,20 @@ void GameBoard::place_walls_(int size_x, int size_y = -1)
 			{
 				if (x % 2 == 0)
 				{
-					add_item(Wall({ x * GRID_SLOT_SIZE, y * GRID_SLOT_SIZE }, { 1, 1 }));
+					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, { .29, .29 }, wall_texture_);
+					add_item(wall);
 				}
 			}
 		}
 	}
+}
+
+void GameBoard::generate_board_()
+{
+	place_walls_(MAX_SIZE[0], MAX_SIZE[1]);
+}
+
+void GameBoard::place_boxes_()
+{
+
 }
