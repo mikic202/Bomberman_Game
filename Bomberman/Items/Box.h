@@ -12,6 +12,7 @@ private:
 public:
 	Box() {  };
 	Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale);
+	Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale, sf::Texture& box_texture);
 	void set_hits_to_brake(int new_hits);
 	int hits_to_brake();
 	bool hit(int strength);
