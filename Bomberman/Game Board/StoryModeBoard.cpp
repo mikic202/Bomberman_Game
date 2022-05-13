@@ -1,4 +1,6 @@
 #include "StoryModeBoard.h"
+#include "../Exceptions/Item_exceptions.h"
+#include "../Items/Box.h"
 
 
 StoryModeBoard::StoryModeBoard(int levels_pased, int number_of_players)
@@ -27,6 +29,7 @@ void StoryModeBoard::generate_board_()
     int max_box_strength = max_box_strength_(level_number_);
 
     place_walls_(size_[0], size_[1]);
+    place_boxes_(size_[0], size_[1]);
 }
 
 int StoryModeBoard::box_num_(int level_num) const
@@ -55,5 +58,30 @@ int StoryModeBoard::max_box_strength_(int level_num) const
         previous = dif.first;
     }
     return box_strength_map_.at(previous);
+}
+
+
+void StoryModeBoard::place_boxes_(int size_x, int size_y)
+{
+    if (!box_texture_.loadFromFile(BOX_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (size_y == -1) size_y = size_x;
+    int box_num = box_num_(level_number_);
+    int random_nuber_if_box;
+    for (int y = 1; y <= size_y; y++)
+    {
+        for (int x = 1; x <= size_x; x++)
+        {
+            random_nuber_if_box = std::rand() % 5 + 1;
+            if (((x % 2 == 1 && y % 2 == 0) || (y % 2 == 1)) && random_nuber_if_box == 1 && box_num > 0)
+            {
+                Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, max_box_strength_(level_number_), {.14286, .14286}, box_texture_);
+                add_item(box);
+                box_num--;
+            }
+        }
+    }
 }
 

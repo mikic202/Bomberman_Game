@@ -15,7 +15,8 @@ private:
 	void generate_board_();
 	int box_num_(int level_num) const;
 	int max_box_strength_(int level_num) const;
-	const std::vector<int> size_{ 50, 100 };
+	const std::vector<int> size_{ 10, 10 };
+	void place_boxes_(int size_x, int size_y = -1);
 public:
 	StoryModeBoard(int level_number, int number_of_players);
 	sf::Vector2f door_position() const;
