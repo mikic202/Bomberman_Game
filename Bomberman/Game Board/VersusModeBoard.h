@@ -2,7 +2,7 @@
 #define VersusModeBoard_H
 #include "GameBoard.h"
 
-class VersusModeBoard : GameBoard
+class VersusModeBoard : public GameBoard
 {
 private:
 	int size_;
