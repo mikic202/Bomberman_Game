@@ -6,6 +6,7 @@ class VersusModeBoard : GameBoard
 {
 private:
 	int size_;
+	void generate_board_();
 public:
 	VersusModeBoard(int size);
 	int size();
