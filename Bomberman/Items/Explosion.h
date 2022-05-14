@@ -1,9 +1,9 @@
 #ifndef Explosion_H
 #define Explosion_H
-#include "Item.h"
+#include "Wall.h"
 
 
-class Explosion : public Item
+class Explosion : public Wall
 {
 	Explosion() {};
 	Explosion(sf::Vector2f position, sf::Vector2f scale);

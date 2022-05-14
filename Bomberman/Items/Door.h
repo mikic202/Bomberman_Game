@@ -1,10 +1,10 @@
 #ifndef Door_H
 #define Door_H
-#include "Item.h"
+#include "Wall.h"
 #include "../Consts.h"
 
 
-class Door : public Item
+class Door : public Wall
 {
 private:
 	std::string door_texture_path_ = DOOR_PATH;
