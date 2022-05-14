@@ -3,6 +3,7 @@
 VersusModeBoard::VersusModeBoard(int size)
 {
 	size_ = size;
+	generate_board_();
 }
 
 int VersusModeBoard::size()
