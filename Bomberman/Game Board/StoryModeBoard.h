@@ -15,7 +15,7 @@ private:
 	void generate_board_();
 	int box_num_(int level_num) const;
 	int max_box_strength_(int level_num) const;
-	const std::vector<int> size_{ 10, 10 };
+	const std::vector<int> size_{ 50, 20 };
 	void place_boxes_(int size_x, int size_y = -1);
 	void place_door_();
 public:

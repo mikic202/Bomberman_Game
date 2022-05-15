@@ -35,6 +35,7 @@ void StoryModeBoard::generate_board_()
 
     place_walls_(size_[0], size_[1]);
     place_boxes_(size_[0], size_[1]);
+    place_door_();
 }
 
 int StoryModeBoard::box_num_(int level_num) const
@@ -92,10 +93,11 @@ void StoryModeBoard::place_boxes_(int size_x, int size_y)
 
 void StoryModeBoard::place_door_()
 {
-    int dor_pos_x = std::rand() % (size_[0] - size_[0] / 100 * where_door_can_ocure + 1) + size_[0] / 100 * where_door_can_ocure - 1;
-    int dor_pos_y = std::rand() % size_[1];
-    if (dor_pos_x % 2 == 0 && dor_pos_y % 2 == 0)
+    int door_pos_x = std::rand() % (size_[0] - size_[0] / 100 * where_door_can_ocure + 1) + size_[0] / 100 * where_door_can_ocure - 1;
+    int door_pos_y = std::rand() % size_[1];
+    if (door_pos_x % 2 == 0 && door_pos_y % 2 == 0)
     {
-        dor_pos_x++;
+        door_pos_x++;
     }
+    door_sprite_.setPosition({ door_pos_x, door_pos_y });
 }
