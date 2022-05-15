@@ -99,5 +99,5 @@ void StoryModeBoard::place_door_()
     {
         door_pos_x++;
     }
-    door_sprite_.setPosition({ door_pos_x, door_pos_y });
+    door_sprite_.setPosition({ float(door_pos_x), float(door_pos_y) });
 }
