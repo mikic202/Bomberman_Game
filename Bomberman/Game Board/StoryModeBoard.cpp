@@ -3,6 +3,11 @@
 #include "../Items/Box.h"
 
 
+int StoryModeBoard::level_number()
+{
+    return level_number_;
+}
+
 StoryModeBoard::StoryModeBoard(int levels_pased, int number_of_players)
 {
     level_number_ = levels_pased;

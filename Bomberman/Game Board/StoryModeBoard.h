@@ -19,6 +19,7 @@ private:
 	void place_boxes_(int size_x, int size_y = -1);
 	void place_door_();
 public:
+	int level_number();
 	StoryModeBoard(int level_number, int number_of_players);
 	sf::Vector2f door_position() const;
 	sf::FloatRect get_door_global_bounds();
