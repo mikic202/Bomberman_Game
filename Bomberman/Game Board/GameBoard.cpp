@@ -1,6 +1,7 @@
 #include "GameBoard.h"
 #include "../Exceptions/Item_exceptions.h"
 #include "../Items/Box.h"
+#include <time.h>
 
 void GameBoard::load_bacground(std::string backgroung_image)
 {
@@ -50,6 +51,7 @@ void GameBoard::place_walls_(int size_x, int size_y)
 	{
 		throw (FliePathException());
 	}
+	srand(time(NULL));
 	if (size_y == -1) size_y = size_x;
 	for (int y = 1; y <= size_y; y++)
 	{
