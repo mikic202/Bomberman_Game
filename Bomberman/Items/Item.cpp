@@ -3,6 +3,11 @@
 #include "../Exceptions/Item_exceptions.h"
 
 
+void Item::move(sf::Vector2f move_distance)
+{
+    item_sprite_.move(move_distance);
+}
+
 void Item::set_name(std::string new_name)
 {
 	name_ = new_name;

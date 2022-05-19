@@ -15,6 +15,7 @@ protected:
 	std::vector<int> sprite_size_;
 	sf::Texture item_texture_;
 public:
+	void move(sf::Vector2f move_distance);
 	void set_name(std::string nem_name);
 	std::string name() const;
 	/*void set_position(std::vector<int> new_postion);
