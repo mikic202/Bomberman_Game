@@ -51,4 +51,9 @@ void Entity::set_speed(int new_speed){
 	this->speed = new_speed;
 }
 
+sf::FloatRect Entity::get_global_bounds()
+{
+	return this->sprite.getGlobalBounds();
+}
+
 Entity::~Entity() {};

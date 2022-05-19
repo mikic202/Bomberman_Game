@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 // Pure abstract class that describes
 // object that can be displayed and move
 
@@ -17,6 +18,7 @@ public:
 
 	void move(Direction direction);
 
+	
 	int get_position_x();
 	int get_position_y();
 	int get_speed();
@@ -25,10 +27,14 @@ public:
 	void set_position_y(int new_pos_y);
 	void set_speed(int new_speed);
 
+	sf::FloatRect get_global_bounds();
+
 	virtual ~Entity() = 0;
 private:
 	int speed;
 	int pos_x, pos_y;
+	sf::Texture texture;
+	sf::Sprite sprite;
 
 	// size of sprite of entity
 	unsigned int size_x, size_y;
