@@ -45,6 +45,14 @@ void GameBoard::draw_to(sf::RenderWindow& window)
 	}
 }
 
+void GameBoard::move_items(sf::Vector2f distance)
+{
+	for (auto a : items_on_board_)
+	{
+		a->move(distance);
+	}
+}
+
 void GameBoard::place_walls_(int size_x, int size_y)
 {
 	if (!wall_texture_.loadFromFile(WALL_PATH))
