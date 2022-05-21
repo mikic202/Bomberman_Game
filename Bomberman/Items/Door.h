@@ -5,7 +5,7 @@
 #include"../Entities/Player/Player.h"
 
 
-class Door : public Explosion
+class Door : public Wall
 {
 private:
 	std::string door_texture_path_ = DOOR_PATH;
