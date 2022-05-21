@@ -36,6 +36,11 @@ public:
     {
         return player.getGlobalBounds();
     }
+    
+    sf::Vector2f size()
+    {
+        return player.getSize();
+    }
 
 private:
     sf::RectangleShape player;

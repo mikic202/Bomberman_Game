@@ -25,7 +25,7 @@ void Game::play_story_(int save_number, bool new_game)
 
     StoryModeBoard story_b_(level_number, 1);
     Player2 player({ GRID_SLOT_SIZE / 2, GRID_SLOT_SIZE });
-    player.set_position({ GRID_SLOT_SIZE, GRID_SLOT_SIZE });
+    player.set_position({ 0, 0 });
 
     sf::Clock Clock;
     while (window.isOpen())
@@ -39,7 +39,9 @@ void Game::play_story_(int save_number, bool new_game)
                 window.close();
             }
         }
-        move_player_(player);
+        //if(not sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        //    check_if_player_stops_(player, story_b_.items());
+        move_player_(player, story_b_.items());
         window.clear();
         story_b_.draw_to(window);
         player.draw_to(window);
@@ -52,35 +54,54 @@ void Game::play_story_(int save_number, bool new_game)
 }
 
 
-void Game::move_player_(Player2& player)
+void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > items_on_b)
 {
     const int MOVEMNT_SPEED = 5;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         player.move({ 0, -MOVEMNT_SPEED });
+        check_if_player_stops_(player, items_on_b);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         player.move({ 0, MOVEMNT_SPEED });
+        check_if_player_stops_(player, items_on_b);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         player.move({ MOVEMNT_SPEED, 0 });
+        check_if_player_stops_(player, items_on_b);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         player.move({ - MOVEMNT_SPEED, 0 });
+        check_if_player_stops_(player, items_on_b);
     }
 }
 
-void Game::check_if_player_stops(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b)
+void Game::check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b)
 {
+    float player_s_x = player.size().x;
+    float player_s_y = player.size().y;
+    float player_x = player.getX();
+    float player_y = player.getY();
+    float item_x;
+    float item_y;
     for (auto a : items_on_b)
     {
-        /*if (a->is_coloding_player(player))
+        if (a->is_coloding_player(player))
         {
-            std::cout << "a";
-        }*/
+            item_x = a->position().x;
+            item_y = a->position().y;;
+            if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x/2 && std::abs(item_y - player_y) < player_s_y - 5) 
+                player.set_position({ item_x - player_s_x, player_y });
+            else if (player_x <= item_x + GRID_SLOT_SIZE && std::abs(item_y - player_y) < player_s_y - 5) 
+                player.set_position({ item_x + GRID_SLOT_SIZE, player_y });
+            if (player_y <= item_y + player_s_y && player_y >= item_y - (player_s_y/2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                player.set_position({ player_x, item_y + player_s_y });
+            else if (player_y >= item_y - player_s_y && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                player.set_position({ player_x, item_y - player_s_y });
+        }
     }
 }
 
