@@ -11,6 +11,8 @@ void Game::play(int save_number, char type, bool new_game)
 
 void Game::play_story_(int save_number, bool new_game)
 {
+    bool board_drawn = false;
+
     int level_number = 1;
     sf::RenderWindow window(sf::VideoMode(1600, 700), "SFML works!");
     window.setFramerateLimit(60);
@@ -22,7 +24,8 @@ void Game::play_story_(int save_number, bool new_game)
     }
 
     StoryModeBoard story_b_(level_number, 1);
-    Player player(1 * GRID_SLOT_SIZE, 1 * GRID_SLOT_SIZE, GRID_SLOT_SIZE / 2, GRID_SLOT_SIZE, 5, 3);
+    Player2 player({ GRID_SLOT_SIZE / 2, GRID_SLOT_SIZE });
+    player.set_position({ GRID_SLOT_SIZE, GRID_SLOT_SIZE });
 
     std::cout << "a";
     while (window.isOpen())
@@ -36,32 +39,46 @@ void Game::play_story_(int save_number, bool new_game)
                 window.close();
             }
         }
-
+        move_player_(player);
         window.clear();
         story_b_.draw_to(window);
+        player.draw_to(window);
         window.display();
     }
 
     return;
 }
 
-void Game::move_player_(Player& player)
+
+void Game::move_player_(Player2& player)
 {
+    const int MOVEMNT_SPEED = 5;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-
+        player.move({ 0, -MOVEMNT_SPEED });
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-
+        player.move({ 0, MOVEMNT_SPEED });
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-
+        player.move({ MOVEMNT_SPEED, 0 });
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
+        player.move({ - MOVEMNT_SPEED, 0 });
+    }
+}
 
+void Game::check_if_player_stops(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b)
+{
+    for (auto a : items_on_b)
+    {
+        if (a->is_coloding_player(player))
+        {
+            std::cout << "a";
+        }
     }
 }
 
@@ -102,38 +119,3 @@ std::vector<int> Game::load_game(int save_number, char type)
     return std::vector<int> {level_number, std::stoi(line)};
 }
 
-
-
-class Player2
-{
-public:
-    Player2(sf::Vector2f size)
-    {
-        player.setSize(size);
-        player.setFillColor(sf::Color::Green);
-    }
-
-    void draw_to(sf::RenderWindow& window)
-    {
-        window.draw(player);
-    }
-    void move(sf::Vector2f distance)
-    {
-        player.move(distance);
-    }
-    void set_position(sf::Vector2f position)
-    {
-        player.setPosition(position);
-    }
-
-    int getX() {
-        return player.getPosition().x;
-    }
-
-    int getY() {
-        return player.getPosition().y;
-    }
-
-private:
-    sf::RectangleShape player;
-};

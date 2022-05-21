@@ -7,24 +7,7 @@
 #include "../Items/Box.h"
 
 
-class Game
-{
-private:
-	sf::RenderWindow window_;
-	int points_ = 1;
-	void play_story_(int save_number, bool new_game);
-	void play_coop_();
-	void play_versus_();
-	void move_player_(Player2 &player);
-	void save_game_(int save_number, char type, int leve_number, int points);
-	std::vector<int> load_game(int save_number, char type);
-public:
-	Game() {};
-	void play(int save_number, char type, bool new_game);
-};
-
-
-class Player2
+class Player2 : public Player
 {
 public:
     Player2(sf::Vector2f size)
@@ -56,6 +39,25 @@ public:
 
 private:
     sf::RectangleShape player;
+};
+
+
+
+class Game
+{
+private:
+	sf::RenderWindow window_;
+	int points_ = 1;
+	void play_story_(int save_number, bool new_game);
+	void play_coop_();
+	void play_versus_();
+	void move_player_(Player2 &player);
+    void check_if_player_stops(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b);
+	void save_game_(int save_number, char type, int leve_number, int points);
+	std::vector<int> load_game(int save_number, char type);
+public:
+	Game() {};
+	void play(int save_number, char type, bool new_game);
 };
 
 
