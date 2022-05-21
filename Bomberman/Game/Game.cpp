@@ -4,23 +4,25 @@
 
 
 
-void Game::play(int save_number, char type)
+void Game::play(int save_number, char type, bool new_game)
 {
-    play_story_(save_number);
+    play_story_(save_number, new_game);
 }
 
-void Game::play_story_(int save_number)
+void Game::play_story_(int save_number, bool new_game)
 {
+    int level_number = 1;
     sf::RenderWindow window(sf::VideoMode(1600, 700), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-    Bomb bomb({ 10, 10 }, 5, 6, 6, { 0.5, 0.5 });
+    window.setFramerateLimit(60);
+    if (new_game)
+    {
+        std::vector<int> game_info = load_game(save_number, 'S');
+        level_number = game_info[0];
+        points_ = game_info[1];
+    }
 
-    //sf::Sprite item_sprite_;
-    //sf::Texture item_texture;
-
-    VersusModeBoard board(20);
-    StoryModeBoard story_b_(13, 1);
+    StoryModeBoard story_b_(level_number, 1);
+    Player player(1 * GRID_SLOT_SIZE, 1 * GRID_SLOT_SIZE, GRID_SLOT_SIZE / 2, GRID_SLOT_SIZE, 5, 3);
 
     std::cout << "a";
     while (window.isOpen())
@@ -37,14 +39,30 @@ void Game::play_story_(int save_number)
 
         window.clear();
         story_b_.draw_to(window);
-        //bomb.draw_to(window);
-        //window.draw(bomb.item_sprite_);
-        //window.draw(item_sprite_);
-        //window.draw(shape);
         window.display();
     }
 
     return;
+}
+
+void Game::move_player_(Player& player)
+{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+
+    }
 }
 
 void Game::save_game_(int save_number, char type, int leve_number, int points)

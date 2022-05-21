@@ -12,15 +12,15 @@ class Game
 private:
 	sf::RenderWindow window_;
 	int points_ = 1;
-	void play_story_(int save_number);
+	void play_story_(int save_number, bool new_game);
 	void play_coop_();
 	void play_versus_();
-	void move_player_();
+	void move_player_(Player &player);
 	void save_game_(int save_number, char type, int leve_number, int points);
 	std::vector<int> load_game(int save_number, char type);
 public:
 	Game() {};
-	void play(int save_number, char type);
+	void play(int save_number, char type, bool new_game);
 };
 
 
