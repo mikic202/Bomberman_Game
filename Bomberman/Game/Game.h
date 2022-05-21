@@ -1,5 +1,10 @@
 #ifndef Game_H
 #define Game_H
+#include <SFML/Graphics.hpp>
+#include"../Items/Bomb.h"
+#include "../Game Board/StoryModeBoard.h"
+#include "../Game Board/VersusModeBoard.h"
+#include "../Items/Box.h"
 
 
 class Game
@@ -11,6 +16,7 @@ private:
 	void play_versus_();
 	void move_player_();
 public:
+	Game() {};
 	void play();
 };
 

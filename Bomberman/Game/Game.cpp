@@ -1,12 +1,13 @@
 #include "Game.h"
-#include <SFML/Graphics.hpp>
-#include"../Items/Bomb.h"
-#include "../Game Board/StoryModeBoard.h"
-#include "../Game Board/VersusModeBoard.h"
-#include "../Items/Box.h"
+
 
 
 void Game::play()
+{
+    play_story_();
+}
+
+void Game::play_story_()
 {
     sf::RenderWindow window(sf::VideoMode(1600, 700), "SFML works!");
     sf::CircleShape shape(100.f);
@@ -17,7 +18,7 @@ void Game::play()
     //sf::Texture item_texture;
 
     VersusModeBoard board(20);
-    StoryModeBoard board2(12, 1);
+    StoryModeBoard story_b_(12, 1);
 
 
     std::cout << "a";
@@ -31,7 +32,7 @@ void Game::play()
         }
 
         window.clear();
-        board2.draw_to(window);
+        story_b_.draw_to(window);
         //bomb.draw_to(window);
         //window.draw(bomb.item_sprite_);
         //window.draw(item_sprite_);
@@ -39,5 +40,5 @@ void Game::play()
         window.display();
     }
 
-    return ;
+    return;
 }
