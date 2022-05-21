@@ -6,7 +6,7 @@
 #include "../Items/Box.h"
 
 
-void Game::game()
+void Game::play()
 {
     sf::RenderWindow window(sf::VideoMode(1600, 700), "SFML works!");
     sf::CircleShape shape(100.f);
