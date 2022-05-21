@@ -15,6 +15,7 @@ private:
 public:
 	Bomb() {};
 	Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vector2f scale);
+	Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vector2f scale, sf::Texture &bomb_texture);
 	void set_radius(int new_radius);
 	int radius();
 	void set_delay(int new_delay);

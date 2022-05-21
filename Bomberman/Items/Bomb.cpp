@@ -16,6 +16,18 @@ Bomb::Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vecto
 	placement_time_ = std::chrono::high_resolution_clock::now();
 }
 
+Bomb::Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vector2f scale, sf::Texture &bomb_texture)
+{
+	set_name("Bomb");
+	set_position(position);
+	set_radius(radius);
+	set_delay(delay);
+	set_strength(strength);
+	rescale(scale);
+	item_sprite_.setTexture(bomb_texture);
+	placement_time_ = std::chrono::high_resolution_clock::now();
+}
+
 void Bomb::set_radius(int new_radius)
 {
 	radius_ = new_radius;
