@@ -32,6 +32,11 @@ public:
         return player.getPosition().y;
     }
 
+    sf::FloatRect get_global_bounds()
+    {
+        return player.getGlobalBounds();
+    }
+
 private:
     sf::RectangleShape player;
 };

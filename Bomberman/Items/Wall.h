@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "../Consts.h"
 #include "../Entities/Player/Player.h"
+#include "../Player2.h"
 
 
 class Wall : public Item
@@ -14,7 +15,7 @@ public:
 	Wall(sf::Vector2f position, sf::Vector2f scale);
 	Wall(sf::Vector2f position, sf::Vector2f scale, sf::Texture& wall_texture);
 	sf::FloatRect get_global_bounds();
-	bool is_coloding_player(Player& player);
+	bool is_coloding_player(Player2& player);
 };
 
 
