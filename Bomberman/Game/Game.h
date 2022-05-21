@@ -11,13 +11,15 @@ class Game
 {
 private:
 	sf::RenderWindow window_;
-	void play_story_();
+	void play_story_(int save_number);
 	void play_coop_();
 	void play_versus_();
 	void move_player_();
+	void save_game_(int save_number, char type);
+	int load_game();
 public:
 	Game() {};
-	void play();
+	void play(int save_number, char type);
 };
 
 
