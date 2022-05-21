@@ -10,7 +10,6 @@ public:
 	Explosion() {};
 	Explosion(sf::Vector2f position, sf::Vector2f scale);
 	Explosion(sf::Vector2f position, sf::Vector2f scale, sf::Texture& explosion_texture);
-	bool is_col_player(Player& player);
 };
 
 
