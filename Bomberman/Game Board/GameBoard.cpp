@@ -16,12 +16,12 @@ sf::Texture GameBoard::bacground()
 	return background_;
 }
 
-std::vector<std::shared_ptr<Item>> GameBoard::items()
+std::vector<std::shared_ptr<Wall>> GameBoard::items()
 {
 	return items_on_board_;
 }
 
-std::shared_ptr<Item> GameBoard::item(int item_position)
+std::shared_ptr<Wall> GameBoard::item(int item_position)
 {
 	return items_on_board_[item_position];
 }
