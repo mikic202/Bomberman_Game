@@ -41,7 +41,7 @@ void Game::play_story_(int save_number, bool new_game)
         }
         //if(not sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         //    check_if_player_stops_(player, story_b_.items());
-        move_player_(player, story_b_.items());
+        move_player_(player, story_b_.items(), window);
         window.clear();
         story_b_.draw_to(window);
         player.draw_to(window);
@@ -54,32 +54,32 @@ void Game::play_story_(int save_number, bool new_game)
 }
 
 
-void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > items_on_b)
+void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window)
 {
     const int MOVEMNT_SPEED = 5;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         player.move({ 0, -MOVEMNT_SPEED });
-        check_if_player_stops_(player, items_on_b);
+        check_if_player_stops_(player, items_on_b, window);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         player.move({ 0, MOVEMNT_SPEED });
-        check_if_player_stops_(player, items_on_b);
+        check_if_player_stops_(player, items_on_b, window);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         player.move({ MOVEMNT_SPEED, 0 });
-        check_if_player_stops_(player, items_on_b);
+        check_if_player_stops_(player, items_on_b, window);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         player.move({ - MOVEMNT_SPEED, 0 });
-        check_if_player_stops_(player, items_on_b);
+        check_if_player_stops_(player, items_on_b, window);
     }
 }
 
-void Game::check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b)
+void Game::check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow &window)
 {
     float player_s_x = player.size().x;
     float player_s_y = player.size().y;
@@ -103,6 +103,11 @@ void Game::check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<W
                 player.set_position({ player_x, item_y - player_s_y });
         }
     }
+    sf::Vector2u win_size = window.getSize();
+    if (player_x <= 0) player.set_position({ 0, player_y });
+    else if (player_x >= win_size.x) player.set_position({ float(win_size.x), player_y + player_s_y });
+    if (player_y <= 0) player.set_position({ player_x, 0 });
+    else if (player_y >= win_size.y) player.set_position({ player_x + player_s_x, float(win_size.y)});
 }
 
 void Game::save_game_(int save_number, char type, int leve_number, int points)
