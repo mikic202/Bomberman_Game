@@ -1,11 +1,16 @@
 #include "Game.h"
 #include <fstream>
 #include <string>
+#include "../Exceptions/Item_exceptions.h"
 
 
 
 void Game::play(int save_number, char type, bool new_game)
 {
+    if (!bomb_texture_.loadFromFile(BOMB_PATH))
+    {
+        throw (FliePathException());
+    }
     play_story_(save_number, new_game);
 }
 
@@ -42,9 +47,13 @@ void Game::play_story_(int save_number, bool new_game)
         //if(not sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         //    check_if_player_stops_(player, story_b_.items());
         move_player_(player, story_b_.items(), window);
+        place_bombs_(player);
+
         window.clear();
         story_b_.draw_to(window);
         player.draw_to(window);
+        for (auto a : bombs_on_b_)
+            a->draw_to(window);
         window.display();
         /*std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
         Clock.restart();*/
@@ -76,6 +85,20 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
     {
         player.move({ - MOVEMNT_SPEED, 0 });
         check_if_player_stops_(player, items_on_b, window);
+    }
+}
+
+void Game::place_bombs_(Player2& player)
+{
+    int player_p_x = player.getX();
+    int player_p_y = player.getY();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        int bomb_pos_x = player_p_x / GRID_SLOT_SIZE - player_p_x % GRID_SLOT_SIZE + 1;
+        int bomb_pos_y = player_p_y / GRID_SLOT_SIZE - player_p_y % GRID_SLOT_SIZE + 1;
+        Bomb bomb({float(bomb_pos_x*GRID_SLOT_SIZE), float(bomb_pos_y*GRID_SLOT_SIZE)}, 5, MAX_EXPLOSION_DELAY, 1, {0.14286, 0.14286 }, bomb_texture_);
+        bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
+        std::cout << "a";
     }
 }
 

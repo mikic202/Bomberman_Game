@@ -13,13 +13,17 @@ class Game
 private:
 	sf::RenderWindow window_;
 	int points_ = 1;
+	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
+	sf::Texture bomb_texture_;
 	void play_story_(int save_number, bool new_game);
 	void play_coop_();
 	void play_versus_();
 	void move_player_(Player2 &player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	void place_bombs_(Player2 &player);
     void check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void save_game_(int save_number, char type, int leve_number, int points);
 	std::vector<int> load_game(int save_number, char type);
+	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};
 	void play(int save_number, char type, bool new_game);
