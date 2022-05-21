@@ -8,5 +8,5 @@
 int main()
 {
 	Game game;
-	game.play();
+	game.play(1, 'C', true);
 }
