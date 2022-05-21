@@ -183,6 +183,7 @@
     <ClInclude Include="Items\Explosion.h" />
     <ClInclude Include="Items\Item.h" />
     <ClInclude Include="Items\Wall.h" />
+    <ClInclude Include="Player2.h" />
     <ClInclude Include="tests\catch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

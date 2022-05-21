@@ -27,7 +27,7 @@ void Game::play_story_(int save_number, bool new_game)
     Player2 player({ GRID_SLOT_SIZE / 2, GRID_SLOT_SIZE });
     player.set_position({ GRID_SLOT_SIZE, GRID_SLOT_SIZE });
 
-    std::cout << "a";
+    sf::Clock Clock;
     while (window.isOpen())
     {
         sf::Event event;
@@ -44,6 +44,8 @@ void Game::play_story_(int save_number, bool new_game)
         story_b_.draw_to(window);
         player.draw_to(window);
         window.display();
+        /*std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
+        Clock.restart();*/
     }
 
     return;
@@ -75,10 +77,10 @@ void Game::check_if_player_stops(Player2& player, std::vector<std::shared_ptr<Wa
 {
     for (auto a : items_on_b)
     {
-        if (a->is_coloding_player(player))
+        /*if (a->is_coloding_player(player))
         {
             std::cout << "a";
-        }
+        }*/
     }
 }
 
