@@ -5,10 +5,11 @@
 class Player2
 {
 public:
-    Player2(sf::Vector2f size)
+    Player2(sf::Vector2f size, sf::Texture& texture)
     {
-        player.setSize(size);
-        player.setFillColor(sf::Color::Green);
+        player.scale(size);
+        player.setTexture(texture);
+        //player.setFillColor(sf::Color::Green);
     }
 
     void draw_to(sf::RenderWindow& window)
@@ -36,12 +37,12 @@ public:
     {
         return player.getGlobalBounds();
     }
-    
+
     sf::Vector2f size()
     {
-        return player.getSize();
+        return { 150 / 7, 312 / 7 };
     }
 
 private:
-    sf::RectangleShape player;
+    sf::Sprite player;
 };
