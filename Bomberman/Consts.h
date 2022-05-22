@@ -15,6 +15,7 @@ const std::string WALL_PATH = "Assets/Wall.png";
 const std::string BOX_PATH = "Assets/Box.png";
 const std::string DOOR_PATH = "Assets/Bomb.png";
 const std::string PLAYER_PATH = "Assets/Player.png";
+const std::string ENEMY_PATH = "Assets/Enemy.png";
 
 const int BOMB_PLACEMENT_TOLERANCES = 5;
 
