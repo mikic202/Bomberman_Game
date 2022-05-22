@@ -80,7 +80,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
     float item_x = 0;
     float item_y = 0;
     const int MOVEMNT_SPEED = 5;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         player.move({ 0, -MOVEMNT_SPEED });
         for (auto a : items_on_b)
@@ -94,7 +94,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
             }
         }
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         player.move({ 0, MOVEMNT_SPEED });
         for (auto a : items_on_b)
@@ -108,7 +108,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
             }
         }
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         player.move({ MOVEMNT_SPEED, 0 });
         for (auto a : items_on_b)
@@ -122,7 +122,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
             }
         }
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         player.move({ - MOVEMNT_SPEED, 0 });
         for (auto a : items_on_b)
