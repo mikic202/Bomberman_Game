@@ -19,7 +19,7 @@ void Game::play_story_(int save_number, bool new_game)
     bool board_drawn = false;
 
     int level_number = 1;
-    sf::RenderWindow window(sf::VideoMode(1600, 700), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(1600, 700), "Bomberman");
     window.setFramerateLimit(60);
     if (new_game)
     {
