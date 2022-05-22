@@ -29,7 +29,13 @@ void Game::play_story_(int save_number, bool new_game)
     }
 
     StoryModeBoard story_b_(level_number, 1);
-    Player2 player({ GRID_SLOT_SIZE / 2, GRID_SLOT_SIZE });
+
+    sf::Texture player_texture;
+    if (!player_texture.loadFromFile(PLAYER_PATH))
+    {
+        throw (FliePathException());
+    }
+    Player2 player({.14286, .14286}, player_texture);
     player.set_position({ 0, 0 });
 
     sf::Clock Clock;
@@ -55,8 +61,8 @@ void Game::play_story_(int save_number, bool new_game)
         for (auto a : bombs_on_b_)
             a->draw_to(window);
         window.display();
-        /*std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
-        Clock.restart();*/
+        std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
+        Clock.restart();
     }
 
     return;
@@ -65,26 +71,69 @@ void Game::play_story_(int save_number, bool new_game)
 
 void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window)
 {
+    float player_s_x = player.size().x;
+    float player_s_y = player.size().y;
+    float player_x = player.getX();
+    float player_y = player.getY();
+    float item_x = 0;
+    float item_y = 0;
     const int MOVEMNT_SPEED = 5;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         player.move({ 0, -MOVEMNT_SPEED });
-        check_if_player_stops_(player, items_on_b, window);
+        for (auto a : items_on_b)
+        {
+            if (a->is_coloding_player(player))
+            {
+                item_x = a->position().x;
+                item_y = a->position().y;
+                if (player_y <= item_y + player_s_y+8 && player_y >= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                    player.set_position({ player_x, item_y + GRID_SLOT_SIZE });
+            }
+        }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         player.move({ 0, MOVEMNT_SPEED });
-        check_if_player_stops_(player, items_on_b, window);
+        for (auto a : items_on_b)
+        {
+            if (a->is_coloding_player(player))
+            {
+                item_x = a->position().x;
+                item_y = a->position().y;
+                if (player_y >= item_y - player_s_y && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                    player.set_position({ player_x, item_y - player_s_y });
+            }
+        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         player.move({ MOVEMNT_SPEED, 0 });
-        check_if_player_stops_(player, items_on_b, window);
+        for (auto a : items_on_b)
+        {
+            if (a->is_coloding_player(player))
+            {
+                item_x = a->position().x;
+                item_y = a->position().y;
+                if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
+                    player.set_position({ item_x - player_s_x, player_y });
+            }
+        }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         player.move({ - MOVEMNT_SPEED, 0 });
-        check_if_player_stops_(player, items_on_b, window);
+        for (auto a : items_on_b)
+        {
+            if (a->is_coloding_player(player))
+            {
+                item_x = a->position().x;
+                item_y = a->position().y;
+                if (player_x <= item_x + GRID_SLOT_SIZE && std::abs(item_y - player_y) < player_s_y - 5)
+                    player.set_position({ item_x + GRID_SLOT_SIZE, player_y });
+            }
+        }
+        //check_if_player_stops_(player, items_on_b, window);
     }
 }
 
@@ -117,20 +166,20 @@ void Game::check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<W
             item_x = a->position().x;
             item_y = a->position().y;;
             if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x/2 && std::abs(item_y - player_y) < player_s_y - 5) 
-                player.set_position({ item_x - player_s_x, player_y });
+                player.set_position({ item_x - player_s_x-1, player_y });
             else if (player_x <= item_x + GRID_SLOT_SIZE && std::abs(item_y - player_y) < player_s_y - 5) 
-                player.set_position({ item_x + GRID_SLOT_SIZE, player_y });
-            if (player_y <= item_y + player_s_y && player_y >= item_y - (player_s_y/2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
-                player.set_position({ player_x, item_y + player_s_y });
+                player.set_position({ item_x + GRID_SLOT_SIZE+1, player_y });
+            if (player_y <= item_y + player_s_y + 2  && player_y >= item_y - (player_s_y/2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                player.set_position({ player_x, item_y + GRID_SLOT_SIZE + 1 });
             else if (player_y >= item_y - player_s_y && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
-                player.set_position({ player_x, item_y - player_s_y });
+                player.set_position({ player_x, item_y - player_s_y  -1});
         }
     }
-    sf::Vector2u win_size = window.getSize();
-    if (player_x <= 0) player.set_position({ 0, player_y });
-    else if (player_x >= win_size.x) player.set_position({ float(win_size.x), player_y + player_s_y });
-    if (player_y <= 0) player.set_position({ player_x, 0 });
-    else if (player_y >= win_size.y) player.set_position({ player_x + player_s_x, float(win_size.y)});
+    //sf::Vector2u win_size = window.getSize();
+    //if (player_x <= 0) player.set_position({ 0, player_y });
+    //else if (player_x >= win_size.x) player.set_position({ float(win_size.x), player_y + player_s_y });
+    //if (player_y <= 0) player.set_position({ player_x, 0 });
+    //else if (player_y >= win_size.y) player.set_position({ player_x + player_s_x, float(win_size.y)});
 }
 
 void Game::save_game_(int save_number, char type, int leve_number, int points)
