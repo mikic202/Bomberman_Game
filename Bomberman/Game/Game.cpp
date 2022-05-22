@@ -59,10 +59,12 @@ void Game::play_story_(int save_number, bool new_game)
         story_b_.draw_to(window);
         player.draw_to(window);
         for (auto a : bombs_on_b_)
+        {
             a->draw_to(window);
+        }
         window.display();
-        std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
-        Clock.restart();
+        //std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
+        //Clock.restart();
     }
 
     return;
@@ -101,7 +103,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
             {
                 item_x = a->position().x;
                 item_y = a->position().y;
-                if (player_y >= item_y - player_s_y && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                if (player_y >= item_y - player_s_y && player_y <= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
                     player.set_position({ player_x, item_y - player_s_y });
             }
         }
@@ -129,7 +131,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
             {
                 item_x = a->position().x;
                 item_y = a->position().y;
-                if (player_x <= item_x + GRID_SLOT_SIZE && std::abs(item_y - player_y) < player_s_y - 5)
+                if (player_x <= item_x + GRID_SLOT_SIZE && player_x >= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
                     player.set_position({ item_x + GRID_SLOT_SIZE, player_y });
             }
         }
@@ -143,11 +145,10 @@ void Game::place_bombs_(Player2& player)
     int player_p_y = player.getY();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        int bomb_pos_x = player_p_x / GRID_SLOT_SIZE - player_p_x % GRID_SLOT_SIZE + 1;
-        int bomb_pos_y = player_p_y / GRID_SLOT_SIZE - player_p_y % GRID_SLOT_SIZE + 1;
+        int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
+        int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
         Bomb bomb({float(bomb_pos_x*GRID_SLOT_SIZE), float(bomb_pos_y*GRID_SLOT_SIZE)}, 5, MAX_EXPLOSION_DELAY, 1, {0.14286, 0.14286 }, bomb_texture_);
         bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
-        std::cout << "a";
     }
 }
 

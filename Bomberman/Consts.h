@@ -16,6 +16,8 @@ const std::string BOX_PATH = "Assets/Box.png";
 const std::string DOOR_PATH = "Assets/Bomb.png";
 const std::string PLAYER_PATH = "Assets/Player.png";
 
+const int BOMB_PLACEMENT_TOLERANCES = 5;
+
 const std::map<int, std::string> STORY_SAVES = { {1, "Game Saves/Story1.txt"}, {2, "Game Saves/Story2.txt"} , {3, "Game Saves/Story3.txt"} };
 const std::map<int, std::string> CO_OP_SAVES = { {1, "Game Saves/Co-op1.txt"}, {2, "Game Saves/Co-op2.txt"} , {3, "Game Saves/Co-op3.txt"} };
 
