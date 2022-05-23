@@ -38,6 +38,15 @@ sf::FloatRect StoryModeBoard::get_door_global_bounds()
     return door_.get_global_bounds();
 }
 
+void StoryModeBoard::move_items(sf::Vector2f distance)
+{
+    for (auto a : items_on_board_)
+    {
+        a->move(distance);
+    }
+    door_.move(distance);
+}
+
 void StoryModeBoard::generate_board_()
 {
     int box_num = box_num_(level_number_);

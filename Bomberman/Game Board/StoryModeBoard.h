@@ -26,6 +26,7 @@ public:
 	StoryModeBoard(int level_number, int number_of_players);
 	sf::Vector2f door_position() const;
 	sf::FloatRect get_door_global_bounds();
+	void move_items(sf::Vector2f distance);
 };
 
 

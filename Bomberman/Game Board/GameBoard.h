@@ -27,7 +27,7 @@ public:
 	std::vector<std::shared_ptr<Player> > players();
 	void add_player(Player new_player);
 	virtual void draw_to(sf::RenderWindow& window);
-	void move_items(sf::Vector2f distance);
+	virtual void move_items(sf::Vector2f distance);
 };
 
 
