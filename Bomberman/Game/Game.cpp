@@ -164,6 +164,10 @@ void Game::check_if_colides_left(Player2& player, std::vector<std::shared_ptr<Wa
                 player.set_position({ item_x + GRID_SLOT_SIZE, player_y });
         }
     }
+    if (player_x <= 0)
+    {
+        player.set_position({ 0, player_y });
+    }
 
 }
 
@@ -185,6 +189,10 @@ void Game::check_if_colides_right(Player2& player, std::vector<std::shared_ptr<W
                 player.set_position({ item_x - player_s_x, player_y });
         }
     }
+    if (player_x >= window.getSize().x - GRID_SLOT_SIZE/2)
+    {
+        player.set_position({ float(window.getSize().x - GRID_SLOT_SIZE/2), player_y});
+    }
 }
 
 void Game::check_if_colides_up(Player2& player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
@@ -205,6 +213,10 @@ void Game::check_if_colides_up(Player2& player, std::vector<std::shared_ptr<Wall
                 player.set_position({ player_x, item_y + GRID_SLOT_SIZE });
         }
     }
+    if (player_y <= 0)
+    {
+        player.set_position({ player_x, 0 });
+    }
 }
 
 void Game::check_if_colides_down(Player2& player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
@@ -224,6 +236,10 @@ void Game::check_if_colides_down(Player2& player, std::vector<std::shared_ptr<Wa
             if (player_y >= item_y - player_s_y && player_y <= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
                 player.set_position({ player_x, item_y - player_s_y });
         }
+    }
+    if (player_y >= window.getSize().y - GRID_SLOT_SIZE)
+    {
+        player.set_position({ player_x, float(window.getSize().y - GRID_SLOT_SIZE) });
     }
 }
 
