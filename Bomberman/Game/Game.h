@@ -21,6 +21,10 @@ private:
 	void move_player_(Player2 &player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void place_bombs_(Player2 &player);
     void check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	void check_if_colides_left(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	void check_if_colides_right(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	void check_if_colides_up(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	void check_if_colides_down(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void save_game_(int save_number, char type, int leve_number, int points);
 	std::vector<int> load_game(int save_number, char type);
 	//void draw_elements_of_game_(sf::RenderWindow& window);

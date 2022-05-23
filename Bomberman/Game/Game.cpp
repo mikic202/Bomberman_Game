@@ -83,59 +83,22 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         player.move({ 0, -MOVEMNT_SPEED });
-        for (auto a : items_on_b)
-        {
-            if (a->is_coloding_player(player))
-            {
-                item_x = a->position().x;
-                item_y = a->position().y;
-                if (player_y <= item_y + player_s_y+8 && player_y >= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
-                    player.set_position({ player_x, item_y + GRID_SLOT_SIZE });
-            }
-        }
+        check_if_colides_up(player, items_on_b, window);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         player.move({ 0, MOVEMNT_SPEED });
-        for (auto a : items_on_b)
-        {
-            if (a->is_coloding_player(player))
-            {
-                item_x = a->position().x;
-                item_y = a->position().y;
-                if (player_y >= item_y - player_s_y && player_y <= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
-                    player.set_position({ player_x, item_y - player_s_y });
-            }
-        }
+        check_if_colides_down(player, items_on_b, window);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         player.move({ MOVEMNT_SPEED, 0 });
-        for (auto a : items_on_b)
-        {
-            if (a->is_coloding_player(player))
-            {
-                item_x = a->position().x;
-                item_y = a->position().y;
-                if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
-                    player.set_position({ item_x - player_s_x, player_y });
-            }
-        }
+        check_if_colides_right(player, items_on_b, window);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         player.move({ - MOVEMNT_SPEED, 0 });
-        for (auto a : items_on_b)
-        {
-            if (a->is_coloding_player(player))
-            {
-                item_x = a->position().x;
-                item_y = a->position().y;
-                if (player_x <= item_x + GRID_SLOT_SIZE && player_x >= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
-                    player.set_position({ item_x + GRID_SLOT_SIZE, player_y });
-            }
-        }
-        //check_if_player_stops_(player, items_on_b, window);
+        check_if_colides_left(player, items_on_b, window);
     }
 }
 
@@ -181,6 +144,87 @@ void Game::check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<W
     //else if (player_x >= win_size.x) player.set_position({ float(win_size.x), player_y + player_s_y });
     //if (player_y <= 0) player.set_position({ player_x, 0 });
     //else if (player_y >= win_size.y) player.set_position({ player_x + player_s_x, float(win_size.y)});
+}
+
+void Game::check_if_colides_left(Player2& player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
+{
+    float player_s_x = player.size().x;
+    float player_s_y = player.size().y;
+    float player_x = player.getX();
+    float player_y = player.getY();
+    float item_x = 0;
+    float item_y = 0;
+    for (auto a : items_on_b)
+    {
+        if (a->is_coloding_player(player))
+        {
+            item_x = a->position().x;
+            item_y = a->position().y;
+            if (player_x <= item_x + GRID_SLOT_SIZE && player_x >= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
+                player.set_position({ item_x + GRID_SLOT_SIZE, player_y });
+        }
+    }
+
+}
+
+void Game::check_if_colides_right(Player2& player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
+{
+    float player_s_x = player.size().x;
+    float player_s_y = player.size().y;
+    float player_x = player.getX();
+    float player_y = player.getY();
+    float item_x = 0;
+    float item_y = 0;
+    for (auto a : items_on_b)
+    {
+        if (a->is_coloding_player(player))
+        {
+            item_x = a->position().x;
+            item_y = a->position().y;
+            if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
+                player.set_position({ item_x - player_s_x, player_y });
+        }
+    }
+}
+
+void Game::check_if_colides_up(Player2& player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
+{
+    float player_s_x = player.size().x;
+    float player_s_y = player.size().y;
+    float player_x = player.getX();
+    float player_y = player.getY();
+    float item_x = 0;
+    float item_y = 0;
+    for (auto a : items_on_b)
+    {
+        if (a->is_coloding_player(player))
+        {
+            item_x = a->position().x;
+            item_y = a->position().y;
+            if (player_y <= item_y + player_s_y + 8 && player_y >= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                player.set_position({ player_x, item_y + GRID_SLOT_SIZE });
+        }
+    }
+}
+
+void Game::check_if_colides_down(Player2& player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
+{
+    float player_s_x = player.size().x;
+    float player_s_y = player.size().y;
+    float player_x = player.getX();
+    float player_y = player.getY();
+    float item_x = 0;
+    float item_y = 0;
+    for (auto a : items_on_b)
+    {
+        if (a->is_coloding_player(player))
+        {
+            item_x = a->position().x;
+            item_y = a->position().y;
+            if (player_y >= item_y - player_s_y && player_y <= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+                player.set_position({ player_x, item_y - player_s_y });
+        }
+    }
 }
 
 void Game::save_game_(int save_number, char type, int leve_number, int points)
