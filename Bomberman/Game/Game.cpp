@@ -16,6 +16,7 @@ void Game::play(int save_number, char type, bool new_game)
 
 void Game::play_story_(int save_number, bool new_game)
 {
+    const int MOVEMNT_SPEED = 5;
     bool board_drawn = false;
 
     int level_number = 1;
@@ -53,6 +54,10 @@ void Game::play_story_(int save_number, bool new_game)
         //if(not sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         //    check_if_player_stops_(player, story_b_.items());
         move_player_(player, story_b_.items(), window);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && is_player_close_to_edge(player, window))
+        {
+            story_b_.move_items({ -MOVEMNT_SPEED, 0 });
+        }
         place_bombs_(player);
 
         window.clear();
@@ -90,7 +95,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
         player.move({ 0, MOVEMNT_SPEED });
         check_if_colides_down(player, items_on_b, window);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && not is_player_close_to_edge(player, window))
     {
         player.move({ MOVEMNT_SPEED, 0 });
         check_if_colides_right(player, items_on_b, window);
@@ -278,5 +283,10 @@ std::vector<int> Game::load_game(int save_number, char type)
     std::getline(save_file, line);
     save_file.close();
     return std::vector<int> {level_number, std::stoi(line)};
+}
+
+bool Game::is_player_close_to_edge(Player2& player, sf::RenderWindow& window)
+{
+    return player.getX() >= 4 * window.getSize().x / 5;
 }
 
