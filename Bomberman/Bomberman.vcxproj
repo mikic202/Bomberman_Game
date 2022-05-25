@@ -164,6 +164,7 @@
     <ClCompile Include="Items\Explosion.cpp" />
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Wall.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="testng_merging.cpp" />
     <ClCompile Include="tests\bomberman_tests.cpp" />
   </ItemGroup>
@@ -183,6 +184,7 @@
     <ClInclude Include="Items\Explosion.h" />
     <ClInclude Include="Items\Item.h" />
     <ClInclude Include="Items\Wall.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player2.h" />
     <ClInclude Include="tests\catch.hpp" />
   </ItemGroup>
