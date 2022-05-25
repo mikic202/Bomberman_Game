@@ -21,3 +21,25 @@ void Player::set_quanity_bombs(int new_quanity_bombs){
 	this->quantity_bombs = new_quanity_bombs;
 }
 
+bool Player::on_bomb(std::vector<std::shared_ptr<Bomb>> bombs)
+{
+	// Get relative position on grid
+	sf::Vector2f player_pos = this->get_position();
+
+	//sf::Vector2u player_grid_pos(int(this->get_position().x / GRID_SLOT_SIZE), int(this->get_position().y / GRID_SLOT_SIZE));
+
+
+
+	for (auto& bomb : bombs)
+	{
+		//sf::Vector2u bomb_grid_pos(int(bomb.get()->position().x / GRID_SLOT_SIZE), int(bomb.get()->position().y / GRID_SLOT_SIZE));
+
+		//if (bomb_grid_pos == player_grid_pos)
+			//return true;
+
+		if(bomb.get()->item_sprite().getGlobalBounds().intersects(this->sprite.getGlobalBounds()))
+			return true;
+	}
+	return false;
+}
+

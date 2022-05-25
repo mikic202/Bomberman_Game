@@ -9,4 +9,5 @@ int main()
 {
 	Game game;
 	game.play(1, 'C', true);
+	//game.start();
 }

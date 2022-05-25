@@ -9,6 +9,14 @@ Entity::Entity()
 Entity::Entity(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed):
 		pos_x(pos_x), pos_y(pos_y), size_x(size_x), size_y(size_y), speed(speed){}
 
+Entity::Entity(sf::Vector2f position, sf::Texture& texture, int speed) : position(position),
+			   texture(texture), speed(speed)
+{
+
+}
+
+
+
 void Entity::move(Direction direction){
 		switch (direction)
 		{
@@ -27,12 +35,27 @@ void Entity::move(Direction direction){
 		}
 	}
 
+void Entity::move(sf::Vector2f distance)
+{
+	this->sprite.move(distance);
+}
+
+void Entity::draw_to(sf::RenderWindow& window)
+{
+	window.draw(this->sprite);
+}
+
 int Entity::get_position_x(){
 	return pos_x;
 }
 
 int Entity::get_position_y(){
 	return pos_y;
+}
+
+sf::Vector2f Entity::get_position()
+{
+	return this->position;
 }
 
 void Entity::set_position_x(int new_pos_x){
@@ -43,8 +66,21 @@ void Entity::set_position_y(int new_pos_y){
 	this->pos_y = new_pos_y;
 }
 
+void Entity::set_position(sf::Vector2f position)
+{
+	this->sprite.setPosition(position);
+}
+
 int Entity::get_speed(){
 	return speed;
+}
+
+sf::Vector2f Entity::get_size()
+{
+	// get size of sprite
+	return sf::Vector2f(
+		this->sprite.getGlobalBounds().width,
+		this->sprite.getGlobalBounds().height);
 }
 
 void Entity::set_speed(int new_speed){

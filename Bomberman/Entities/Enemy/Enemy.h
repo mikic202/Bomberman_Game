@@ -1,4 +1,6 @@
 #pragma once
+#include "../../Items/Wall.h"
+#include "../../Items/Bomb.h"
 #include "../Entity.h"
 
 class Enemy : public Entity
@@ -9,6 +11,8 @@ public:
 	int get_damage_to_player();
 
 	void set_damage_to_player(int new_damage);
+
+	void move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs);
 private:
 	int damage_to_player = 0;
 };
