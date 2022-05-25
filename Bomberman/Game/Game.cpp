@@ -198,7 +198,7 @@ void Game::check_if_colides_up(std::shared_ptr< Player2> player, std::vector<std
         {
             item_x = a->position().x;
             item_y = a->position().y;
-            if (player_y <= item_y + player_s_y + 8 && player_y >= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
+            if (player_y <= item_y + player_s_y + (GRID_SLOT_SIZE*10/3) && player_y >= item_y - (player_s_y / 2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
                 player->set_position({ player_x, item_y + GRID_SLOT_SIZE });
         }
     }

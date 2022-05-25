@@ -40,7 +40,7 @@ public:
 
     sf::Vector2f size()
     {
-        return { 150 / 7, 312 / 7 };
+        return { 113 *TEXTURE_SCALE.x, 253*TEXTURE_SCALE.y };
     }
 
 private:
