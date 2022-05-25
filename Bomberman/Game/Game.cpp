@@ -21,9 +21,16 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     {
         throw (FliePathException());
     }
-    std::vector<std::shared_ptr<Player2> > players = create_players_(number_of_players, player_texture);
+    std::vector<std::shared_ptr<Player2> > players;
+    for (int i = 0; i < number_of_players; i++)
+    {
+        players.push_back(std::make_shared<Player2>(Player2(TEXTURE_SCALE, player_texture)));
+        players[i]->set_position({ 0, 0 });
+        std::cout << players[i]->getX();
+    }
+
+
     const int MOVEMNT_SPEED = 5;
-    bool board_drawn = false;
     int level_number = 1;
     window.setFramerateLimit(60);
     if (new_game)
@@ -33,7 +40,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         points_ = game_info[1];
     }
 
-    StoryModeBoard story_b_(level_number, 1);
+    StoryModeBoard story_b_(level_number, number_of_players);
 
     sf::Clock Clock;
     while (window.isOpen())
@@ -60,12 +67,15 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 story_b_.move_items({ MOVEMNT_SPEED, 0 });
                 check_if_colides_left(player, story_b_.items(), window);
             }
-            //place_bombs_(player);
+            place_bombs_(player);
         }
 
         window.clear(sf::Color(69, 159, 66));
         story_b_.draw_to(window);
-        //player.draw_to(window);
+        for (std::shared_ptr< Player2> player : players)
+        {
+            player->draw_to(window);
+        }
         for (auto a : bombs_on_b_)
         {
             a->draw_to(window);
@@ -110,10 +120,10 @@ void Game::move_player_(std::shared_ptr< Player2> player , std::vector<std::shar
     }
 }
 
-void Game::place_bombs_(Player2& player)
+void Game::place_bombs_(std::shared_ptr< Player2> player)
 {
-    int player_p_x = player.getX();
-    int player_p_y = player.getY();
+    int player_p_x = player->getX();
+    int player_p_y = player->getY();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
         int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
@@ -270,6 +280,7 @@ std::vector<std::shared_ptr<Player2>> Game::create_players_(int player_number, s
     {
         players.push_back(std::make_shared<Player2>(Player2(TEXTURE_SCALE, player_texture)));
         players[i]->set_position({ 0, 0 });
+        std::cout << players[i]->getX();
     }
 }
 
