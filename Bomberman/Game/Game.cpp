@@ -20,7 +20,7 @@ void Game::play_story_(int save_number, bool new_game)
     bool board_drawn = false;
 
     int level_number = 1;
-    sf::RenderWindow window(sf::VideoMode(1600, 700), "Bomberman");
+    sf::RenderWindow window(sf::VideoMode(889, 500), "Bomberman");
     window.setFramerateLimit(60);
     if (new_game)
     {
@@ -51,16 +51,20 @@ void Game::play_story_(int save_number, bool new_game)
                 window.close();
             }
         }
-        //if(not sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        //    check_if_player_stops_(player, story_b_.items());
         move_player_(player, story_b_.items(), window);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && is_player_close_to_edge(player, window))
         {
             story_b_.move_items({ -MOVEMNT_SPEED, 0 });
+            check_if_colides_right(player, story_b_.items(), window);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && player.getX() <= 50 && story_b_.item(0)->position().x < 1 * GRID_SLOT_SIZE)
+        {
+            story_b_.move_items({ MOVEMNT_SPEED, 0 });
+            check_if_colides_left(player, story_b_.items(), window);
         }
         place_bombs_(player);
 
-        window.clear();
+        window.clear(sf::Color(69, 159, 66));
         story_b_.draw_to(window);
         player.draw_to(window);
         for (auto a : bombs_on_b_)
@@ -100,7 +104,7 @@ void Game::move_player_(Player2& player , std::vector<std::shared_ptr<Wall> > it
         player.move({ MOVEMNT_SPEED, 0 });
         check_if_colides_right(player, items_on_b, window);
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && player.getX() >= 50 && not items_on_b[0]->position().x < 1 * GRID_SLOT_SIZE)
     {
         player.move({ - MOVEMNT_SPEED, 0 });
         check_if_colides_left(player, items_on_b, window);
@@ -120,36 +124,6 @@ void Game::place_bombs_(Player2& player)
     }
 }
 
-void Game::check_if_player_stops_(Player2& player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow &window)
-{
-    float player_s_x = player.size().x;
-    float player_s_y = player.size().y;
-    float player_x = player.getX();
-    float player_y = player.getY();
-    float item_x;
-    float item_y;
-    for (auto a : items_on_b)
-    {
-        if (a->is_coloding_player(player))
-        {
-            item_x = a->position().x;
-            item_y = a->position().y;;
-            if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x/2 && std::abs(item_y - player_y) < player_s_y - 5) 
-                player.set_position({ item_x - player_s_x-1, player_y });
-            else if (player_x <= item_x + GRID_SLOT_SIZE && std::abs(item_y - player_y) < player_s_y - 5) 
-                player.set_position({ item_x + GRID_SLOT_SIZE+1, player_y });
-            if (player_y <= item_y + player_s_y + 2  && player_y >= item_y - (player_s_y/2) && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
-                player.set_position({ player_x, item_y + GRID_SLOT_SIZE + 1 });
-            else if (player_y >= item_y - player_s_y && (item_x - player_x < player_s_x - 5 && player_x - item_x < GRID_SLOT_SIZE - 5))
-                player.set_position({ player_x, item_y - player_s_y  -1});
-        }
-    }
-    //sf::Vector2u win_size = window.getSize();
-    //if (player_x <= 0) player.set_position({ 0, player_y });
-    //else if (player_x >= win_size.x) player.set_position({ float(win_size.x), player_y + player_s_y });
-    //if (player_y <= 0) player.set_position({ player_x, 0 });
-    //else if (player_y >= win_size.y) player.set_position({ player_x + player_s_x, float(win_size.y)});
-}
 
 void Game::check_if_colides_left(Player2& player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
 {
