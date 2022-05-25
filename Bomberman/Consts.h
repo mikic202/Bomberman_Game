@@ -9,11 +9,16 @@ const std::vector<int> MAX_SIZE = { 1000, 1000 };
 const int MAX_EXPLOSION_DELAY = 10;
 
 const int GRID_SLOT_SIZE = 50;
+const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
+
+const std::vector < std::vector<sf::Keyboard::Key> > PLAYERS_KEYS = { 
+				{sf::Keyboard::W, sf::Keyboard::S, sf::Keyboard::D, sf::Keyboard::A}, 
+				{sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Right, sf::Keyboard::Left} };
 
 const std::string BOMB_PATH = "Assets/Bomb.png";
 const std::string WALL_PATH = "Assets/Wall.png";
 const std::string BOX_PATH = "Assets/Box.png";
-const std::string DOOR_PATH = "Assets/Bomb.png";
+const std::string DOOR_PATH = "Assets/Door.png";
 const std::string PLAYER_PATH = "Assets/Player.png";
 const std::string ENEMY_PATH = "Assets/Enemy.png";
 const std::string FONT_PATH = "Assets/Fonts/Pixeboy.ttf";
