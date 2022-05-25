@@ -103,7 +103,7 @@ void StoryModeBoard::place_boxes_(int size_x, int size_y)
             random_nuber_if_box = std::rand() % 3 + 1;
             if (((x % 2 == 1 && y % 2 == 0) || (y % 2 == 1)) && random_nuber_if_box == 1 && box_num > 0 && (x >2 || y > 2))
             {
-                Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, max_box_strength_(level_number_), {.14286, .14286}, box_texture_);
+                Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, max_box_strength_(level_number_), TEXTURE_SCALE, box_texture_);
                 add_item(box);
                 box_num--;
             }
@@ -124,5 +124,5 @@ void StoryModeBoard::place_door_()
     {
         throw (FliePathException());
     }
-    door_ = Door({ float(door_pos_x)*GRID_SLOT_SIZE, float(door_pos_y)*GRID_SLOT_SIZE }, { .14286, .14286 }, door_texture_);
+    door_ = Door({ float(door_pos_x)*GRID_SLOT_SIZE, float(door_pos_y)*GRID_SLOT_SIZE }, TEXTURE_SCALE, door_texture_);
 }

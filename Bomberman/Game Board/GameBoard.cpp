@@ -69,7 +69,7 @@ void GameBoard::place_walls_(int size_x, int size_y)
 			{
 				if (x % 2 == 0)
 				{
-					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, { .14286, .14286 }, wall_texture_);
+					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, TEXTURE_SCALE, wall_texture_);
 					add_item(wall);
 				}
 			}
@@ -98,7 +98,7 @@ void GameBoard::place_boxes_(int size_x, int size_y)
 			random_nuber_if_box = std::rand() % 3 + 1;
 			if (((x % 2 == 1 && y % 2 == 0) || (y % 2 == 1)) && random_nuber_if_box != 1)
 			{
-				Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, 1, { .14286, .14286 }, box_texture_);
+				Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, 1, TEXTURE_SCALE, box_texture_);
 				add_item(box);
 			}
 		}

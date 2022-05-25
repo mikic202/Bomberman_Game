@@ -9,6 +9,7 @@ const std::vector<int> MAX_SIZE = { 1000, 1000 };
 const int MAX_EXPLOSION_DELAY = 10;
 
 const int GRID_SLOT_SIZE = 50;
+const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
 
 const std::string BOMB_PATH = "Assets/Bomb.png";
 const std::string WALL_PATH = "Assets/Wall.png";

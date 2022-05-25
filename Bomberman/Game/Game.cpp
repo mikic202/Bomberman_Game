@@ -128,7 +128,7 @@ void Game::place_bombs_(std::shared_ptr< Player2> player)
     {
         int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
         int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
-        Bomb bomb({float(bomb_pos_x*GRID_SLOT_SIZE), float(bomb_pos_y*GRID_SLOT_SIZE)}, 5, MAX_EXPLOSION_DELAY, 1, {0.14286, 0.14286 }, bomb_texture_);
+        Bomb bomb({float(bomb_pos_x*GRID_SLOT_SIZE), float(bomb_pos_y*GRID_SLOT_SIZE)}, 5, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
         bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
     }
 }
