@@ -28,6 +28,7 @@ private:
 	std::vector<int> load_game(int save_number, char type);
 	bool is_player_close_to_edge(std::shared_ptr< Player2> player, sf::RenderWindow &window);
 	std::vector<std::shared_ptr<Player2> > create_players_(int player_number, sf::Texture& player_texture, bool versus_mode = false);
+	bool detect_player_door_colision(std::vector<std::shared_ptr<Player2> > players, const sf::FloatRect& door_bounds);
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};

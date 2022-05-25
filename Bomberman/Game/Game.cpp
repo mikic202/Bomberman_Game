@@ -47,7 +47,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed || detect_player_door_colision(players, story_b_.get_door_global_bounds()))
             {
                 save_game_(save_number, 'S', story_b_.level_number(), points_);
                 window.close();
@@ -284,4 +284,12 @@ std::vector<std::shared_ptr<Player2>> Game::create_players_(int player_number, s
     }
 }
 
-
+bool Game::detect_player_door_colision(std::vector<std::shared_ptr<Player2> > players, const sf::FloatRect& door_bounds)
+{
+    for (std::shared_ptr< Player2> player : players)
+    {
+        if (door_bounds.intersects(player->get_global_bounds()))
+            return true;
+    }
+    return false;
+}
