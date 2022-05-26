@@ -11,24 +11,14 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     {
         throw (FliePathException());
     }
-    play_story_(save_number, new_game, window, 1);
+    play_story_(save_number, new_game, window, 2);
 }
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
 {
     bool did_player_door_colide = true;
 
-    sf::Texture player_texture;
-    if (!player_texture.loadFromFile(PLAYER_PATH))
-    {
-        throw (FliePathException());
-    }
-    std::vector<std::shared_ptr<Player2> > players;
-    for (int i = 0; i < number_of_players; i++)
-    {
-        players.push_back(std::make_shared<Player2>(Player2(TEXTURE_SCALE, player_texture)));
-        players[i]->set_position({ 0, 0 });
-    }
+    create_players_(number_of_players);
 
 
     const int MOVEMNT_SPEED = 5;
@@ -46,11 +36,11 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     sf::Clock Clock;
     while (window.isOpen())
     {
-        for (auto player : players)
+        for (auto player : players_)
         {
-            player->set_position({ 0, 0 });
+            player->set_position({0, 0});
         }
-        while (not detect_player_door_colision(players, story_b_.get_door_global_bounds()))
+        while (not detect_player_door_colision(story_b_.get_door_global_bounds()))
         {
             sf::Event event;
             while (window.pollEvent(event))
@@ -62,7 +52,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 }
             }
             int i = 0;
-            for (std::shared_ptr< Player2> player : players)
+            for (auto player : players_)
             {
                 move_player_(player, story_b_.items(), window, PLAYERS_KEYS[i]);
                 if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge(player, window))
@@ -81,7 +71,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
 
             window.clear(sf::Color(69, 159, 66));
             story_b_.draw_to(window);
-            for (std::shared_ptr< Player2> player : players)
+            for (auto player : players_)
             {
                 player->draw_to(window);
             }
@@ -286,17 +276,26 @@ bool Game::is_player_close_to_edge(std::shared_ptr< Player2> player, sf::RenderW
 
 void Game::create_players_(int player_number, bool versus_mode)
 {
-    std::vector<std::shared_ptr<Player2> > players;
-    for (int i = 0; i < player_number; i++)
+    if (!player1_texture_.loadFromFile(PLAYER_PATH))
     {
-        players.push_back(std::make_shared<Player2>(Player2(TEXTURE_SCALE, player_texture)));
-        players[i]->set_position({ 0, 0 });
+        throw (FliePathException());
+    }
+    players_.push_back(std::make_shared<Player2>(Player2(TEXTURE_SCALE, player1_texture_)));
+    players_[0]->set_position({ 0, 0 });
+    if (player_number == 2)
+    {
+        if (!player2_texture_.loadFromFile(PLAYER_PATH))
+        {
+            throw (FliePathException());
+        }
+        players_.push_back(std::make_shared<Player2>(Player2(TEXTURE_SCALE, player2_texture_)));
+        players_[1]->set_position({ 0, 0 });
     }
 }
 
-bool Game::detect_player_door_colision(std::vector<std::shared_ptr<Player2> > players, const sf::FloatRect& door_bounds)
+bool Game::detect_player_door_colision(const sf::FloatRect& door_bounds)
 {
-    for (std::shared_ptr< Player2> player : players)
+    for (auto player : players_)
     {
         if (door_bounds.intersects(player->get_global_bounds()))
             return true;

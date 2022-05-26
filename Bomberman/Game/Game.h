@@ -13,7 +13,9 @@ class Game
 private:
 	sf::RenderWindow window_;
 	int points_ = 1;
-	std::vector<std::pair<std::shared_ptr<Player2>, sf::Texture> > players_;
+	std::vector<std::shared_ptr<Player2> > players_;
+	sf::Texture player1_texture_;
+	sf::Texture player2_texture_;
 	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
 	sf::Texture bomb_texture_;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
@@ -29,7 +31,7 @@ private:
 	std::vector<int> load_game(int save_number, char type);
 	bool is_player_close_to_edge(std::shared_ptr< Player2> player, sf::RenderWindow &window);
 	void create_players_(int player_number, bool versus_mode = false);
-	bool detect_player_door_colision(std::vector<std::shared_ptr<Player2> > players, const sf::FloatRect& door_bounds);
+	bool detect_player_door_colision(const sf::FloatRect& door_bounds);
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};
