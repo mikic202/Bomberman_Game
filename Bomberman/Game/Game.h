@@ -5,7 +5,7 @@
 #include "../Game Board/StoryModeBoard.h"
 #include "../Game Board/VersusModeBoard.h"
 #include "../Items/Box.h"
-#include "../Player2.h"
+#include "../Entities/Player/Player.h"
 
 
 class Game

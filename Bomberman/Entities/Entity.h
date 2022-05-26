@@ -42,7 +42,7 @@ public:
 protected:
 	int speed;
 	sf::Texture texture;
-	sf::Sprite* sprite;
+	sf::Sprite sprite;
 
 
 	// size of sprite of entity
