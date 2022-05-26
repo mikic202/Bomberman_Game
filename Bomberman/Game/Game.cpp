@@ -16,7 +16,8 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
 {
-    bool did_player_door_colide = true;
+    int level_points;
+    int pixeles_moved;
 
     create_players_(number_of_players);
 
@@ -36,6 +37,8 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     sf::Clock Clock;
     while (window.isOpen())
     {
+        level_points = 0;
+        pixeles_moved = 0;
         for (auto player : players_)
         {
             player->set_position({0, 0});
@@ -54,15 +57,24 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             int i = 0;
             for (auto player : players_)
             {
-                move_player_(player, story_b_.items(), window, PLAYERS_KEYS[i]);
-                if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge(player, window))
+                move_player_(player, story_b_.items(), window, PLAYERS_KEYS[i], pixeles_moved);
+                if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge(player, window)&& pixeles_moved != 30*GRID_SLOT_SIZE - window.getSize().x)
                 {
-                    story_b_.move_items({ -MOVEMNT_SPEED, 0 });
-                    check_if_colides_right(player, story_b_.items(), window);
+                    for (auto player2 : players_)
+                    {
+                        if (player2 != player && player2->get_position().x != 0)
+                        {
+                            story_b_.move_items({ -MOVEMNT_SPEED, 0 });
+                            player2->move({ -MOVEMNT_SPEED, 0 });
+                            pixeles_moved += MOVEMNT_SPEED;
+                            check_if_colides_right(player, story_b_.items(), window);
+                        }
+                    }
                 }
                 if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && player->get_position().x <= 50 && story_b_.item(0)->position().x < 1 * GRID_SLOT_SIZE)
                 {
                     story_b_.move_items({ MOVEMNT_SPEED, 0 });
+                    pixeles_moved -= MOVEMNT_SPEED;
                     check_if_colides_left(player, story_b_.items(), window);
                 }
                 place_bombs_(player, PLAYERS_KEYS[i][4]);
@@ -84,13 +96,14 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             //Clock.restart();
         }
         story_b_.reset_board(++level_number);
+        points_ += 500+level_points;
     }
 
     return;
 }
 
 
-void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window, std::vector<sf::Keyboard::Key> keys)
+void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window, std::vector<sf::Keyboard::Key> keys, int pixels_moved)
 {
     float player_x = player->get_position().x;
     const int MOVEMNT_SPEED = 5;
@@ -104,7 +117,7 @@ void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::share
         player->move({ 0, MOVEMNT_SPEED });
         check_if_colides_down(player, items_on_b, window);
     }
-    if (sf::Keyboard::isKeyPressed(keys[2]) && not is_player_close_to_edge(player, window))
+    if (sf::Keyboard::isKeyPressed(keys[2]) && (not is_player_close_to_edge(player, window) || pixels_moved == 30 * GRID_SLOT_SIZE - window.getSize().x))
     {
         player->move({ MOVEMNT_SPEED, 0 });
         check_if_colides_right(player, items_on_b, window);
@@ -122,10 +135,13 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
     int player_p_y = player->get_position().y;
     if (sf::Keyboard::isKeyPressed(bomb_placing))
     {
-        int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
-        int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
-        Bomb bomb({float(bomb_pos_x*GRID_SLOT_SIZE), float(bomb_pos_y*GRID_SLOT_SIZE)}, 5, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
-        bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
+        if (not player->on_bomb(bombs_on_b_))
+        {
+            int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
+            int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
+            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 5, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
+            bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
+        }
     }
 }
 
