@@ -61,7 +61,7 @@ void StoryModeBoard::generate_board_()
     int max_box_strength = max_box_strength_(level_number_);
 
     place_walls_(size_[0], size_[1]);
-    //place_boxes_(size_[0], size_[1]);
+    place_boxes_(size_[0], size_[1]);
     place_door_();
 }
 
