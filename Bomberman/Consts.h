@@ -8,6 +8,8 @@ const int DIMENSIONS = 2;
 const std::vector<int> MAX_SIZE = { 1000, 1000 };
 const int MAX_EXPLOSION_DELAY = 10;
 
+const int PLAYER_LIVES = 3;
+
 const int GRID_SLOT_SIZE = 50;
 const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
 
