@@ -5,7 +5,7 @@
 //	this->quantity_bombs = quantity_bombs;
 //}
 
-Player::Player(sf::Vector2f position, sf::Texture& texture, sf::Vector2f size, unsigned int quantity_bombs, int speed = 5)
+Player::Player(sf::Vector2f position, sf::Texture& texture, sf::Vector2f size, unsigned int quantity_bombs, int speed = 5, int hp = PLAYER_LIVES)
 	: Entity(position, texture, size, speed)
 {
 	this->quantity_bombs = quantity_bombs;
