@@ -24,6 +24,7 @@ const std::string DOOR_PATH = "Assets/Door.png";
 const std::string PLAYER_PATH = "Assets/Player.png";
 const std::string ENEMY_PATH = "Assets/Enemy.png";
 const std::string FONT_PATH = "Assets/Fonts/Pixeboy.ttf";
+const std::vector<float> PLAYER_TEXTURE_SIZE = { 113 * TEXTURE_SCALE.x, 253 * TEXTURE_SCALE.y };
 
 const int BOMB_PLACEMENT_TOLERANCES = 5;
 
