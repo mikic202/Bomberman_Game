@@ -1,7 +1,11 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed, int damage_to_player) : Entity(pos_x, pos_y, size_x, size_y, speed){
-	this->damage_to_player = damage_to_player;
+//Enemy::Enemy(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed, int damage_to_player) : Entity(pos_x, pos_y, size_x, size_y, speed){
+//	this->damage_to_player = damage_to_player;
+//}
+
+Enemy::Enemy()
+{
 }
 
 int Enemy::get_damage_to_player()
