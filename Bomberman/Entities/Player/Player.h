@@ -5,7 +5,9 @@
 class Player : public Entity
 {
 public:
-	Player(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed, int hp = 100, unsigned int quantity_bombs = 1);
+	//Player(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed, int hp = 100, unsigned int quantity_bombs = 1);
+
+	Player(sf::Vector2f position, sf::Texture& texture, sf::Vector2f size, unsigned int quantity_bombs, int speed = 5);
 
 	int get_hp();
 	int get_quanity_bombs();

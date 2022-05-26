@@ -1,8 +1,15 @@
 #include "Player.h"
 
-Player::Player(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed, int hp, unsigned int quantity_bombs) : Entity(pos_x, pos_y, size_x, size_y, speed) {
-	this->hp = hp;
+//Player::Player(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed, int hp, unsigned int quantity_bombs) : Entity(pos_x, pos_y, size_x, size_y, speed) {
+//	this->hp = hp;
+//	this->quantity_bombs = quantity_bombs;
+//}
+
+Player::Player(sf::Vector2f position, sf::Texture& texture, sf::Vector2f size, unsigned int quantity_bombs, int speed = 5)
+	: Entity(position, texture, size, speed)
+{
 	this->quantity_bombs = quantity_bombs;
+	this->hp = PLAYER_LIVES;
 }
 
 int Player::get_hp(){
@@ -37,7 +44,7 @@ bool Player::on_bomb(std::vector<std::shared_ptr<Bomb>> bombs)
 		//if (bomb_grid_pos == player_grid_pos)
 			//return true;
 
-		if(bomb.get()->item_sprite().getGlobalBounds().intersects(this->sprite.getGlobalBounds()))
+		if(bomb.get()->item_sprite().getGlobalBounds().intersects(this->sprite->getGlobalBounds()))
 			return true;
 	}
 	return false;
