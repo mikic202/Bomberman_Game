@@ -14,8 +14,8 @@ const int GRID_SLOT_SIZE = 50;
 const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
 
 const std::vector < std::vector<sf::Keyboard::Key> > PLAYERS_KEYS = { 
-				{sf::Keyboard::W, sf::Keyboard::S, sf::Keyboard::D, sf::Keyboard::A}, 
-				{sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Right, sf::Keyboard::Left} };
+				{sf::Keyboard::W, sf::Keyboard::S, sf::Keyboard::D, sf::Keyboard::A, sf::Keyboard::Space}, 
+				{sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Right, sf::Keyboard::Left, sf::Keyboard::Enter} };
 
 const std::string BOMB_PATH = "Assets/Bomb.png";
 const std::string WALL_PATH = "Assets/Wall.png";
