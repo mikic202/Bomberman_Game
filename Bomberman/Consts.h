@@ -12,6 +12,8 @@ const int PLAYER_LIVES = 3;
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 640;
 
+const int PLAYER_LIVES = 3;
+
 const int GRID_SLOT_SIZE = 50;
 const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
 
@@ -26,6 +28,7 @@ const std::string DOOR_PATH = "Assets/Door.png";
 const std::string PLAYER_PATH = "Assets/Player.png";
 const std::string ENEMY_PATH = "Assets/Enemy.png";
 const std::string FONT_PATH = "Assets/Fonts/Pixeboy.ttf";
+const std::vector<float> PLAYER_TEXTURE_SIZE = { 113 * TEXTURE_SCALE.x, 253 * TEXTURE_SCALE.y };
 
 const int BOMB_PLACEMENT_TOLERANCES = 5;
 

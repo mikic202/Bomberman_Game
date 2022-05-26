@@ -47,6 +47,14 @@ void StoryModeBoard::move_items(sf::Vector2f distance)
     door_.move(distance);
 }
 
+void StoryModeBoard::reset_board(int level_number)
+{
+    level_number_ = level_number;
+    items_on_board_.clear();
+    generate_board_();
+
+}
+
 void StoryModeBoard::generate_board_()
 {
     int box_num = box_num_(level_number_);
