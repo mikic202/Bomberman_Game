@@ -22,7 +22,7 @@ private:
 	void play_coop_();
 	void play_versus_();
 	void move_player_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window, std::vector<sf::Keyboard::Key> keys);
-	void place_bombs_(std::shared_ptr< Player> player);
+	void place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing);
 	void check_if_colides_left(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void check_if_colides_right(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void check_if_colides_up(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);

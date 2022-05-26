@@ -65,7 +65,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                     story_b_.move_items({ MOVEMNT_SPEED, 0 });
                     check_if_colides_left(player, story_b_.items(), window);
                 }
-                place_bombs_(player);
+                place_bombs_(player, PLAYERS_KEYS[i][4]);
                 i++;
             }
 
@@ -116,11 +116,11 @@ void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::share
     }
 }
 
-void Game::place_bombs_(std::shared_ptr< Player> player)
+void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing)
 {
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (sf::Keyboard::isKeyPressed(bomb_placing))
     {
         int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
         int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE ;
