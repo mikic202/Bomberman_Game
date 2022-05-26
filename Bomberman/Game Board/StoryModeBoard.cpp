@@ -47,13 +47,21 @@ void StoryModeBoard::move_items(sf::Vector2f distance)
     door_.move(distance);
 }
 
+void StoryModeBoard::reset_board(int level_number)
+{
+    level_number_ = level_number;
+    items_on_board_.clear();
+    generate_board_();
+
+}
+
 void StoryModeBoard::generate_board_()
 {
     int box_num = box_num_(level_number_);
     int max_box_strength = max_box_strength_(level_number_);
 
     place_walls_(size_[0], size_[1]);
-    place_boxes_(size_[0], size_[1]);
+    //place_boxes_(size_[0], size_[1]);
     place_door_();
 }
 
