@@ -14,8 +14,9 @@ class Entity
 {
 public:
 	Entity();
-	Entity(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed);
-	Entity(sf::Vector2f position, sf::Texture& texture, int speed=5);
+	//Entity(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed);
+	Entity(sf::Vector2f position, sf::Texture& texture, int speed = 5);
+	Entity(sf::Vector2f position, sf::Texture& texture, sf::Vector2f size, int speed = 5);
 
 	void move(Direction direction);
 
@@ -23,27 +24,25 @@ public:
 
 	void draw_to(sf::RenderWindow& window);
 
-	int get_position_x();
-	int get_position_y();
+	//int get_position_x();
+	//int get_position_y();
 	sf::Vector2f get_position();
 	int get_speed();
 	sf::Vector2f get_size();
 
-	void set_position_x(int new_pos_x); 
-	void set_position_y(int new_pos_y);
+	//void set_position_x(int new_pos_x); 
+	//void set_position_y(int new_pos_y);
 	void set_position(sf::Vector2f position);
 
 	void set_speed(int new_speed);
 
 	sf::FloatRect get_global_bounds();
 
-	virtual ~Entity() = 0;
+	virtual ~Entity();
 protected:
 	int speed;
-	int pos_x, pos_y;
 	sf::Texture texture;
-	sf::Sprite sprite;
-	sf::Vector2f position;
+	sf::Sprite* sprite;
 
 
 	// size of sprite of entity
