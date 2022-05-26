@@ -16,6 +16,8 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
 {
+    bool did_player_door_colide = true;
+
     sf::Texture player_texture;
     if (!player_texture.loadFromFile(PLAYER_PATH))
     {
@@ -44,46 +46,54 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     sf::Clock Clock;
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
+        for (auto player : players)
         {
-            if (event.type == sf::Event::Closed || detect_player_door_colision(players, story_b_.get_door_global_bounds()))
-            {
-                save_game_(save_number, 'S', story_b_.level_number(), points_);
-                window.close();
-            }
+            player->set_position({ 0, 0 });
         }
-        int i = 0;
-        for (std::shared_ptr< Player2> player : players)
+        while (not detect_player_door_colision(players, story_b_.get_door_global_bounds()))
         {
-            move_player_(player, story_b_.items(), window, PLAYERS_KEYS[i]);
-            if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge(player, window))
+            sf::Event event;
+            while (window.pollEvent(event))
             {
-                story_b_.move_items({ -MOVEMNT_SPEED, 0 });
-                check_if_colides_right(player, story_b_.items(), window);
+                if (event.type == sf::Event::Closed)
+                {
+                    save_game_(save_number, 'S', story_b_.level_number(), points_);
+                    window.close();
+                }
             }
-            if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && player->getX() <= 50 && story_b_.item(0)->position().x < 1 * GRID_SLOT_SIZE)
+            int i = 0;
+            for (std::shared_ptr< Player2> player : players)
             {
-                story_b_.move_items({ MOVEMNT_SPEED, 0 });
-                check_if_colides_left(player, story_b_.items(), window);
+                move_player_(player, story_b_.items(), window, PLAYERS_KEYS[i]);
+                if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge(player, window))
+                {
+                    story_b_.move_items({ -MOVEMNT_SPEED, 0 });
+                    check_if_colides_right(player, story_b_.items(), window);
+                }
+                if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && player->getX() <= 50 && story_b_.item(0)->position().x < 1 * GRID_SLOT_SIZE)
+                {
+                    story_b_.move_items({ MOVEMNT_SPEED, 0 });
+                    check_if_colides_left(player, story_b_.items(), window);
+                }
+                place_bombs_(player);
+                i++;
             }
-            place_bombs_(player);
-            i++;
-        }
 
-        window.clear(sf::Color(69, 159, 66));
-        story_b_.draw_to(window);
-        for (std::shared_ptr< Player2> player : players)
-        {
-            player->draw_to(window);
+            window.clear(sf::Color(69, 159, 66));
+            story_b_.draw_to(window);
+            for (std::shared_ptr< Player2> player : players)
+            {
+                player->draw_to(window);
+            }
+            for (auto a : bombs_on_b_)
+            {
+                a->draw_to(window);
+            }
+            window.display();
+            //std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
+            //Clock.restart();
         }
-        for (auto a : bombs_on_b_)
-        {
-            a->draw_to(window);
-        }
-        window.display();
-        //std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
-        //Clock.restart();
+        story_b_.reset_board(++level_number);
     }
 
     return;
@@ -274,7 +284,7 @@ bool Game::is_player_close_to_edge(std::shared_ptr< Player2> player, sf::RenderW
     return player->getX() >= 4 * window.getSize().x / 5;
 }
 
-std::vector<std::shared_ptr<Player2>> Game::create_players_(int player_number, sf::Texture &player_texture, bool versus_mode)
+void Game::create_players_(int player_number, bool versus_mode)
 {
     std::vector<std::shared_ptr<Player2> > players;
     for (int i = 0; i < player_number; i++)
