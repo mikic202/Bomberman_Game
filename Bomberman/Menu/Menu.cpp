@@ -1,89 +1,7 @@
 #include "Menu.h"
-//#include "Menu.h"
-//
-//Menu::Menu(float width, float height)
-//{
-//	if (!font.loadFromFile("Pixeboy.ttf"))
-//		std::cout << "cant load font\n";
-//
-//	// Play
-//	mainMenu[0].setFont(font);
-//	mainMenu[0].setFillColor(Color::White);
-//	mainMenu[0].setString("Play");
-//	mainMenu[0].setCharacterSize(70);
-//	mainMenu[0].setPosition(400, 200);
-//
-//	// Options
-//	mainMenu[1].setFont(font);
-//	mainMenu[1].setFillColor(Color::White);
-//	mainMenu[1].setString("Options");
-//	mainMenu[1].setCharacterSize(70);
-//	mainMenu[1].setPosition(400, 300);
-//
-//	// About
-//	mainMenu[2].setFont(font);
-//	mainMenu[2].setFillColor(Color::White);
-//	mainMenu[2].setString("About");
-//	mainMenu[2].setCharacterSize(70);
-//	mainMenu[2].setPosition(400, 400);
-//
-//	//Exit
-//	mainMenu[3].setFont(font);
-//	mainMenu[3].setFillColor(Color::White);
-//	mainMenu[3].setString("EXIT");
-//	mainMenu[3].setCharacterSize(70);
-//	mainMenu[3].setPosition(400, 500);
-//
-//	MainMenuSelected = -1;
-//
-//}
 
-//void Menu::draw(RenderWindow& window)
-//{
-//	for (size_t i = 0; i < Max_main_menu; ++i)
-//	{
-//		window.draw(mainMenu[i]);
-//	}
-//}
-//
-//void Menu::moveUp()
-//{
-//	if (MainMenuSelected >= 1)
-//	{
-//		mainMenu[MainMenuSelected].setFillColor(Color::White);
-//		MainMenuSelected--;
-//
-//		if (MainMenuSelected == -1)
-//		{
-//			MainMenuSelected = 2;
-//		}
-//		mainMenu[MainMenuSelected].setFillColor(Color::Blue);
-//	}
-//}
-//
-//void Menu::moveDown()
-//{
-//	if (MainMenuSelected + 1 <= Max_main_menu)
-//	{
-//		mainMenu[MainMenuSelected].setFillColor(Color::White);
-//		MainMenuSelected++;
-//
-//		if (MainMenuSelected == 4)
-//		{
-//			MainMenuSelected = 0;
-//		}
-//		mainMenu[MainMenuSelected].setFillColor(Color::Blue);
-//	}
-//}
-//
-//Menu::~Menu()
-//{
-//
-//}
-
-
-
-
+//TODO DELETE NAMESPACE STD
+using namespace std;
 Menu::~Menu()
 {
 	std::cout << "DESTRUCTOR OF MENU IS CALLED\n";
@@ -112,8 +30,10 @@ void Menu::set_menu_fields(std::vector<sf::Text*> menu_fields)
 // EXCEPTION WHEN FONT IS NOT FOUND
 Menu::Menu()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "title");
+
+	this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bomberman");
 	this->font.loadFromFile(FONT_PATH);
+	this->target_text = this->top_menu_field;
 }
 
 // TODO EXCEPTION WHEN MENU_FIELDS IS EMPTY
@@ -157,11 +77,9 @@ Menu::Menu(sf::VideoMode video_mode, std::string name, std::vector<sf::Text*> me
 
 void Menu::run()
 {
-	std::cout << "works;";
-	std::cout << this->window->getSize().x;
 	while (this->window->isOpen())
 	{
-		std::cout << "in while\n";
+		this->update_clock();
 		this->update();
 
 		this->render();
@@ -169,11 +87,44 @@ void Menu::run()
 	}
 }
 
+bool Menu::mouse_over(sf::Text* text)
+{
+	//std::cout << bool(text->getGlobalBounds().contains(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y)) << endl;
+
+	return text->getGlobalBounds().contains(sf::Mouse::getPosition(*this->window).x,
+		sf::Mouse::getPosition(*this->window).y);
+}
+
+void Menu::mouse_update()
+{
+	for (size_t i = 0; i < this->menu_fields.size(); i++)
+	{
+		//std::cout << "CONTAINS\n";
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouse_over(menu_fields[i]))
+		{
+			clickedField(menu_fields[i]);
+			break;
+		}
+		if (mouse_over(menu_fields[i]))
+		{
+			//menu_fields[i]->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
+			target_text->setFillColor(MAIN_MENU_TEXT_COLOR);
+			target_text = menu_fields[i];
+			target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
+			break;
+		}
+	}
+}
 void Menu::poll_events()
 {
 	sf::Event ev;
+	//std::cout << string(this->target_text->getString()) << endl;
+
+
 	while (this->window->pollEvent(ev))
 	{
+		// Keyboard polling events
+		sf::Time elapsed_time = menu_clock.getElapsedTime();
 		switch (ev.type)
 		{
 		case sf::Event::Closed:
@@ -182,16 +133,27 @@ void Menu::poll_events()
 		case sf::Event::KeyPressed:
 			if (ev.key.code == sf::Keyboard::Enter)
 				clickedField(this->target_text);
-			if (ev.key.code == sf::Keyboard::Up)
-				move_up();
-			if (ev.key.code == sf::Keyboard::Down)
-				move_down();
+			if (ev.key.code == sf::Keyboard::Up || ev.key.code == sf::Keyboard::W)
+				if (elapsed_time.asSeconds() > MENU_CHANGE_FIELD_COOLDOWN_SECONDS)
+				{
+					move_up();
+					menu_clock.restart();
+				}
+			if (ev.key.code == sf::Keyboard::Down || ev.key.code == sf::Keyboard::S)
+				if(elapsed_time.asSeconds() > MENU_CHANGE_FIELD_COOLDOWN_SECONDS)
+				{ 
+					move_down();
+					menu_clock.restart();
+				}
 			if (ev.key.code == sf::Keyboard::Escape)
 				this->pop_up_menu->show();
 			break;
 		default:
 			break;
 		}
+		// mouse polling events
+		mouse_update();
+
 	}
 }
 
@@ -202,11 +164,16 @@ void Menu::update()
 
 }
 
+void Menu::update_clock()
+{
+	
+}
+
 void Menu::render()
 {
 	//std::cout << menu_fields;
 	this->window->clear();
-
+	//this->window->draw(this->background);
 	// Draw menu fields
 	for (size_t i = 0; i < menu_fields.size(); ++i)
 	{	
@@ -218,13 +185,14 @@ void Menu::render()
 
 }
 
+
 void Menu::move_up()
 {
 	if (this->target_text == *menu_fields.begin())
 	{
 		this->target_text = (*(menu_fields.end() - 1));
-		(*menu_fields.begin())->setFillColor(sf::Color::White);
-		this->target_text->setFillColor(sf::Color::Blue);
+		(*menu_fields.begin())->setFillColor(MAIN_MENU_TEXT_COLOR);
+		this->target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
 	}
 	else
 	{
@@ -233,8 +201,8 @@ void Menu::move_up()
 			if (this->target_text == menu_fields[i])
 			{
 				this->target_text = menu_fields[i-1];
-				menu_fields[i]->setFillColor(sf::Color::White);
-				this->target_text->setFillColor(sf::Color::Blue);
+				menu_fields[i]->setFillColor(MAIN_MENU_TEXT_COLOR);
+				this->target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
 			}
 		}
 	}
@@ -245,8 +213,8 @@ void Menu::move_down()
 	if (this->target_text == (*(menu_fields.end() - 1)))
 	{
 		this->target_text = (*(menu_fields.begin()));
-		(*(menu_fields.end()-1))->setFillColor(sf::Color::White);
-		this->target_text->setFillColor(sf::Color::Blue);
+		(*(menu_fields.end()-1))->setFillColor(MAIN_MENU_TEXT_COLOR);
+		this->target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
 	}
 	else
 	{
@@ -255,8 +223,9 @@ void Menu::move_down()
 			if (this->target_text == menu_fields[i])
 			{
 				this->target_text = menu_fields[i + 1];
-				menu_fields[i]->setFillColor(sf::Color::White);
-				this->target_text->setFillColor(sf::Color::Blue);
+				menu_fields[i]->setFillColor(MAIN_MENU_TEXT_COLOR);
+				this->target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
+				break;
 			}
 		}
 	}

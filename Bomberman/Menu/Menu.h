@@ -24,9 +24,16 @@ public:
 
 	virtual void update();
 
+	void update_clock();
 	// function to render menu window
 	virtual void render();
-	
+
+	// function that checks if cursor is over the text field
+	virtual bool mouse_over(sf::Text* text);
+
+	virtual void mouse_update();
+
+
 	void move_up();
 	void move_down();
 
@@ -41,6 +48,8 @@ public:
 protected:
 	void set_menu_fields(std::vector<sf::Text*> menu_fields);
 
+	sf::Clock menu_clock;
+
 
 	std::vector<sf::Text*> menu_fields;
 	//int MainMenuSelected;
@@ -52,4 +61,7 @@ protected:
 	sf::Text* top_menu_field;
 	sf::Text* target_text;
 
+
+	sf::Texture background_texture;
+	sf::Sprite background;
 };

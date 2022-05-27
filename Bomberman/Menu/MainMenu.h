@@ -1,5 +1,6 @@
 #pragma once
 #include "Menu.h"
+#include "CreditsMenu.h"
 class MainMenu : public Menu
 {
 public:
@@ -9,13 +10,18 @@ public:
 	//void run() override;
 
 	void update() override;
+
+	// function to draw everything
 	void render() override;
+
+
+	virtual void render_text_fields();
+
 	~MainMenu();
 private:
 	sf::Text* play;
 	sf::Text* scores;
 	sf::Text* credits;
 	sf::Text* exit;
-	sf::Text test;
 };
 

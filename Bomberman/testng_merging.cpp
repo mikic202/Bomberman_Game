@@ -8,10 +8,10 @@
 
 int main()
 {
-	//Game game;
+	Game game;
 
-	//sf::RenderWindow window(sf::VideoMode(1000, 600), "Bomberman");
-	//game.play(1, 'C', true, window);
+	sf::RenderWindow window(sf::VideoMode(1000, 600), "Bomberman");
+	game.play(1, 'C', true, window);
 	MainMenu* mainmenu = new MainMenu();
 	mainmenu->run();
 	delete mainmenu;
