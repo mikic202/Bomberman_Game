@@ -6,7 +6,7 @@
 
 const int DIMENSIONS = 2;
 const std::vector<int> MAX_SIZE = { 1000, 1000 };
-const int MAX_EXPLOSION_DELAY = 10;
+const int MAX_EXPLOSION_DELAY = 3;
 
 const int PLAYER_LIVES = 3;
 
@@ -24,6 +24,7 @@ const std::string DOOR_PATH = "Assets/Door.png";
 const std::string PLAYER_PATH = "Assets/Player.png";
 const std::string ENEMY_PATH = "Assets/Enemy.png";
 const std::string FONT_PATH = "Assets/Fonts/Pixeboy.ttf";
+const std::string EXPLOSION_PATH = "Assets/Explosion.png";
 const std::vector<float> PLAYER_TEXTURE_SIZE = { 113 * TEXTURE_SCALE.x, 253 * TEXTURE_SCALE.y };
 
 const int BOMB_PLACEMENT_TOLERANCES = 5;

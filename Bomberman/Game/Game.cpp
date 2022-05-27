@@ -32,8 +32,13 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         level_number = game_info[0];
         points_ = game_info[1];
     }
-
+    sf::Texture explosion_texture;
+    if (!explosion_texture.loadFromFile(EXPLOSION_PATH))
+    {
+        throw (FliePathException());
+    }
     StoryModeBoard story_b_(level_number, number_of_players);
+    Explosion explosion({0, 0}, TEXTURE_SCALE, explosion_texture);
 
     sf::Clock Clock;
     while (window.isOpen())
@@ -74,7 +79,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 place_bombs_(player, PLAYERS_KEYS[i][4]);
                 i++;
             }
-
+            bobm_explosion_(story_b_.items());
             window.clear(sf::Color(69, 159, 66));
             story_b_.draw_to(window);
             for (auto player : players_)
@@ -84,6 +89,10 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             for (auto a : bombs_on_b_)
             {
                 a->draw_to(window);
+            }
+            for (auto explo : explosions_)
+            {
+                explo->draw_to(window);
             }
             window.display();
             //std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
@@ -362,4 +371,136 @@ bool Game::detect_player_door_colision(const sf::FloatRect& door_bounds)
             return true;
     }
     return false;
+}
+
+void Game::bobm_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b)
+{
+    for (int i = 0; i < bombs_on_b_.size();i++)
+    {
+        if (bombs_on_b_[i]->did_blow())
+        {
+            place_explosion_(items_on_b, bombs_on_b_[i]);
+            bombs_on_b_.erase(bombs_on_b_.begin() + i);
+            i--;
+            std::cout << "a";
+        }
+    }
+}
+
+void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::shared_ptr<Bomb> bomb)
+{
+    int bomb_pos_x = bomb->position().x;
+    int bomb_pos_y = bomb->position().y;
+    if (!explosion_texture_.loadFromFile(EXPLOSION_PATH))
+    {
+        throw (FliePathException());
+    }
+    explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y) }, TEXTURE_SCALE, explosion_texture_)));
+    for (int i = 1; i <= bomb->radius(); i++)
+    {
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x - GRID_SLOT_SIZE * i),float( bomb_pos_y) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x + GRID_SLOT_SIZE * i),float(bomb_pos_y) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y - GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y + GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+    }
+    check_where_explosion_stops(items_on_b, bomb);
+}
+
+void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall>> items_on_b, std::shared_ptr<Bomb> bomb)
+{
+    int bomb_pos_x = bomb->position().x;
+    int bomb_pos_y = bomb->position().y;
+    std::vector<int> explosionc_to_destroy;
+    std::vector<bool> eplosion_not_stopped = { true, true, true, true };
+    for (int i = 0; i < bomb->radius(); i++)
+    {
+        if (eplosion_not_stopped[0])
+        {
+            for (auto item : items_on_b)
+            {
+                if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
+                    item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
+                {
+                    if (explosions_[4*i+1]->get_global_bounds().intersects(item->get_global_bounds()))
+                    {
+                        eplosion_not_stopped[0] = false;
+                        explosionc_to_destroy.push_back(4*i+1);
+                    }
+                }
+            }
+        }
+        else
+        {
+            explosionc_to_destroy.push_back(4*i+1);
+        }
+
+        if (eplosion_not_stopped[1])
+        {
+            for (auto item : items_on_b)
+            {
+                if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
+                    item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
+                {
+                    if (explosions_[4 * i + 2]->get_global_bounds().intersects(item->get_global_bounds()))
+                    {
+                        eplosion_not_stopped[1] = false;
+                        explosionc_to_destroy.push_back(4 * i + 2);
+                    }
+                }
+            }
+        }
+        else
+        {
+            explosionc_to_destroy.push_back(4 * i + 2);
+        }
+
+        if (eplosion_not_stopped[2])
+        {
+            for (auto item : items_on_b)
+            {
+                if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
+                    item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
+                {
+                    if (explosions_[4 * i + 3]->get_global_bounds().intersects(item->get_global_bounds()))
+                    {
+                        eplosion_not_stopped[2] = false;
+                        explosionc_to_destroy.push_back(4 * i + 3);
+                    }
+                }
+            }
+        }
+        else
+        {
+            explosionc_to_destroy.push_back(4 * i + 3);
+        }
+
+        if (eplosion_not_stopped[3])
+        {
+            for (auto item : items_on_b)
+            {
+                if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
+                    item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
+                {
+                    if (explosions_[4 * i + 4]->get_global_bounds().intersects(item->get_global_bounds()))
+                    {
+                        eplosion_not_stopped[3] = false;
+                        explosionc_to_destroy.push_back(4*i+4);
+                    }
+                }
+            }
+        }
+        else
+        {
+            explosionc_to_destroy.push_back(4*i + 4);
+        }
+    }
+    for (int j = explosionc_to_destroy.size() - 1; j >= 0; j--)
+    {
+        std::cout << explosionc_to_destroy[j];
+        explosions_.erase(explosions_.begin() + explosionc_to_destroy[j]);
+    }
+
 }

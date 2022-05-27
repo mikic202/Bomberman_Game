@@ -17,7 +17,9 @@ private:
 	sf::Texture player1_texture_;
 	sf::Texture player2_texture_;
 	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
+	std::vector<std::shared_ptr<Explosion> > explosions_;
 	sf::Texture bomb_texture_;
+	sf::Texture explosion_texture_;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
 	void play_coop_();
 	void play_versus_(sf::RenderWindow& window);
@@ -32,6 +34,9 @@ private:
 	bool is_player_close_to_edge(std::shared_ptr< Player> player, sf::RenderWindow &window);
 	void create_players_(int player_number, bool versus_mode = false, int board_size = 0);
 	bool detect_player_door_colision(const sf::FloatRect& door_bounds);
+	void bobm_explosion_(std::vector<std::shared_ptr<Wall> > items_on_b);
+	void place_explosion_(std::vector<std::shared_ptr<Wall> > items_on_b, std::shared_ptr<Bomb> bomb);
+	void check_where_explosion_stops(std::vector<std::shared_ptr<Wall> > items_on_b, std::shared_ptr<Bomb> bomb);
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};
