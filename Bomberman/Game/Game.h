@@ -6,7 +6,7 @@
 #include "../Game Board/VersusModeBoard.h"
 #include "../Items/Box.h"
 #include "../Entities/Player/Player.h"
-
+#include "../Player2.h"
 
 class Game
 {

@@ -7,24 +7,18 @@ using namespace std;
 MainMenu::MainMenu()
 {
 	// Menu fields
-	this->play = new sf::Text();
+	this->play_story = new sf::Text();
+	this->play_coop = new sf::Text();
 	this->scores = new sf::Text();
 	this->credits = new sf::Text();
 	this->exit = new sf::Text();
-	this->play->setString("Play!");
+	this->play_story->setString("Play Story!");
+	this->play_coop->setString("Play Cooperative!");
 	this->scores->setString("Scores");
 	this->credits->setString("Credits");
 	this->exit->setString("Exit");
-	this->menu_fields = { play, scores, credits, exit };
+	this->menu_fields = { play_story, play_coop, scores, credits, exit };
 
-	//this->menu_fields.push_back(play);
-	//this->menu_fields[0]->setString("Play!");
-	//this->menu_fields.push_back(scores);
-	//this->menu_fields[1]->setString("Scores");
-	//this->menu_fields.push_back(credits);
-	//this->menu_fields[2]->setString("Credits");
-	//this->menu_fields.push_back(exit);
-	//this->menu_fields[3]->setString("Exit");
 
 
 	this->bottom_menu_field = *(this->menu_fields.end()-1);
@@ -33,7 +27,7 @@ MainMenu::MainMenu()
 	// x and y positions for every menu field
 	float x_pos = 50.f;
 	float current_y_pos = (WINDOW_HEIGHT / 2) - 50;
-	for (size_t i = 0; i < menu_fields.size(); i++)
+	for (size_t i = 0; i < menu_fields.size(); ++i)
 	{
 		this->menu_fields[i]->setFillColor(MAIN_MENU_TEXT_COLOR);
 		this->menu_fields[i]->setFont(this->font);
@@ -71,10 +65,13 @@ void MainMenu::clickedField(sf::Text* target_text)
 	{
 		cout << "scores\n";
 	}
-	else if (this->target_text->getString() == "Play!")
+	else if (this->target_text->getString() == "Play Story!")
 	{
-
-		cout << "play\n";
+		cout << "play story\n";
+	}
+	else if (this->target_text->getString() == "Play Cooperative!")
+	{
+		cout << "coop\n";
 	}
 }
 
@@ -88,6 +85,7 @@ void MainMenu::update()
 
 	// polling events
 	this->poll_events();
+
 
 
 }

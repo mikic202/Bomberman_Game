@@ -19,7 +19,8 @@ public:
 
 	~MainMenu();
 private:
-	sf::Text* play;
+	sf::Text* play_story;
+	sf::Text* play_coop;
 	sf::Text* scores;
 	sf::Text* credits;
 	sf::Text* exit;

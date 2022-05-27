@@ -12,6 +12,8 @@ public:
 	int get_hp();
 	int get_quanity_bombs();
 
+
+
 	void set_hp(int new_hp);
 	void set_quanity_bombs(int new_quanity_bombs);
 

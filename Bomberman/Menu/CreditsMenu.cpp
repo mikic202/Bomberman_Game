@@ -70,7 +70,6 @@ void CreditsMenu::poll_events()
 		default:
 			break;
 		}
-		std::cout << menu_fields.size() << std::endl;
 		mouse_update();
 	}
 
