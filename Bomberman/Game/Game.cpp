@@ -11,7 +11,8 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     {
         throw (FliePathException());
     }
-    play_versus_(window);
+    //play_versus_(window);
+    play_story_(save_number, new_game, window, 2);
 }
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
@@ -122,7 +123,7 @@ void Game::play_versus_(sf::RenderWindow& window)
             int i = 0;
             for (auto player : players_)
             {
-                move_player_(player, versus_board_.items(), window, PLAYERS_KEYS[i]);
+                move_player_(player, versus_board_.items(), window, PLAYERS_KEYS[i], 0, true);
                 i++;
             }
 
@@ -145,7 +146,7 @@ void Game::play_versus_(sf::RenderWindow& window)
     return;
 }
 
-void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window, std::vector<sf::Keyboard::Key> keys, int pixels_moved)
+void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window, std::vector<sf::Keyboard::Key> keys, int pixels_moved, bool versus)
 {
     float player_x = player->get_position().x;
     const int MOVEMNT_SPEED = 5;
@@ -159,12 +160,12 @@ void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::share
         player->move({ 0, MOVEMNT_SPEED });
         check_if_colides_down(player, items_on_b, window);
     }
-    if (sf::Keyboard::isKeyPressed(keys[2]) && (not is_player_close_to_edge(player, window) || pixels_moved >= 30 * GRID_SLOT_SIZE - window.getSize().x))
+    if (sf::Keyboard::isKeyPressed(keys[2]) && (not is_player_close_to_edge(player, window) || pixels_moved >= 30 * GRID_SLOT_SIZE - window.getSize().x||versus))
     {
         player->move({ MOVEMNT_SPEED, 0 });
         check_if_colides_right(player, items_on_b, window);
     }
-    else if (sf::Keyboard::isKeyPressed(keys[3]) && (player_x >= 50 || not items_on_b[0]->position().x < 1 * GRID_SLOT_SIZE))
+    else if (sf::Keyboard::isKeyPressed(keys[3]) && (player_x >= 50 || not items_on_b[0]->position().x < 1 * GRID_SLOT_SIZE||versus))
     {
         player->move({ - MOVEMNT_SPEED, 0 });
         check_if_colides_left(player, items_on_b, window);
