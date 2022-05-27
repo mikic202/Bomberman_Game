@@ -25,8 +25,8 @@ const sf::Color CREDITS_MENU_TEXT_COLOR = sf::Color(200, 255, 1, 255);
 const float MENU_CHANGE_FIELD_COOLDOWN_SECONDS = 0.2;
 
 const std::vector < std::vector<sf::Keyboard::Key> > PLAYERS_KEYS = { 
-				{sf::Keyboard::W, sf::Keyboard::S, sf::Keyboard::D, sf::Keyboard::A}, 
-				{sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Right, sf::Keyboard::Left} };
+				{sf::Keyboard::W, sf::Keyboard::S, sf::Keyboard::D, sf::Keyboard::A, sf::Keyboard::Space}, 
+				{sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Right, sf::Keyboard::Left, sf::Keyboard::Enter} };
 
 const std::string BOMB_PATH = "Assets/Bomb.png";
 const std::string WALL_PATH = "Assets/Wall.png";
