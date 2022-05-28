@@ -11,7 +11,7 @@
 class Game
 {
 private:
-	sf::RenderWindow window_;
+	std::shared_ptr<GameBoard> game_board_;
 	int points_ = 1;
 	std::vector<std::shared_ptr<Player> > players_;
 	sf::Texture player1_texture_;
