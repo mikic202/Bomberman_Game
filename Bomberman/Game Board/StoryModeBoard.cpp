@@ -125,4 +125,5 @@ void StoryModeBoard::place_door_(sf::Texture& door_texture)
         door_pos_x++;
     }
     door_ = Door({ float(door_pos_x)*GRID_SLOT_SIZE, float(door_pos_y)*GRID_SLOT_SIZE }, TEXTURE_SCALE, door_texture);
+    items_on_board_.push_back(std::make_shared<Wall>(Door({ float(door_pos_x) * GRID_SLOT_SIZE, float(door_pos_y) * GRID_SLOT_SIZE }, TEXTURE_SCALE, door_texture)));
 }
