@@ -38,7 +38,6 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         throw (FliePathException());
     }
     StoryModeBoard story_b_(level_number, number_of_players);
-    Explosion explosion({0, 0}, TEXTURE_SCALE, explosion_texture);
 
     sf::Clock Clock;
     while (window.isOpen())
@@ -67,12 +66,28 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge(player, window)&& pixeles_moved != 30*GRID_SLOT_SIZE - window.getSize().x)
                 {
                     story_b_.move_items({ -MOVEMNT_SPEED, 0 });
+                    for (auto bomb : bombs_on_b_)
+                    {
+                        bomb->move({ -MOVEMNT_SPEED, 0 });
+                    }
+                    for (auto explosion : explosions_)
+                    {
+                        explosion->move({ -MOVEMNT_SPEED, 0 });
+                    }
                     pixeles_moved += MOVEMNT_SPEED;
                     check_if_colides_right(player, story_b_.items(), window);
                 }
                 if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && player->get_position().x <= 50 && story_b_.item(0)->position().x < 1 * GRID_SLOT_SIZE)
                 {
                     story_b_.move_items({ MOVEMNT_SPEED, 0 });
+                    for (auto bomb : bombs_on_b_)
+                    {
+                        bomb->move({ MOVEMNT_SPEED, 0 });
+                    }
+                    for (auto explosion : explosions_)
+                    {
+                        explosion->move({ MOVEMNT_SPEED, 0 });
+                    }
                     pixeles_moved -= MOVEMNT_SPEED;
                     check_if_colides_left(player, story_b_.items(), window);
                 }
