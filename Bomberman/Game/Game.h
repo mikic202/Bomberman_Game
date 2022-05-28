@@ -41,6 +41,7 @@ private:
 	void bobm_explosion_(std::vector<std::shared_ptr<Wall> > items_on_b);
 	void place_explosion_(std::vector<std::shared_ptr<Wall> > items_on_b, std::shared_ptr<Bomb> bomb);
 	void check_where_explosion_stops(std::vector<std::shared_ptr<Wall> > items_on_b, std::shared_ptr<Bomb> bomb);
+	bool check_explosion();
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};

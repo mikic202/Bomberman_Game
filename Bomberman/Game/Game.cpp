@@ -106,6 +106,17 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 i++;
             }
             bobm_explosion_(game_board_->items());
+
+            if (check_explosion())
+            {
+                for (auto player : players_)
+                {
+                    player->set_position({ 0, 0 });
+                }
+                game_board_->move_items({ float(pixeles_moved), 0 });
+                pixeles_moved = 0;
+            }
+
             window.clear(sf::Color(69, 159, 66));
             game_board_->draw_to(window);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -576,4 +587,28 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall> > items
     }
     explosions_on_board_ = explosions_.size();
 
+}
+
+bool Game::check_explosion()
+{
+    for (int i = 0; i < explosions_.size(); i++)
+    {
+        if (explosions_[i]->did_end())
+        {
+            explosions_.erase(explosions_.begin() + i);
+            i--;
+        }
+    }
+    for (auto player : players_)
+    {
+        for (int i = 0; i < explosions_.size(); i++)
+        {
+            if (explosions_[i]->get_global_bounds().intersects(player->get_global_bounds()))
+            {
+                player->set_hp(player->get_hp() - 1);
+                return true;
+            }
+        }
+    }
+    return false;
 }
