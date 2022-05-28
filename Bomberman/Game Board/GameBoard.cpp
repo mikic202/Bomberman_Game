@@ -3,6 +3,11 @@
 #include "../Items/Box.h"
 #include <time.h>
 
+void GameBoard::remove_item(int position)
+{
+	items_on_board_.erase(items_on_board_.begin() + position);
+}
+
 void GameBoard::load_bacground(std::string backgroung_image)
 {
 	if (!background_.loadFromFile(backgroung_image))

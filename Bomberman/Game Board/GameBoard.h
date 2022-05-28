@@ -19,6 +19,7 @@ protected:
 	virtual void generate_board_();
 	virtual void place_boxes_(int size_x, int size_y = -1);
 public:
+	void remove_item(int position);
 	void load_bacground(std::string backgroung_image);
 	sf::Texture bacground();
 	template<typename T> void add_item(T new_item);
@@ -28,6 +29,9 @@ public:
 	void add_player(Player new_player);
 	virtual void draw_to(sf::RenderWindow& window);
 	virtual void move_items(sf::Vector2f distance);
+	virtual sf::FloatRect get_door_global_bounds() { return sf::FloatRect(); };
+	virtual void reset_board(int level_number){};
+	virtual int level_number() { return 0; };
 };
 
 
