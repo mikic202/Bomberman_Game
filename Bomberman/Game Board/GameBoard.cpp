@@ -58,12 +58,8 @@ void GameBoard::move_items(sf::Vector2f distance)
 	}
 }
 
-void GameBoard::place_walls_(int size_x, int size_y)
+void GameBoard::place_walls_(int size_x, int size_y, sf::Texture& wall_texture)
 {
-	if (!wall_texture_.loadFromFile(WALL_PATH))
-	{
-		throw (FliePathException());
-	}
 	srand(time(NULL));
 	if (size_y == -1) size_y = size_x;
 	for (int y = 1; y <= size_y; y++)
@@ -74,7 +70,7 @@ void GameBoard::place_walls_(int size_x, int size_y)
 			{
 				if (x % 2 == 0)
 				{
-					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, TEXTURE_SCALE, wall_texture_);
+					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, TEXTURE_SCALE, wall_texture);
 					add_item(wall);
 				}
 			}
@@ -82,13 +78,13 @@ void GameBoard::place_walls_(int size_x, int size_y)
 	}
 }
 
-void GameBoard::generate_board_()
+void GameBoard::generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture)
 {
-	place_walls_(MAX_SIZE[0], MAX_SIZE[1]);
-	place_boxes_(MAX_SIZE[0], MAX_SIZE[1]);
+	place_walls_(MAX_SIZE[0], MAX_SIZE[1], wall_texture);
+	place_boxes_(MAX_SIZE[0], MAX_SIZE[1], box_texture);
 }
 
-void GameBoard::place_boxes_(int size_x, int size_y)
+void GameBoard::place_boxes_(int size_x, int size_y, sf::Texture& box_texture)
 {
 	if (!box_texture_.loadFromFile(BOX_PATH))
 	{

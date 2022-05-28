@@ -13,11 +13,11 @@ protected:
 	std::vector<std::shared_ptr<Wall> > items_on_board_;
 	int max_boxes_on_board_;
 	std::vector<std::shared_ptr<Player> > players_;
-	void place_walls_(int size_x, int size_y = -1);
+	void place_walls_(int size_x, int size_y, sf::Texture& wall_texture);
 	sf::Texture wall_texture_;
 	sf::Texture box_texture_;
-	virtual void generate_board_();
-	virtual void place_boxes_(int size_x, int size_y = -1);
+	virtual void generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture);
+	virtual void place_boxes_(int size_x, int size_y, sf::Texture& box_texture);
 public:
 	void remove_item(int position);
 	void load_bacground(std::string backgroung_image);
@@ -30,7 +30,7 @@ public:
 	virtual void draw_to(sf::RenderWindow& window);
 	virtual void move_items(sf::Vector2f distance);
 	virtual sf::FloatRect get_door_global_bounds() { return sf::FloatRect(); };
-	virtual void reset_board(int level_number){};
+	virtual void reset_board(int level_number, sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture){};
 	virtual int level_number() { return 0; };
 };
 

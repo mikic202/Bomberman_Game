@@ -11,6 +11,18 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     {
         throw (FliePathException());
     }
+    if (!door_texture_.loadFromFile(DOOR_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (!box_texture_.loadFromFile(BOX_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (!wall_texture_.loadFromFile(WALL_PATH))
+    {
+        throw (FliePathException());
+    }
     //play_versus_(window);
     play_story_(save_number, new_game, window, 1);
 }
@@ -37,7 +49,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     {
         throw (FliePathException());
     }
-    game_board_ = std::make_shared<GameBoard>(StoryModeBoard(level_number, number_of_players));
+    game_board_ = std::make_shared<GameBoard>(StoryModeBoard(level_number, number_of_players, wall_texture_, box_texture_, door_texture_));
     sf::Clock Clock;
     while (window.isOpen())
     {
@@ -117,7 +129,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             //std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
             //Clock.restart();
         }
-        game_board_->reset_board(++level_number);
+        game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         points_ += 500+level_points;
     }
 
@@ -133,7 +145,7 @@ void Game::play_versus_(sf::RenderWindow& window)
     int level_number = 1;
     window.setFramerateLimit(60);
 
-    VersusModeBoard versus_board_(11);
+    VersusModeBoard versus_board_(11, wall_texture_, box_texture_);
 
     sf::Clock Clock;
     while (window.isOpen())
@@ -448,7 +460,7 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall> > items
                         eplosion_not_stopped[0] = false;
                         explosionc_to_destroy.push_back(4*i+1);
                     }
-                    else if (explosions_[explosions_on_board_ - 1 + 4 * i + 4]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(items_on_b[j]))
+                    else if (explosions_[explosions_on_board_ - 1 + 4 * i + 1]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(items_on_b[j]))
                     {
                         auto box = std::dynamic_pointer_cast<Box>(game_board_->items()[j]);
                         if (box->hit(bomb->strength()))
@@ -477,13 +489,13 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall> > items
                         eplosion_not_stopped[1] = false;
                         explosionc_to_destroy.push_back(4 * i + 2);
                     }
-                    else if (explosions_[explosions_on_board_ - 1 + 4 * i + 4]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
+                    else if (explosions_[explosions_on_board_ - 1 + 4 * i + 2]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
                         auto box = std::dynamic_pointer_cast<Box>(game_board_->items()[j]);
                         if (box->hit(bomb->strength()))
                         {
                             game_board_->remove_item(j);
-                            j++;
+                            j--;
                         }
                     }
                 }
@@ -506,13 +518,13 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall> > items
                         eplosion_not_stopped[2] = false;
                         explosionc_to_destroy.push_back(4 * i + 3);
                     }
-                    else if (explosions_[explosions_on_board_ - 1 + 4 * i + 4]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
+                    else if (explosions_[explosions_on_board_ - 1 + 4 * i + 3]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
                         auto box = std::dynamic_pointer_cast<Box>(game_board_->items()[j]);
                         if (box->hit(bomb->strength()))
                         {
                             game_board_->remove_item(j);
-                            j++;
+                            j--;
                         }
                     }
                 }
@@ -542,7 +554,7 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall> > items
                         if (box->hit(bomb->strength()))
                         {
                             game_board_->remove_item(j);
-                            j++;
+                            j--;
                         }
                     }
                 }

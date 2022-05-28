@@ -16,10 +16,13 @@ private:
 	std::vector<std::shared_ptr<Player> > players_;
 	sf::Texture player1_texture_;
 	sf::Texture player2_texture_;
+	sf::Texture door_texture_;
+	sf::Texture bomb_texture_;
+	sf::Texture wall_texture_;
+	sf::Texture box_texture_;
+	sf::Texture explosion_texture_; // all of the textures had to be in the game class because for some reason sfml texturees dont work in smart pointers
 	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
 	std::vector<std::shared_ptr<Explosion> > explosions_;
-	sf::Texture bomb_texture_;
-	sf::Texture explosion_texture_;
 	int explosions_on_board_ = 0;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
 	void play_coop_();
