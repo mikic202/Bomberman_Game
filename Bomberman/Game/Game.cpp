@@ -97,6 +97,11 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             bobm_explosion_(story_b_.items());
             window.clear(sf::Color(69, 159, 66));
             story_b_.draw_to(window);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                explosions_.clear();
+                explosions_on_board_ = 0;
+            }
             for (auto player : players_)
             {
                 player->draw_to(window);
@@ -412,13 +417,13 @@ void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::
     explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y) }, TEXTURE_SCALE, explosion_texture_)));
     for (int i = 1; i <= bomb->radius(); i++)
     {
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x - GRID_SLOT_SIZE * i),float( bomb_pos_y) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x - GRID_SLOT_SIZE * i),float( bomb_pos_y+3) }, { float(TEXTURE_SCALE.x), float(TEXTURE_SCALE.y - 0.02) }, explosion_texture_)));
 
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x + GRID_SLOT_SIZE * i),float(bomb_pos_y) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x + GRID_SLOT_SIZE * i),float(bomb_pos_y+3) }, { float(TEXTURE_SCALE.x), float(TEXTURE_SCALE.y - 0.02) }, explosion_texture_)));
 
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x+2),float(bomb_pos_y - GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x+3),float(bomb_pos_y - GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.02), float(TEXTURE_SCALE.y) }, explosion_texture_)));
 
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x+2),float(bomb_pos_y + GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x+3),float(bomb_pos_y + GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.02), float(TEXTURE_SCALE.y) }, explosion_texture_)));
     }
     check_where_explosion_stops(items_on_b, bomb);
 }
