@@ -20,6 +20,7 @@ private:
 	std::vector<std::shared_ptr<Explosion> > explosions_;
 	sf::Texture bomb_texture_;
 	sf::Texture explosion_texture_;
+	int explosions_on_board_ = 0;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
 	void play_coop_();
 	void play_versus_(sf::RenderWindow& window);

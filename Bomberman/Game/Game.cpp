@@ -12,7 +12,7 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
         throw (FliePathException());
     }
     //play_versus_(window);
-    play_story_(save_number, new_game, window, 2);
+    play_story_(save_number, new_game, window, 1);
 }
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
@@ -382,7 +382,6 @@ void Game::bobm_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b)
             place_explosion_(items_on_b, bombs_on_b_[i]);
             bombs_on_b_.erase(bombs_on_b_.begin() + i);
             i--;
-            std::cout << "a";
         }
     }
 }
@@ -402,15 +401,16 @@ void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::
 
         explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x + GRID_SLOT_SIZE * i),float(bomb_pos_y) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
 
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y - GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x+2),float(bomb_pos_y - GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
 
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y + GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x+2),float(bomb_pos_y + GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.01), float(TEXTURE_SCALE.y - 0.01) }, explosion_texture_)));
     }
     check_where_explosion_stops(items_on_b, bomb);
 }
 
 void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall>> items_on_b, std::shared_ptr<Bomb> bomb)
 {
+    explosions_on_board_++;
     int bomb_pos_x = bomb->position().x;
     int bomb_pos_y = bomb->position().y;
     std::vector<int> explosionc_to_destroy;
@@ -422,9 +422,9 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall>> items_
             for (auto item : items_on_b)
             {
                 if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
-                    item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
+                (item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius()))
                 {
-                    if (explosions_[4*i+1]->get_global_bounds().intersects(item->get_global_bounds()))
+                    if (explosions_[explosions_on_board_ - 1 +4*i+1]->get_global_bounds().intersects(item->get_global_bounds()))
                     {
                         eplosion_not_stopped[0] = false;
                         explosionc_to_destroy.push_back(4*i+1);
@@ -444,7 +444,7 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall>> items_
                 if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
                     item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
                 {
-                    if (explosions_[4 * i + 2]->get_global_bounds().intersects(item->get_global_bounds()))
+                    if (explosions_[explosions_on_board_ - 1 + 4 * i + 2]->get_global_bounds().intersects(item->get_global_bounds()))
                     {
                         eplosion_not_stopped[1] = false;
                         explosionc_to_destroy.push_back(4 * i + 2);
@@ -464,7 +464,7 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall>> items_
                 if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
                     item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
                 {
-                    if (explosions_[4 * i + 3]->get_global_bounds().intersects(item->get_global_bounds()))
+                    if (explosions_[explosions_on_board_ - 1 + 4 * i + 3]->get_global_bounds().intersects(item->get_global_bounds()))
                     {
                         eplosion_not_stopped[2] = false;
                         explosionc_to_destroy.push_back(4 * i + 3);
@@ -484,7 +484,7 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall>> items_
                 if ((item->position().x > bomb_pos_x - GRID_SLOT_SIZE * bomb->radius() || item->position().x < bomb_pos_x + GRID_SLOT_SIZE * bomb->radius()) &&
                     item->position().y > bomb_pos_y - GRID_SLOT_SIZE * bomb->radius() || item->position().y < bomb_pos_y + GRID_SLOT_SIZE * bomb->radius())
                 {
-                    if (explosions_[4 * i + 4]->get_global_bounds().intersects(item->get_global_bounds()))
+                    if (explosions_[explosions_on_board_ -1 + 4 * i + 4]->get_global_bounds().intersects(item->get_global_bounds()))
                     {
                         eplosion_not_stopped[3] = false;
                         explosionc_to_destroy.push_back(4*i+4);
@@ -499,8 +499,8 @@ void Game::check_where_explosion_stops(std::vector<std::shared_ptr<Wall>> items_
     }
     for (int j = explosionc_to_destroy.size() - 1; j >= 0; j--)
     {
-        std::cout << explosionc_to_destroy[j];
-        explosions_.erase(explosions_.begin() + explosionc_to_destroy[j]);
+        explosions_.erase(explosions_.begin() + explosions_on_board_ - 1+explosionc_to_destroy[j]);
     }
+    explosions_on_board_ = explosions_.size();
 
 }
