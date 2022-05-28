@@ -30,7 +30,7 @@ public:
 	virtual void draw_to(sf::RenderWindow& window);
 	virtual void move_items(sf::Vector2f distance);
 	virtual sf::FloatRect get_door_global_bounds() { return sf::FloatRect(); };
-	virtual void reset_board(int level_number, sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture){};
+	virtual void reset_board(int level_number, sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture);
 	virtual int level_number() { return 0; };
 };
 
@@ -38,8 +38,7 @@ public:
 template<typename T> 
 inline void GameBoard::add_item(T new_item)
 {
-	std::shared_ptr<Wall> ptr = std::make_shared<T>(new_item);
-	items_on_board_.push_back(std::move(ptr));	
+	items_on_board_.push_back(std::make_shared<T>(new_item));
 }
 
 

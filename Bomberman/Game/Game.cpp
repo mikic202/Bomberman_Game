@@ -49,7 +49,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     {
         throw (FliePathException());
     }
-    game_board_ = std::make_shared<GameBoard>(StoryModeBoard(level_number, number_of_players, wall_texture_, box_texture_, door_texture_));
+    game_board_ = std::make_shared<StoryModeBoard>(StoryModeBoard(level_number, number_of_players, wall_texture_, box_texture_, door_texture_));
     sf::Clock Clock;
     while (window.isOpen())
     {
@@ -59,7 +59,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         {
             player->set_position({0, 0});
         }
-        while (detect_player_door_colision(game_board_->items()[game_board_->items().size()-1]->get_global_bounds()))
+        while (detect_player_door_colision(game_board_->get_door_global_bounds()))
         {
             sf::Event event;
             while (window.pollEvent(event))

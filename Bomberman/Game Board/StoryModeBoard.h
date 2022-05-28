@@ -27,7 +27,7 @@ public:
 	sf::Vector2f door_position() const;
 	sf::FloatRect get_door_global_bounds();
 	void move_items(sf::Vector2f distance);
-	void reset_board(int level_number, sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture);
+	virtual void reset_board(int level_number, sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture);
 };
 
 
