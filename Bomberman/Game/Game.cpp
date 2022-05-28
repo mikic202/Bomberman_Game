@@ -59,7 +59,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         {
             player->set_position({0, 0});
         }
-        while (not detect_player_door_colision(game_board_->get_door_global_bounds()))
+        while (detect_player_door_colision(game_board_->items()[game_board_->items().size()-1]->get_global_bounds()))
         {
             sf::Event event;
             while (window.pollEvent(event))
@@ -102,7 +102,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                     pixeles_moved -= MOVEMNT_SPEED;
                     check_if_colides_left(player, game_board_->items(), window);
                 }
-                place_bombs_(player, PLAYERS_KEYS[i][4]);
+                place_bombs_(player, PLAYERS_KEYS[i][4], pixeles_moved);
                 i++;
             }
             bobm_explosion_(game_board_->items());
@@ -212,17 +212,22 @@ void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::share
     }
 }
 
-void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing)
+void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved)
 {
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
+    int multiplier = 0;
+    if (pixels_moved > 0)
+    {
+        multiplier = 1;
+    }
     if (sf::Keyboard::isKeyPressed(bomb_placing))
     {
         if (not player->on_bomb(bombs_on_b_))
         {
             int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
             int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
-            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 5, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
+            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE + multiplier * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 5, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
             bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
         }
     }
@@ -239,7 +244,7 @@ void Game::check_if_colides_left(std::shared_ptr< Player> player, std::vector<st
     float item_y = 0;
     for (auto a : items_on_b)
     {
-        if (a->is_coloding_player(player))
+        if (a->is_coloding_player(player) && not std::dynamic_pointer_cast<Door>(a))
         {
             item_x = a->position().x;
             item_y = a->position().y;
@@ -264,7 +269,7 @@ void Game::check_if_colides_right(std::shared_ptr< Player> player, std::vector<s
     float item_y = 0;
     for (auto a : items_on_b)
     {
-        if (a->is_coloding_player(player))
+        if (a->is_coloding_player(player) && not std::dynamic_pointer_cast<Door>(a))
         {
             item_x = a->position().x;
             item_y = a->position().y;
@@ -288,7 +293,7 @@ void Game::check_if_colides_up(std::shared_ptr< Player> player, std::vector<std:
     float item_y = 0;
     for (auto a : items_on_b)
     {
-        if (a->is_coloding_player(player))
+        if (a->is_coloding_player(player) && not std::dynamic_pointer_cast<Door>(a))
         {
             item_x = a->position().x;
             item_y = a->position().y;
@@ -312,7 +317,7 @@ void Game::check_if_colides_down(std::shared_ptr< Player> player, std::vector<st
     float item_y = 0;
     for (auto a : items_on_b)
     {
-        if (a->is_coloding_player(player))
+        if (a->is_coloding_player(player) && not std::dynamic_pointer_cast<Door>(a))
         {
             item_x = a->position().x;
             item_y = a->position().y;
@@ -398,7 +403,7 @@ bool Game::detect_player_door_colision(const sf::FloatRect& door_bounds)
 {
     for (auto player : players_)
     {
-        if (door_bounds.intersects(player->get_global_bounds()))
+        if (not door_bounds.intersects(player->get_global_bounds()))
             return true;
     }
     return false;
