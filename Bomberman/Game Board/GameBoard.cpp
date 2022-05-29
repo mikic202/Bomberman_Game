@@ -104,7 +104,7 @@ void GameBoard::place_boxes_(int size_x, int size_y, sf::Texture& box_texture)
 			random_nuber_if_box = std::rand() % 3 + 1;
 			if (((x % 2 == 1 && y % 2 == 0) || (y % 2 == 1)) && random_nuber_if_box != 1 && (x > 2 || y > 2)&&(x < size_x - 2 || y < size_y - 2))
 			{
-				Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, 1, TEXTURE_SCALE, box_texture_);
+				Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, 1, TEXTURE_SCALE, box_texture);
 				add_item(box);
 			}
 		}
