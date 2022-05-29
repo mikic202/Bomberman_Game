@@ -10,8 +10,8 @@ const int MAX_EXPLOSION_DELAY = 3;
 
 const int PLAYER_LIVES = 3;
 
-const int GRID_SLOT_SIZE = 50;
-const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
+const int GRID_SLOT_SIZE = 75;
+const sf::Vector2f TEXTURE_SCALE = { .214286, .214286 };
 
 const std::vector < std::vector<sf::Keyboard::Key> > PLAYERS_KEYS = { 
 				{sf::Keyboard::W, sf::Keyboard::S, sf::Keyboard::D, sf::Keyboard::A, sf::Keyboard::Space}, 
@@ -25,6 +25,7 @@ const std::string PLAYER_PATH = "Assets/Player.png";
 const std::string ENEMY_PATH = "Assets/Enemy.png";
 const std::string FONT_PATH = "Assets/Fonts/Pixeboy.ttf";
 const std::string EXPLOSION_PATH = "Assets/Explosion.png";
+const std::vector<std::string> PLAYER_MOVE_FORWARD{ "Assets/Player_move_f1.png", "Assets/Player_move_f2.png"};
 const std::vector<float> PLAYER_TEXTURE_SIZE = { 113 * TEXTURE_SCALE.x, 253 * TEXTURE_SCALE.y };
 
 const int BOMB_PLACEMENT_TOLERANCES = 5;
