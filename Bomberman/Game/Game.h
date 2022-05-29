@@ -6,6 +6,7 @@
 #include "../Game Board/VersusModeBoard.h"
 #include "../Items/Box.h"
 #include "../Entities/Player/Player.h"
+#include"../Entities/Enemy/Enemy.h"
 
 
 class Game
@@ -24,6 +25,7 @@ private:
 	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
 	std::vector<int> last_player_texture_ = { 0, 0 };
 	std::vector<std::shared_ptr<Explosion> > explosions_;
+	std::vector<Enemy> enemies_;
 	int explosions_on_board_ = 0;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
 	void play_coop_();
@@ -48,6 +50,7 @@ private:
 	void display_player_move_sideways(std::shared_ptr< Player> player, int multiplier);
 	void display_player_move_forward(std::shared_ptr< Player> player);
 	void display_player_move_backward(std::shared_ptr< Player> player);
+	void generate_enemies();
 
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:

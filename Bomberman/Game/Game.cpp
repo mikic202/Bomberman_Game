@@ -119,11 +119,6 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
 
             window.clear(sf::Color(69, 159, 66));
             game_board_->draw_to(window);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            {
-                explosions_.clear();
-                explosions_on_board_ = 0;
-            }
             for (auto player : players_)
             {
                 player->draw_to(window);
@@ -189,11 +184,6 @@ void Game::play_versus_(sf::RenderWindow& window)
 
             window.clear(sf::Color(69, 159, 66));
             game_board_->draw_to(window);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            {
-                explosions_.clear();
-                explosions_on_board_ = 0;
-            }
             for (auto player : players_)
             {
                 player->draw_to(window);
@@ -214,6 +204,7 @@ void Game::play_versus_(sf::RenderWindow& window)
                 throw (FliePathException());
             }
         }
+        explosions_on_board_ = 0;
         game_board_->reset_board(NUMBER_OF_WALLS_Y,wall_texture_, box_texture_, door_texture_);
         players_.clear();
     }
@@ -700,4 +691,11 @@ void Game::display_player_move_forward(std::shared_ptr<Player> player)
 
 void Game::display_player_move_backward(std::shared_ptr<Player> player)
 {
+}
+
+void Game::generate_enemies()
+{
+    for(int i = 0; i<10; i++)
+    {
+    }
 }
