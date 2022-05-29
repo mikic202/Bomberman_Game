@@ -155,8 +155,6 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
 
 void Game::play_versus_(sf::RenderWindow& window)
 {
-    create_players_(2, true, NUMBER_OF_WALLS_Y);
-
     const int MOVEMNT_SPEED = 5;
     sf::Texture explosion_texture;
     if (!explosion_texture.loadFromFile(EXPLOSION_PATH))
@@ -167,8 +165,8 @@ void Game::play_versus_(sf::RenderWindow& window)
     sf::Clock Clock;
     while (window.isOpen())
     {
-        
-        while (window.isOpen())
+        create_players_(2, true, NUMBER_OF_WALLS_Y);
+        while (players_[0]->get_hp() == players_[1]->get_hp())
         {
             sf::Event event;
             while (window.pollEvent(event))
@@ -209,7 +207,6 @@ void Game::play_versus_(sf::RenderWindow& window)
                 explo->draw_to(window);
             }
             window.display();
-            std::cout << players_[1]->get_position().x;
             /*std::cout << 1.f / Clock.getElapsedTime().asSeconds() << "\n";
             Clock.restart();*/
             if (!player1_texture_.loadFromFile(PLAYER_PATH))
@@ -218,6 +215,7 @@ void Game::play_versus_(sf::RenderWindow& window)
             }
         }
         game_board_->reset_board(NUMBER_OF_WALLS_Y,wall_texture_, box_texture_, door_texture_);
+        players_.clear();
     }
 
     return;
