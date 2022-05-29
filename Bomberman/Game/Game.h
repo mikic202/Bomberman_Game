@@ -22,6 +22,7 @@ private:
 	sf::Texture box_texture_;
 	sf::Texture explosion_texture_; // all of the textures had to be in the game class because for some reason sfml texturees dont work in smart pointers
 	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
+	std::vector<int> last_player_texture_ = { 0, 0 };
 	std::vector<std::shared_ptr<Explosion> > explosions_;
 	int explosions_on_board_ = 0;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
@@ -44,6 +45,10 @@ private:
 	bool check_explosion_();
 	bool kill_players_(int pixels_moved);
 	bool check_enemies_();
+	void display_player_move_sideways(std::shared_ptr< Player> player, int multiplier);
+	void display_player_move_forward(std::shared_ptr< Player> player);
+	void display_player_move_backward(std::shared_ptr< Player> player);
+
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};

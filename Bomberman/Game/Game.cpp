@@ -132,6 +132,10 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             window.display();
             //std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
             //Clock.restart();
+            if (!player1_texture_.loadFromFile(PLAYER_PATH))
+            {
+                throw (FliePathException());
+            }
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         points_ += 500+level_points;
@@ -198,21 +202,25 @@ void Game::move_player_(std::shared_ptr< Player> player , std::vector<std::share
     {
         player->move({ 0, -MOVEMNT_SPEED });
         check_if_colides_up_(player, items_on_b, window);
+        display_player_move_forward(player);
     }
     else if (sf::Keyboard::isKeyPressed(keys[1]))
     {
         player->move({ 0, MOVEMNT_SPEED });
         check_if_colides_down_(player, items_on_b, window);
+        display_player_move_forward(player);
     }
     if (sf::Keyboard::isKeyPressed(keys[2]) && (not is_player_close_to_edge_(player, window) || pixels_moved >= 30 * GRID_SLOT_SIZE - window.getSize().x||versus))
     {
         player->move({ MOVEMNT_SPEED, 0 });
         check_if_colides_right_(player, items_on_b, window);
+        display_player_move_sideways(player, 1);
     }
     else if (sf::Keyboard::isKeyPressed(keys[3]) && (player_x >= 50 || not items_on_b[0]->position().x < 1 * GRID_SLOT_SIZE||versus))
     {
         player->move({ - MOVEMNT_SPEED, 0 });
         check_if_colides_left_(player, items_on_b, window);
+        display_player_move_sideways(player, -1);
     }
 }
 
@@ -631,4 +639,38 @@ bool Game::kill_players_(int pixels_moved)
         return true;
     }*/
     return false;
+}
+
+bool Game::check_enemies_()
+{
+    return false;
+}
+
+void Game::display_player_move_sideways(std::shared_ptr<Player> player, int multiplier)
+{
+}
+
+void Game::display_player_move_forward(std::shared_ptr<Player> player)
+{
+    int texture_number;
+    srand(time(NULL));
+    if (last_player_texture_[0] == 1)
+    {
+        texture_number = 0;
+        last_player_texture_[0] = 0;
+    }
+    else
+    {
+        ++last_player_texture_[0];
+        texture_number = last_player_texture_[0];
+    }
+    std::string path = PLAYER_MOVE_FORWARD[texture_number];
+    if (!player1_texture_.loadFromFile(path))
+    {
+        throw (FliePathException());
+    }
+}
+
+void Game::display_player_move_backward(std::shared_ptr<Player> player)
+{
 }
