@@ -60,6 +60,8 @@ void GameBoard::move_items(sf::Vector2f distance)
 
 void GameBoard::reset_board(int level_number, sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture)
 {
+	items_on_board_.clear();
+	generate_board_(wall_texture, box_texture);
 }
 
 void GameBoard::place_walls_(int size_x, int size_y, sf::Texture& wall_texture)
