@@ -8,6 +8,6 @@
 int main()
 {
 	Game game;
-	sf::RenderWindow window(sf::VideoMode(600, 600), "Bomberman");
+	sf::RenderWindow window(sf::VideoMode(825, 825), "Bomberman");
 	game.play(1, 'C', true, window);
 }
