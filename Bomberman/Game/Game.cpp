@@ -4,6 +4,10 @@
 #include "../Exceptions/Item_exceptions.h"
 
 
+const int POINTS_PER_BOX = 20;
+const int POINTS_PER_ENEMY = 40;
+
+
 
 void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &window)
 {
@@ -51,6 +55,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     }
     game_board_ = std::make_shared<StoryModeBoard>(StoryModeBoard(level_number, number_of_players, wall_texture_, box_texture_, door_texture_));
     sf::Clock Clock;
+    int items_number_before_loop = 0;
     while (window.isOpen())
     {
         level_points = 0;
@@ -61,6 +66,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         }
         while (detect_player_door_colision_(game_board_->get_door_global_bounds()))
         {
+            items_number_before_loop = game_board_->items().size();
             sf::Event event;
             while (window.pollEvent(event))
             {
@@ -109,6 +115,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
 
             if(kill_players_(pixeles_moved))
                 pixeles_moved = 0;
+            std::cout << pixeles_moved << "\n";
 
             window.clear(sf::Color(69, 159, 66));
             game_board_->draw_to(window);
@@ -136,9 +143,11 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             {
                 throw (FliePathException());
             }
+            level_points += POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size());
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         points_ += 500+level_points;
+        std::cout << level_points;
     }
 
     return;
@@ -609,6 +618,7 @@ bool Game::check_explosion_()
             {
                 player->set_hp(player->get_hp() - 1);
                 explosions_.clear();
+                explosions_on_board_ = 0;
                 return true;
             }
         }
