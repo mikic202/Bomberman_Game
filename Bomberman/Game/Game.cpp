@@ -606,6 +606,7 @@ bool Game::check_explosion()
             if (explosions_[i]->get_global_bounds().intersects(player->get_global_bounds()))
             {
                 player->set_hp(player->get_hp() - 1);
+                explosions_.clear();
                 return true;
             }
         }

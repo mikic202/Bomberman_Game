@@ -8,8 +8,8 @@
 class Explosion : public Wall
 {
 private:
-	const int duration_ = 1;
-	std::chrono::time_point<std::chrono::steady_clock> placement_time_;
+	const int duration_ = 2;
+	std::chrono::time_point<std::chrono::steady_clock> explosion_time_;
 public:
 	Explosion() {};
 	Explosion(sf::Vector2f position, sf::Vector2f scale);
