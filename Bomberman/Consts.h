@@ -6,11 +6,15 @@
 
 const int DIMENSIONS = 2;
 const std::vector<int> MAX_SIZE = { 1000, 1000 };
-const int MAX_EXPLOSION_DELAY = 10;
+const int WINDOW_WIDTH = 1080;
+const int WINDOW_HEIGHT = 800;
+
+const int MAX_EXPLOSION_DELAY = 3;
+const int NUMBER_OF_WALLS_Y = 11;
 const int PLAYER_LIVES = 3;
 
-const int GRID_SLOT_SIZE = 50;
-const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
+const int GRID_SLOT_SIZE = 75;
+const sf::Vector2f TEXTURE_SCALE = { .214286, .214286 };
 
 const sf::Color MAIN_MENU_TEXT_COLOR = sf::Color(255, 160, 35, 255);
 const sf::Color MAIN_MENU_TEXT_TARGET_COLOR = sf::Color(255, 0, 0, 255);
