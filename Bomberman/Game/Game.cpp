@@ -259,7 +259,7 @@ void Game::check_if_colides_left(std::shared_ptr< Player> player, std::vector<st
         {
             item_x = a->position().x;
             item_y = a->position().y;
-            if (player_x <= item_x + GRID_SLOT_SIZE && player_x >= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
+            if (player_x <= item_x + GRID_SLOT_SIZE && player_x >= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y + 10 )
                 player->set_position({ item_x + GRID_SLOT_SIZE, player_y });
         }
     }
@@ -284,7 +284,7 @@ void Game::check_if_colides_right(std::shared_ptr< Player> player, std::vector<s
         {
             item_x = a->position().x;
             item_y = a->position().y;
-            if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y - 5)
+            if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y + 10 )
                 player->set_position({ item_x - player_s_x, player_y });
         }
     }
