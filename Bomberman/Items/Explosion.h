@@ -8,7 +8,7 @@
 class Explosion : public Wall
 {
 private:
-	const int duration_ = 2;
+	const int duration_ = 1;
 	std::chrono::time_point<std::chrono::steady_clock> explosion_time_;
 public:
 	Explosion() {};
