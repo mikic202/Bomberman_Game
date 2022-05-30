@@ -24,6 +24,7 @@ Bomb::Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vecto
 	set_delay(delay);
 	set_strength(strength);
 	rescale(scale);
+	position_on_board_ = { int(position.x / GRID_SLOT_SIZE), int(position.y / GRID_SLOT_SIZE) };
 	item_sprite_.setTexture(bomb_texture);
 	placement_time_ = std::chrono::high_resolution_clock::now();
 }
@@ -62,4 +63,9 @@ int Bomb::strength()
 bool Bomb::did_blow()
 {
 	return(delay_ < std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - placement_time_).count());
+}
+
+std::vector<int> Bomb::position_on_board()
+{
+	return position_on_board_;
 }

@@ -3,6 +3,11 @@
 #include "../Items/Box.h"
 #include <time.h>
 
+void GameBoard::remove_item(int position)
+{
+	items_on_board_.erase(items_on_board_.begin() + position);
+}
+
 void GameBoard::load_bacground(std::string backgroung_image)
 {
 	if (!background_.loadFromFile(backgroung_image))
@@ -53,12 +58,14 @@ void GameBoard::move_items(sf::Vector2f distance)
 	}
 }
 
-void GameBoard::place_walls_(int size_x, int size_y)
+void GameBoard::reset_board(int level_number, sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture)
 {
-	if (!wall_texture_.loadFromFile(WALL_PATH))
-	{
-		throw (FliePathException());
-	}
+	items_on_board_.clear();
+	generate_board_(wall_texture, box_texture);
+}
+
+void GameBoard::place_walls_(int size_x, int size_y, sf::Texture& wall_texture)
+{
 	srand(time(NULL));
 	if (size_y == -1) size_y = size_x;
 	for (int y = 1; y <= size_y; y++)
@@ -69,7 +76,7 @@ void GameBoard::place_walls_(int size_x, int size_y)
 			{
 				if (x % 2 == 0)
 				{
-					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, TEXTURE_SCALE, wall_texture_);
+					Wall wall({ float((x-1) * GRID_SLOT_SIZE), float((y-1) * GRID_SLOT_SIZE) }, TEXTURE_SCALE, wall_texture);
 					add_item(wall);
 				}
 			}
@@ -77,13 +84,13 @@ void GameBoard::place_walls_(int size_x, int size_y)
 	}
 }
 
-void GameBoard::generate_board_()
+void GameBoard::generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture)
 {
-	place_walls_(MAX_SIZE[0], MAX_SIZE[1]);
-	place_boxes_(MAX_SIZE[0], MAX_SIZE[1]);
+	place_walls_(MAX_SIZE[0], MAX_SIZE[1], wall_texture);
+	place_boxes_(MAX_SIZE[0], MAX_SIZE[1], box_texture);
 }
 
-void GameBoard::place_boxes_(int size_x, int size_y)
+void GameBoard::place_boxes_(int size_x, int size_y, sf::Texture& box_texture)
 {
 	if (!box_texture_.loadFromFile(BOX_PATH))
 	{
@@ -99,7 +106,7 @@ void GameBoard::place_boxes_(int size_x, int size_y)
 			random_nuber_if_box = std::rand() % 3 + 1;
 			if (((x % 2 == 1 && y % 2 == 0) || (y % 2 == 1)) && random_nuber_if_box != 1 && (x > 2 || y > 2)&&(x < size_x - 2 || y < size_y - 2))
 			{
-				Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, 1, TEXTURE_SCALE, box_texture_);
+				Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, 1, TEXTURE_SCALE, box_texture);
 				add_item(box);
 			}
 		}

@@ -11,6 +11,7 @@ private:
 	int delay_ = 0;
 	int strength_ = 0;
 	std::chrono::time_point<std::chrono::steady_clock> placement_time_;
+	std::vector<int> position_on_board_;
 	std::string texture_path_ = "Assets/Bomb.png";
 public:
 	Bomb() {};
@@ -23,6 +24,7 @@ public:
 	void set_strength(int new_strength);
 	int strength();
 	bool did_blow();
+	std::vector<int> position_on_board();
 };
 
 
