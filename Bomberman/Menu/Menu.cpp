@@ -1,5 +1,4 @@
 #include "Menu.h"
-
 //TODO DELETE NAMESPACE STD
 using namespace std;
 Menu::~Menu()
@@ -79,7 +78,6 @@ void Menu::run()
 {
 	while (this->window->isOpen())
 	{
-		this->update_clock();
 		this->update();
 
 		this->render();
@@ -164,10 +162,7 @@ void Menu::update()
 
 }
 
-void Menu::update_clock()
-{
-	
-}
+
 
 void Menu::render()
 {

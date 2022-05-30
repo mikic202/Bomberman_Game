@@ -18,6 +18,7 @@ const sf::Vector2f TEXTURE_SCALE = { .14286, .14286 };
 
 const sf::Color MAIN_MENU_TEXT_COLOR = sf::Color(255, 160, 35, 255);
 const sf::Color MAIN_MENU_TEXT_TARGET_COLOR = sf::Color(255, 0, 0, 255);
+const sf::Color CHOOSE_MODE_MENU_COLOR = sf::Color(3, 255, 255, 255);
 
 const sf::Color CREDITS_MENU_TEXT_COLOR = sf::Color(200, 255, 1, 255);
 

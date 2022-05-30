@@ -12,12 +12,14 @@ MainMenu::MainMenu()
 	this->scores = new sf::Text();
 	this->credits = new sf::Text();
 	this->exit = new sf::Text();
+	this->play_versus = new sf::Text();
 	this->play_story->setString("Play Story!");
 	this->play_coop->setString("Play Cooperative!");
 	this->scores->setString("Scores");
 	this->credits->setString("Credits");
 	this->exit->setString("Exit");
-	this->menu_fields = { play_story, play_coop, scores, credits, exit };
+	this->play_versus->setString("Play Versus!");
+	this->menu_fields = { play_story, play_coop, play_versus, scores, credits, exit };
 
 
 
@@ -26,7 +28,7 @@ MainMenu::MainMenu()
 	this->target_text = this->top_menu_field;
 	// x and y positions for every menu field
 	float x_pos = 50.f;
-	float current_y_pos = (WINDOW_HEIGHT / 2) - 50;
+	float current_y_pos = (WINDOW_HEIGHT / 2) - 80;
 	for (size_t i = 0; i < menu_fields.size(); ++i)
 	{
 		this->menu_fields[i]->setFillColor(MAIN_MENU_TEXT_COLOR);
@@ -38,7 +40,7 @@ MainMenu::MainMenu()
 			x_pos,
 			current_y_pos
 		);
-		current_y_pos += 70;
+		current_y_pos += 60;
 	}
 	this->target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
 
@@ -67,11 +69,24 @@ void MainMenu::clickedField(sf::Text* target_text)
 	}
 	else if (this->target_text->getString() == "Play Story!")
 	{
-		cout << "play story\n";
+		ChooseModeMenu choose_mode_menu('S');
+		this->window->close();
+		choose_mode_menu.run();
+		cout << "story\n";
 	}
 	else if (this->target_text->getString() == "Play Cooperative!")
 	{
+		ChooseModeMenu choose_mode_menu('C');
+		this->window->close();
+		choose_mode_menu.run();
 		cout << "coop\n";
+	}
+	else if (this->target_text->getString() == "Play Versus!")
+	{
+		ChooseModeMenu choose_mode_menu('V');
+		this->window->close();
+		choose_mode_menu.run();
+		cout << "play versus\n";
 	}
 }
 

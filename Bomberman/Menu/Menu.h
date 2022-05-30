@@ -24,7 +24,6 @@ public:
 
 	virtual void update();
 
-	void update_clock();
 	// function to render menu window
 	virtual void render();
 
@@ -43,7 +42,7 @@ public:
 	// function that is called when text field is pressed
 	virtual void clickedField(sf::Text* target_text) = 0;
 
-	~Menu();
+	virtual ~Menu();
 
 protected:
 	void set_menu_fields(std::vector<sf::Text*> menu_fields);

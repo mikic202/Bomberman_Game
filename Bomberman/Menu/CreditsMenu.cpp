@@ -92,4 +92,5 @@ void CreditsMenu::render()
 
 CreditsMenu::~CreditsMenu()
 {
+
 }
