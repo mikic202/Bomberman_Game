@@ -283,7 +283,7 @@ void Game::check_if_colides_left_(std::shared_ptr< Player> player, std::vector<s
                 player->set_position({ item_x + GRID_SLOT_SIZE, player_y });
         }
     }
-    if (player_x <= 0)
+    if (player_x < 0)
     {
         player->set_position({ 0, player_y });
     }
