@@ -664,6 +664,33 @@ bool Game::check_enemies_()
 
 void Game::display_player_move_sideways(std::shared_ptr<Player> player, int multiplier)
 {
+    int texture_number;
+    int player_number;
+    for (int i = 0; i < players_.size(); i++)
+    {
+        if (player == players_[i])
+        {
+            player_number = i;
+        }
+    }
+    if (player_number == 0)
+    {
+        if (last_player_texture_[player_number] == 1)
+        {
+            texture_number = 0;
+            last_player_texture_[player_number] = 0;
+        }
+        else
+        {
+            ++last_player_texture_[player_number];
+            texture_number = last_player_texture_[0];
+        }
+        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number];
+        if (!player1_texture_.loadFromFile(path))
+        {
+            throw (FliePathException());
+        }
+    }
 }
 
 void Game::display_player_move_forward(std::shared_ptr<Player> player)
@@ -689,6 +716,7 @@ void Game::display_player_move_forward(std::shared_ptr<Player> player)
 
 void Game::display_player_move_backward(std::shared_ptr<Player> player)
 {
+    display_player_move_forward(player);
 }
 
 void Game::generate_enemies()
