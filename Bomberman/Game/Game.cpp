@@ -53,7 +53,8 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     const int MOVEMNT_SPEED = 5;
     int level_number = 1;
     window.setFramerateLimit(60);
-    if (new_game)
+    points_ = 0;
+    if (not new_game)
     {
         std::vector<int> game_info = load_game_(save_number, 'S');
         level_number = game_info[0];
@@ -137,8 +138,8 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 explo->draw_to(window);
             }
             window.display();
-            std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
-            Clock.restart();
+           /* std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
+            Clock.restart();*/
             if (!player1_texture_.loadFromFile(PLAYER_PATH))
             {
                 throw (FliePathException());
@@ -147,7 +148,6 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         points_ += 500+level_points;
-        std::cout << level_points;
     }
 
     return;
@@ -249,7 +249,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
     int multiplier = 0;
-    if (pixels_moved > 0)
+    if (pixels_moved > 0 && pixels_moved%GRID_SLOT_SIZE > GRID_SLOT_SIZE/5)
     {
         multiplier = 1;
     }
@@ -259,7 +259,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
         {
             int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
             int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
-            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
+            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE+multiplier*GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
             bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
         }
     }
