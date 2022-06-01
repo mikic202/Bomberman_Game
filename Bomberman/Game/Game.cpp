@@ -27,9 +27,19 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     {
         throw (FliePathException());
     }
+    if (!explosion_texture_.loadFromFile(EXPLOSION_PATH))
+    {
+        throw (FliePathException());
+    }
     window.setFramerateLimit(60);
-    play_versus_(window);
-    //play_story_(save_number, new_game, window, 1);
+    if (type == 'S')
+    {
+        play_story_(save_number, new_game, window, 1); 
+    }
+    else if (type == 'V')
+    {
+        play_versus_(window);
+    }
 }
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
@@ -43,16 +53,12 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     const int MOVEMNT_SPEED = 5;
     int level_number = 1;
     window.setFramerateLimit(60);
-    if (new_game)
+    points_ = 0;
+    if (not new_game)
     {
         std::vector<int> game_info = load_game_(save_number, 'S');
         level_number = game_info[0];
         points_ = game_info[1];
-    }
-    sf::Texture explosion_texture;
-    if (!explosion_texture.loadFromFile(EXPLOSION_PATH))
-    {
-        throw (FliePathException());
     }
     game_board_ = std::make_shared<StoryModeBoard>(StoryModeBoard(level_number, number_of_players, wall_texture_, box_texture_, door_texture_));
     sf::Clock Clock;
@@ -132,8 +138,8 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 explo->draw_to(window);
             }
             window.display();
-            std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
-            Clock.restart();
+           /* std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
+            Clock.restart();*/
             if (!player1_texture_.loadFromFile(PLAYER_PATH))
             {
                 throw (FliePathException());
@@ -142,7 +148,6 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         points_ += 500+level_points;
-        std::cout << level_points;
     }
 
     return;
@@ -152,10 +157,6 @@ void Game::play_versus_(sf::RenderWindow& window)
 {
     const int MOVEMNT_SPEED = 5;
     sf::Texture explosion_texture;
-    if (!explosion_texture.loadFromFile(EXPLOSION_PATH))
-    {
-        throw (FliePathException());
-    }
     game_board_ = std::make_shared<VersusModeBoard>(VersusModeBoard(NUMBER_OF_WALLS_Y, wall_texture_, box_texture_));
     sf::Clock Clock;
     while (window.isOpen())
@@ -206,6 +207,7 @@ void Game::play_versus_(sf::RenderWindow& window)
         }
         explosions_on_board_ = 0;
         game_board_->reset_board(NUMBER_OF_WALLS_Y,wall_texture_, box_texture_, door_texture_);
+        bombs_on_b_.clear();
         players_.clear();
     }
 
@@ -247,7 +249,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
     int multiplier = 0;
-    if (pixels_moved > 0)
+    if (pixels_moved > 0 && pixels_moved%GRID_SLOT_SIZE > GRID_SLOT_SIZE/5)
     {
         multiplier = 1;
     }
@@ -257,7 +259,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
         {
             int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
             int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
-            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
+            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE+multiplier*GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
             bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
         }
     }
@@ -455,10 +457,6 @@ void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::
 {
     int bomb_pos_x = bomb->position().x;
     int bomb_pos_y = bomb->position().y;
-    if (!explosion_texture_.loadFromFile(EXPLOSION_PATH))
-    {
-        throw (FliePathException());
-    }
     explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y) }, TEXTURE_SCALE, explosion_texture_)));
     for (int i = 1; i <= bomb->radius(); i++)
     {
@@ -492,7 +490,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
                     if (explosions_[explosions_on_board_ - 1 +4*i+1]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && not std::dynamic_pointer_cast<Box>(items_on_b[j]))
                     {
                         eplosion_not_stopped[0] = false;
-                        explosionc_to_destroy.push_back(4*i+1);
+                        explosionc_to_destroy.push_back(explosions_on_board_ + 4*i);
                     }
                     else if (explosions_[explosions_on_board_ - 1 + 4 * i + 1]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(items_on_b[j]))
                     {
@@ -508,7 +506,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
         }
         else
         {
-            explosionc_to_destroy.push_back(4*i+1);
+            explosionc_to_destroy.push_back(explosions_on_board_ - 1 + 4*i+1);
         }
 
         if (eplosion_not_stopped[1])
@@ -521,7 +519,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
                     if (explosions_[explosions_on_board_ - 1 + 4 * i + 2]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && not std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
                         eplosion_not_stopped[1] = false;
-                        explosionc_to_destroy.push_back(4 * i + 2);
+                        explosionc_to_destroy.push_back(explosions_on_board_ - 1 + 4 * i + 2);
                     }
                     else if (explosions_[explosions_on_board_ - 1 + 4 * i + 2]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
@@ -537,7 +535,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
         }
         else
         {
-            explosionc_to_destroy.push_back(4 * i + 2);
+            explosionc_to_destroy.push_back(explosions_on_board_ - 1 + 4 * i + 2);
         }
 
         if (eplosion_not_stopped[2])
@@ -550,7 +548,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
                     if (explosions_[explosions_on_board_ - 1 + 4 * i + 3]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && not std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
                         eplosion_not_stopped[2] = false;
-                        explosionc_to_destroy.push_back(4 * i + 3);
+                        explosionc_to_destroy.push_back(explosions_on_board_ - 1 + 4 * i + 3);
                     }
                     else if (explosions_[explosions_on_board_ - 1 + 4 * i + 3]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
@@ -566,7 +564,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
         }
         else
         {
-            explosionc_to_destroy.push_back(4 * i + 3);
+            explosionc_to_destroy.push_back(explosions_on_board_ - 1 + 4 * i + 3);
         }
 
         if (eplosion_not_stopped[3])
@@ -580,7 +578,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
                     if (explosions_[explosions_on_board_ -1 + 4 * i + 4]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && not std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
                         eplosion_not_stopped[3] = false;
-                        explosionc_to_destroy.push_back(4*i+4);
+                        explosionc_to_destroy.push_back(explosions_on_board_ - 1 + 4*i+4);
                     }
                     else if (explosions_[explosions_on_board_ - 1 + 4 * i + 4]->get_global_bounds().intersects(game_board_->items()[j]->get_global_bounds()) && std::dynamic_pointer_cast<Box>(game_board_->items()[j]))
                     {
@@ -596,12 +594,12 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
         }
         else
         {
-            explosionc_to_destroy.push_back(4*i + 4);
+            explosionc_to_destroy.push_back(explosions_on_board_ - 1 + 4*i + 4);
         }
     }
     for (int j = explosionc_to_destroy.size() - 1; j >= 0; j--)
     {
-        explosions_.erase(explosions_.begin() + explosions_on_board_ - 1+explosionc_to_destroy[j]);
+        explosions_.erase(explosions_.begin() + explosionc_to_destroy[j]);
     }
     explosions_on_board_ = explosions_.size();
 
@@ -666,6 +664,33 @@ bool Game::check_enemies_()
 
 void Game::display_player_move_sideways(std::shared_ptr<Player> player, int multiplier)
 {
+    int texture_number;
+    int player_number;
+    for (int i = 0; i < players_.size(); i++)
+    {
+        if (player == players_[i])
+        {
+            player_number = i;
+        }
+    }
+    if (player_number == 0)
+    {
+        if (last_player_texture_[player_number] == 1)
+        {
+            texture_number = 0;
+            last_player_texture_[player_number] = 0;
+        }
+        else
+        {
+            ++last_player_texture_[player_number];
+            texture_number = last_player_texture_[0];
+        }
+        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number];
+        if (!player1_texture_.loadFromFile(path))
+        {
+            throw (FliePathException());
+        }
+    }
 }
 
 void Game::display_player_move_forward(std::shared_ptr<Player> player)
@@ -691,6 +716,7 @@ void Game::display_player_move_forward(std::shared_ptr<Player> player)
 
 void Game::display_player_move_backward(std::shared_ptr<Player> player)
 {
+    display_player_move_forward(player);
 }
 
 void Game::generate_enemies()
