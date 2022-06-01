@@ -97,6 +97,11 @@ sf::FloatRect Entity::get_global_bounds()
 	return this->sprite.getGlobalBounds();
 }
 
+void Entity::scale(sf::Vector2f size)
+{
+	this->sprite.scale(size);
+}
+
 Entity::~Entity() 
 {
 };

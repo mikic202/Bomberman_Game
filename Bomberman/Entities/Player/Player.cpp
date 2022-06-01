@@ -14,7 +14,7 @@ Player::Player(sf::Vector2f position, sf::Texture& texture, sf::Vector2f size, u
 	this->sprite.scale(size);
 	this->quantity_bombs = quantity_bombs;
 	this->hp = hp;
-
+	
 }
 
 int Player::get_hp(){
@@ -23,6 +23,16 @@ int Player::get_hp(){
 
 int Player::get_quanity_bombs(){
 	return quantity_bombs;
+}
+
+void Player::set_last_texture_number(int new_last_texture_number)
+{
+	this->last_texture_number = new_last_texture_number;
+}
+
+int Player::get_last_texture_number()
+{
+	return this->last_texture_number;
 }
 
 void Player::set_hp(int new_hp){
@@ -55,3 +65,13 @@ bool Player::on_bomb(std::vector<std::shared_ptr<Bomb>> bombs)
 	return false;
 }
 
+
+bool Player::can_textured_be_placed(int time_milliseconds)
+{
+	return(time_milliseconds < std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - time_since_texture_changed).count());
+}
+
+void Player::place_texture()
+{
+	this->time_since_texture_changed = std::chrono::steady_clock::now();
+}

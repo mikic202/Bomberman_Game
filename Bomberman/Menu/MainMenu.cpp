@@ -83,9 +83,11 @@ void MainMenu::clickedField(sf::Text* target_text)
 	}
 	else if (this->target_text->getString() == "Play Versus!")
 	{
-		ChooseModeMenu choose_mode_menu('V');
-		this->window->close();
-		choose_mode_menu.run();
+		/*ChooseModeMenu choose_mode_menu('V');*/
+		Game game;
+		game.play(1, 'V', true, *this->window);
+		//this->window->close();
+		//choose_mode_menu.run();
 		cout << "play versus\n";
 	}
 }

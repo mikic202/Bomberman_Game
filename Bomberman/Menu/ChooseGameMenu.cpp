@@ -102,7 +102,8 @@ void ChooseGameMenu::clickedField(sf::Text* target_text)
 		this->window->close();
 		std::cout <<  "New game: " << this->get_target_number() << std::endl;
 
-		game.play( get_target_number(), type, new_game, window);
+		game.play(get_target_number(), type, new_game, window);
+		std::cout << 1;
 	}
 }
 

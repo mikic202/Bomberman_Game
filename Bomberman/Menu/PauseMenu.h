@@ -7,10 +7,16 @@ class PauseMenu : public Menu
 public:
 	PauseMenu( char type, unsigned int saved_num=0);
 
-	void clickedField(sf::Text* target_text) override;
+	void poll_events() override;
+
+	void clickedField(sf::Text* target_text) {};
+
+	// When menu field is clicked
+	bool clickedMenuField(sf::Text* target_text);
 
 	//void poll_events() override;
 
+	void mouse_update() override;
 
 	~PauseMenu();
 private:
