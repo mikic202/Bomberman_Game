@@ -38,6 +38,8 @@ public:
 
 	sf::FloatRect get_global_bounds();
 
+	void scale(sf::Vector2f size);
+
 	virtual ~Entity();
 protected:
 	int speed;

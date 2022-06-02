@@ -1,6 +1,7 @@
 #pragma once
 #include "Menu.h"
 #include "CreditsMenu.h"
+#include "ChooseModeMenu.h"
 class MainMenu : public Menu
 {
 public:
@@ -21,6 +22,7 @@ public:
 private:
 	sf::Text* play_story;
 	sf::Text* play_coop;
+	sf::Text* play_versus;
 	sf::Text* scores;
 	sf::Text* credits;
 	sf::Text* exit;
