@@ -29,7 +29,7 @@ private:
 	std::vector<Enemy> enemies_;
 	int explosions_on_board_ = 0;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
-	void play_coop_();
+	void play_coop_(int save_number, bool new_game, sf::RenderWindow& window);
 	void play_versus_(sf::RenderWindow& window);
 	void move_players_(sf::RenderWindow& window, bool versus = false);
 	void place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved);

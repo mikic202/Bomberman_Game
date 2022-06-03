@@ -40,6 +40,10 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     {
         play_versus_(window);
     }
+    else if (type == 'C')
+    {
+        play_coop_(save_number+3, new_game, window);
+    }
 }
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
@@ -178,6 +182,11 @@ void Game::play_versus_(sf::RenderWindow& window)
     }
 
     return;
+}
+
+void Game::play_coop_(int save_number, bool new_game, sf::RenderWindow& window)
+{
+    play_story_(save_number, new_game, window, 2);
 }
 
 void Game::move_players_(sf::RenderWindow& window, bool versus)
@@ -430,14 +439,7 @@ void Game::check_if_colides_down_(std::shared_ptr< Player> player, std::vector<s
 void Game::save_game_(int save_number, char type, int leve_number, int points)
 {
     std::ofstream save_file;
-    if (type == 'S')
-    {
-        save_file.open(STORY_SAVES.at(save_number));
-    }
-    else if (type == 'C')
-    {
-        save_file.open(CO_OP_SAVES.at(save_number));
-    }
+    save_file.open(GAME_SAVES.at(save_number));
     save_file << leve_number;
     save_file << "\n";
     save_file << points;
@@ -449,14 +451,7 @@ std::vector<int> Game::load_game_(int save_number, char type)
     std::string line;
     int level_number;
     std::ifstream save_file;
-    if (type == 'S')
-    {
-        save_file.open(STORY_SAVES.at(save_number));
-    }
-    else if (type == 'C')
-    {
-        save_file.open(CO_OP_SAVES.at(save_number));
-    }
+    save_file.open(GAME_SAVES.at(save_number));
     std::getline(save_file, line);
     level_number = std::stoi(line);
     std::getline(save_file, line);
