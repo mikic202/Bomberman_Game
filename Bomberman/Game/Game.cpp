@@ -34,7 +34,7 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     window.setFramerateLimit(60);
     if (type == 'S')
     {
-        play_story_(save_number, new_game, window, 1); 
+        play_story_(save_number, new_game, window, 2); 
     }
     else if (type == 'V')
     {
@@ -188,7 +188,11 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
         std::vector<sf::Keyboard::Key> keys = PLAYERS_KEYS[i];
         if (not (sf::Keyboard::isKeyPressed(keys[0]) || sf::Keyboard::isKeyPressed(keys[1]) || sf::Keyboard::isKeyPressed(keys[2]) || sf::Keyboard::isKeyPressed(keys[3])) && not player->can_textured_be_placed(50) && is_player_stationary_[i] != 1)
         {
-            if (!player1_texture_.loadFromFile(PLAYER_PATH))
+            if (i == 0 && !player1_texture_.loadFromFile(PLAYER_PATH))
+            {
+                throw (FliePathException());
+            }
+            if (i == 1 && !player2_texture_.loadFromFile(PLAYER_PATH))
             {
                 throw (FliePathException());
             }
@@ -224,22 +228,22 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
             display_player_move_sideways(player, -1);
             is_player_stationary_[i] = 0;
         }
-        if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge_(player, window) && pixels_moved_ != 30 * GRID_SLOT_SIZE - window.getSize().x && not versus)
+        if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && can_gameboard_be_shifter_(true, window) && not versus)
         {
-            shift_game_board_(-MOVEMNT_SPEED);
+            shift_game_board_(-MOVEMNT_SPEED, i);
             check_if_colides_right_(player, game_board_->items(), window);
             is_player_stationary_[i] = 0;
         }
-        if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && player->get_position().x <= 50 && game_board_->item(0)->position().x < 1 * GRID_SLOT_SIZE && not versus)
+        if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && can_gameboard_be_shifter_(false, window) && not versus)
         {
-            shift_game_board_(MOVEMNT_SPEED);
+            shift_game_board_(MOVEMNT_SPEED, i);
             check_if_colides_left_(player, game_board_->items(), window);
             is_player_stationary_[i] = 0;
         }
     }
 }
 
-void Game::shift_game_board_(float distance)
+void Game::shift_game_board_(float distance, int player_num)
 {
     game_board_->move_items({ distance, 0 });
     for (auto bomb : bombs_on_b_)
@@ -251,6 +255,49 @@ void Game::shift_game_board_(float distance)
         explosion->move({ distance, 0 });
     }
     pixels_moved_ -= distance;
+    for (int i = 0; i < players_.size(); i++)
+    {
+        if (i != player_num)
+        {
+            players_[i]->move({ distance, 0 });
+        }
+    }
+}
+
+bool Game::can_gameboard_be_shifter_( bool right, sf::RenderWindow &window)
+{
+    bool to_return = false;
+    for (auto player : players_)
+    {
+        if (right && check_if_colides_right_(player, game_board_->items(), window) &&  not is_player_close_to_edge_(player, window) && not (pixels_moved_ != 30 * GRID_SLOT_SIZE - window.getSize().x))
+        {
+            return false;
+        }
+        else if (not right && check_if_colides_left_(player, game_board_->items(), window) && not (player->get_position().x <= 50) && not(game_board_->item(0)->position().x < 1 * GRID_SLOT_SIZE))
+        {
+            return false;
+        }
+        if (right && not check_if_colides_right_(player, game_board_->items(), window) && is_player_close_to_edge_(player, window) && (pixels_moved_ != 30 * GRID_SLOT_SIZE - window.getSize().x))
+        {
+            to_return = true;
+        }
+        else if (not right && not check_if_colides_left_(player, game_board_->items(), window) && (player->get_position().x <= 50) && (game_board_->item(0)->position().x < 1 * GRID_SLOT_SIZE))
+        {
+            to_return = true;
+        }
+        for (auto player2 : players_)
+        {
+            if (player2->get_position().x <= 50 && right)
+            {
+                return false;
+            }
+            else if (is_player_close_to_edge_(player2, window) && not right)
+            {
+                return false;
+            }
+        }
+    }
+    return to_return;
 }
 
 void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved)
@@ -274,7 +321,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
     }
 }
 
-void Game::check_if_colides_left_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
+bool Game::check_if_colides_left_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
 {
     float player_s_x = PLAYER_TEXTURE_SIZE[0];
     float player_s_y = PLAYER_TEXTURE_SIZE[1];
@@ -288,18 +335,22 @@ void Game::check_if_colides_left_(std::shared_ptr< Player> player, std::vector<s
         {
             item_x = a->position().x;
             item_y = a->position().y;
-            if (player_x <= item_x + GRID_SLOT_SIZE && player_x >= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y + 15 )
+            if (player_x <= item_x + GRID_SLOT_SIZE && player_x >= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y + 15)
+            {
                 player->set_position({ item_x + GRID_SLOT_SIZE, player_y });
+                return true;
+            }
         }
     }
     if (player_x < 0)
     {
         player->set_position({ 0, player_y });
+        return true;
     }
-
+    return false;
 }
 
-void Game::check_if_colides_right_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
+bool Game::check_if_colides_right_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)
 {
     float player_s_x = PLAYER_TEXTURE_SIZE[0];
     float player_s_y = PLAYER_TEXTURE_SIZE[1];
@@ -313,14 +364,19 @@ void Game::check_if_colides_right_(std::shared_ptr< Player> player, std::vector<
         {
             item_x = a->position().x;
             item_y = a->position().y;
-            if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y + 15 )
+            if (player_x >= item_x - player_s_x && player_x <= item_x - player_s_x / 2 && std::abs(item_y - player_y) < player_s_y + 15)
+            {
                 player->set_position({ item_x - player_s_x, player_y });
+                return true;
+            }
         }
     }
     if (player_x >= window.getSize().x - GRID_SLOT_SIZE/2)
     {
         player->set_position({ float(window.getSize().x - GRID_SLOT_SIZE/2), player_y});
+        return true;
     }
+    return false;
 }
 
 void Game::check_if_colides_up_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall>> items_on_b, sf::RenderWindow& window)

@@ -33,8 +33,8 @@ private:
 	void play_versus_(sf::RenderWindow& window);
 	void move_players_(sf::RenderWindow& window, bool versus = false);
 	void place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved);
-	void check_if_colides_left_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
-	void check_if_colides_right_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	bool check_if_colides_left_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	bool check_if_colides_right_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void check_if_colides_up_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void check_if_colides_down_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void save_game_(int save_number, char type, int leve_number, int points);
@@ -52,8 +52,8 @@ private:
 	void display_player_move_forward(std::shared_ptr< Player> player);
 	void display_player_move_backward(std::shared_ptr< Player> player);
 	void generate_enemies();
-	void shift_game_board_(float distance);
-
+	void shift_game_board_(float distance, int player_num);
+	bool can_gameboard_be_shifter_(bool right,  sf::RenderWindow& window);
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};
