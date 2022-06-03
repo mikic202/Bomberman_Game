@@ -12,6 +12,7 @@
 class Game
 {
 private:
+	int pixels_moved_;
 	std::shared_ptr<GameBoard> game_board_;
 	int points_ = 1;
 	std::vector<std::shared_ptr<Player> > players_;
@@ -23,17 +24,17 @@ private:
 	sf::Texture box_texture_;
 	sf::Texture explosion_texture_; // all of the textures had to be in the game class because for some reason sfml texturees dont work in smart pointers
 	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
-	std::vector<int> last_player_texture_ = { 0, 0 };
+	std::vector<int> is_player_stationary_ = { 0, 0 };
 	std::vector<std::shared_ptr<Explosion> > explosions_;
 	std::vector<Enemy> enemies_;
 	int explosions_on_board_ = 0;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
-	void play_coop_();
+	void play_coop_(int save_number, bool new_game, sf::RenderWindow& window);
 	void play_versus_(sf::RenderWindow& window);
-	void move_player_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window, std::vector<sf::Keyboard::Key> keys, int pixels_moved=0, bool versus = false);
+	void move_players_(sf::RenderWindow& window, bool versus = false);
 	void place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved);
-	void check_if_colides_left_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
-	void check_if_colides_right_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	bool check_if_colides_left_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
+	bool check_if_colides_right_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void check_if_colides_up_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void check_if_colides_down_(std::shared_ptr< Player> player, std::vector<std::shared_ptr<Wall> > items_on_b, sf::RenderWindow& window);
 	void save_game_(int save_number, char type, int leve_number, int points);
@@ -51,7 +52,8 @@ private:
 	void display_player_move_forward(std::shared_ptr< Player> player);
 	void display_player_move_backward(std::shared_ptr< Player> player);
 	void generate_enemies();
-
+	void shift_game_board_(float distance, int player_num);
+	bool can_gameboard_be_shifter_(bool right,  sf::RenderWindow& window);
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};

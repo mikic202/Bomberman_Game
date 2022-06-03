@@ -3,7 +3,6 @@
 #include "Item.h"
 #include "../Consts.h"
 #include "../Entities/Player/Player.h"
-#include "../Player2.h"
 
 
 class Wall : public Item
