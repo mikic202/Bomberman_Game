@@ -17,7 +17,7 @@ private:
 	void generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture);
 	int box_num_(int level_num) const;
 	int max_box_strength_(int level_num) const;
-	const std::vector<int> size_{ 30, 11 };
+	const std::vector<int> size_ = STORY_SIZE;
 	void place_boxes_(int size_x, int size_y, sf::Texture& box_texture);
 	void place_door_(sf::Texture& door_texture);
 public:
