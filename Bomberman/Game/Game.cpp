@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "../Exceptions/Item_exceptions.h"
+#include "../Menu/PauseMenu.h"
 
 
 const int POINTS_PER_BOX = 20;
@@ -48,6 +49,7 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
 {
+    bool need_to_run = true;
     players_.clear();
 
     int level_points;
@@ -69,14 +71,14 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     sf::Clock Clock;
     int items_number_before_loop = 0;
     pixels_moved_ = 0;
-    while (window.isOpen())
+    while (window.isOpen() && need_to_run)
     {
         level_points = 0;
         for (auto player : players_)
         {
             player->set_position({0, 0});
         }
-        while (detect_player_door_colision_(game_board_->get_door_global_bounds()))
+        while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run)
         {
             items_number_before_loop = game_board_->items().size();
             sf::Event event;
@@ -86,7 +88,14 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 {
                     save_game_(save_number, 'S', game_board_->level_number(), points_);
                     window.close();
+                    exit(1);
                 }
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                PauseMenu p_menu('S', 1);
+                //need_to_run = p_menu.run();
+                p_menu.run();
             }
             int i = 0;
             move_players_(window);
@@ -144,7 +153,14 @@ void Game::play_versus_(sf::RenderWindow& window)
                 if (event.type == sf::Event::Closed)
                 {
                     window.close();
+                    exit(1);
                 }
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                PauseMenu p_menu('S', 1);
+                //need_to_run = p_menu.run();
+                p_menu.run();
             }
             int i = 0;
             move_players_(window, true);
