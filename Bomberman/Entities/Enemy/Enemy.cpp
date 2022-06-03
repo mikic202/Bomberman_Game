@@ -8,10 +8,11 @@ Enemy::Enemy()
 {
 }
 
-Enemy::Enemy(sf::Vector2f position, sf::Texture &enemy_texture)
+Enemy::Enemy(sf::Vector2f position, sf::Vector2f scale, sf::Texture &enemy_texture)
 {
 	this->sprite.setTexture(enemy_texture);
 	this->sprite.setPosition(position);
+	this->sprite.setScale(scale);
 }
 
 int Enemy::get_damage_to_player()
