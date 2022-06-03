@@ -123,6 +123,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             {
                 explo->draw_to(window);
             }
+            draw_score_(window, (points_ + level_points));
             window.display();
            /* std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
             Clock.restart();*/
@@ -844,4 +845,22 @@ void Game::generate_enemies()
     for(int i = 0; i<10; i++)
     {
     }
+}
+
+void Game::draw_score_(sf::RenderWindow& window, int points)
+{
+    sf::Text score;
+    sf::Font font;
+    float size = 20;
+    if (!font.loadFromFile(FONT_PATH))
+    {
+        std::cout << "CANT LOAD FONT FOR MENU\n";
+    }
+    score.setString("Score: " + std::to_string(points));
+    score.setCharacterSize(size);
+    score.setFillColor(sf::Color::Black);
+    score.setStyle(sf::Text::Bold);
+    score.setPosition({ size, window.getSize().y - 2*size});
+    score.setFont(font);
+    window.draw(score);
 }

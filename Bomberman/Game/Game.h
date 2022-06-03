@@ -54,6 +54,7 @@ private:
 	void generate_enemies();
 	void shift_game_board_(float distance, int player_num);
 	bool can_gameboard_be_shifter_(bool right,  sf::RenderWindow& window);
+	void draw_score_(sf::RenderWindow& window, int points);
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};
