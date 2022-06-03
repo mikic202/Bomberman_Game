@@ -226,35 +226,31 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
         }
         if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && is_player_close_to_edge_(player, window) && pixels_moved_ != 30 * GRID_SLOT_SIZE - window.getSize().x && not versus)
         {
-            game_board_->move_items({ -MOVEMNT_SPEED, 0 });
-            for (auto bomb : bombs_on_b_)
-            {
-                bomb->move({ -MOVEMNT_SPEED, 0 });
-            }
-            for (auto explosion : explosions_)
-            {
-                explosion->move({ -MOVEMNT_SPEED, 0 });
-            }
-            pixels_moved_ += MOVEMNT_SPEED;
+            shift_game_board_(-MOVEMNT_SPEED);
             check_if_colides_right_(player, game_board_->items(), window);
             is_player_stationary_[i] = 0;
         }
         if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && player->get_position().x <= 50 && game_board_->item(0)->position().x < 1 * GRID_SLOT_SIZE && not versus)
         {
-            game_board_->move_items({ MOVEMNT_SPEED, 0 });
-            for (auto bomb : bombs_on_b_)
-            {
-                bomb->move({ MOVEMNT_SPEED, 0 });
-            }
-            for (auto explosion : explosions_)
-            {
-                explosion->move({ MOVEMNT_SPEED, 0 });
-            }
-            pixels_moved_ -= MOVEMNT_SPEED;
+            shift_game_board_(MOVEMNT_SPEED);
             check_if_colides_left_(player, game_board_->items(), window);
             is_player_stationary_[i] = 0;
         }
     }
+}
+
+void Game::shift_game_board_(float distance)
+{
+    game_board_->move_items({ distance, 0 });
+    for (auto bomb : bombs_on_b_)
+    {
+        bomb->move({ distance, 0 });
+    }
+    for (auto explosion : explosions_)
+    {
+        explosion->move({ distance, 0 });
+    }
+    pixels_moved_ -= distance;
 }
 
 void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved)

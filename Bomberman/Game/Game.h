@@ -52,6 +52,7 @@ private:
 	void display_player_move_forward(std::shared_ptr< Player> player);
 	void display_player_move_backward(std::shared_ptr< Player> player);
 	void generate_enemies();
+	void shift_game_board_(float distance);
 
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
