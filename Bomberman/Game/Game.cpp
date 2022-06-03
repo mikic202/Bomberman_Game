@@ -35,7 +35,7 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     window.setFramerateLimit(60);
     if (type == 'S')
     {
-        play_story_(save_number, new_game, window, 2); 
+        play_story_(save_number, new_game, window, 1); 
     }
     else if (type == 'V')
     {
