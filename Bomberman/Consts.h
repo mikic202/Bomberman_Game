@@ -43,7 +43,7 @@ const std::vector<float> PLAYER_TEXTURE_SIZE = { 113 * TEXTURE_SCALE.x, 253 * TE
 
 const int BOMB_PLACEMENT_TOLERANCES = 5;
 
-const std::map<int, std::string> GAME_SAVES = { {1, "Game Saves/Story1.txt"}, {2, "Game Saves/Story2.txt"} , {3, "Game Saves/Story3.txt"} };
+const std::map<int, std::string> STORY_SAVES = { {1, "Game Saves/Story1.txt"}, {2, "Game Saves/Story2.txt"} , {3, "Game Saves/Story3.txt"} };
 const std::map<int, std::string> CO_OP_SAVES = { {1, "Game Saves/Co-op1.txt"}, {2, "Game Saves/Co-op2.txt"} , {3, "Game Saves/Co-op3.txt"} };
 
 

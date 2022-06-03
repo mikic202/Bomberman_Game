@@ -439,7 +439,14 @@ void Game::check_if_colides_down_(std::shared_ptr< Player> player, std::vector<s
 void Game::save_game_(int save_number, char type, int leve_number, int points)
 {
     std::ofstream save_file;
-    save_file.open(GAME_SAVES.at(save_number));
+    if (save_number <= 3)
+    {
+        save_file.open(STORY_SAVES.at(save_number));
+    }
+    else if (save_number > 3)
+    {
+        save_file.open(CO_OP_SAVES.at(save_number - 3));
+    }
     save_file << leve_number;
     save_file << "\n";
     save_file << points;
@@ -451,7 +458,14 @@ std::vector<int> Game::load_game_(int save_number, char type)
     std::string line;
     int level_number;
     std::ifstream save_file;
-    save_file.open(GAME_SAVES.at(save_number));
+    if (save_number <= 3)
+    {
+        save_file.open(STORY_SAVES.at(save_number));
+    }
+    else if (save_number > 3)
+    {
+        save_file.open(CO_OP_SAVES.at(save_number-3));
+    }
     std::getline(save_file, line);
     level_number = std::stoi(line);
     std::getline(save_file, line);
