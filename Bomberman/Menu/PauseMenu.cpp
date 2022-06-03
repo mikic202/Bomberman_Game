@@ -54,6 +54,13 @@ PauseMenu::PauseMenu( char type, unsigned int saved_num)
 	this->target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
 }
 
+PauseMenu::PauseMenu(char type, sf::RenderWindow& window, unsigned int saved_num) : PauseMenu(type, saved_num)
+{
+	// Because default constructor of Menu is creating window we should delete it firstly
+	delete this->window;
+	this->window = &window;
+}
+
 void PauseMenu::poll_events()
 {
 	sf::Event ev;

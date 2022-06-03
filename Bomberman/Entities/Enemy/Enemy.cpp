@@ -6,6 +6,7 @@
 
 Enemy::Enemy()
 {
+	this->type = EnemyTypeMovement::RANDOM;
 }
 
 int Enemy::get_damage_to_player()
@@ -16,4 +17,9 @@ int Enemy::get_damage_to_player()
 void Enemy::set_damage_to_player(int new_damage)
 {
 	this->damage_to_player = damage_to_player;
+}
+
+void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs)
+{
+
 }

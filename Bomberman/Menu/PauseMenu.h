@@ -6,7 +6,7 @@ class PauseMenu : public Menu
 {
 public:
 	PauseMenu( char type, unsigned int saved_num=0);
-
+	PauseMenu(char type, sf::RenderWindow& window, unsigned int saved_num = 0);
 	void poll_events() override;
 
 	void clickedField(sf::Text* target_text) {};
