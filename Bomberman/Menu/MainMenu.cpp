@@ -70,24 +70,27 @@ void MainMenu::clickedField(sf::Text* target_text)
 	else if (this->target_text->getString() == "Play Story!")
 	{
 		ChooseModeMenu choose_mode_menu('S');
-		//this->window->close();
+		this->window->close();
 		choose_mode_menu.run();
+		this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bomberman");
 		cout << "story\n";
 	}
 	else if (this->target_text->getString() == "Play Cooperative!")
 	{
 		ChooseModeMenu choose_mode_menu('C');
-		//this->window->close();
+		this->window->close();
 		choose_mode_menu.run();
+		this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bomberman");
 		cout << "coop\n";
 	}
 	else if (this->target_text->getString() == "Play Versus!")
 	{
 		/*ChooseModeMenu choose_mode_menu('V');*/
+		this->window->close();
 		sf::RenderWindow game_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bomberman");
 		Game game;
 		game.play(1, 'V', true, game_window);
-		//this->window->close();
+		this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bomberman");
 		//choose_mode_menu.run();
 		cout << "play versus\n";
 	}
