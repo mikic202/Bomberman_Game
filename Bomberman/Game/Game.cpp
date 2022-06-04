@@ -77,6 +77,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     int items_number_before_loop = 0;
     pixels_moved_ = 0;
     PauseMenu p_menu('S', window, 1);
+    generate_enemies();
     while (window.isOpen() && need_to_run)
     {
         level_points = 0;
@@ -128,6 +129,10 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             for (auto explo : explosions_)
             {
                 explo->draw_to(window);
+            }
+            for (auto enemy : enemies_)
+            {
+                enemy->draw_to(window);
             }
             draw_score_(window, (points_ + level_points));
             window.display();
@@ -854,13 +859,27 @@ void Game::generate_enemies()
 {
     srand(time(NULL));
     int number_of_enemies = rand() % (10 - 5 + 1) + 5;
-    int pos_y;
-    int pos_x;
+    float pos_y;
+    float pos_x;
+    bool is_coliding = false;
     for(int i = 0; i<number_of_enemies; i++)
     {
-        int pos_y;
-        int pos_x;
         enemies_.push_back(std::make_shared<Enemy>(Enemy({ 1, 1 }, TEXTURE_SCALE, enemy_texture_)));
+        do
+        {
+            is_coliding = false;
+            pos_x = (rand() % (STORY_SIZE[0] - 5) + 5)*GRID_SLOT_SIZE;
+            pos_y = (rand() % STORY_SIZE[1])*GRID_SLOT_SIZE;
+            for (auto item : game_board_->items())
+            {
+                if (item->position().x == pos_x && item->position().y == pos_y)
+                {
+                    is_coliding = true;
+                    break;
+                }
+            }
+        } while (is_coliding);
+        enemies_[i]->set_position({ pos_x+GRID_SLOT_SIZE/4, pos_y+GRID_SLOT_SIZE/4 });
     }
 }
 
