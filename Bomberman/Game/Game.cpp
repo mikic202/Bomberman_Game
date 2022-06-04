@@ -337,6 +337,7 @@ bool Game::can_gameboard_be_shifter_( bool right, sf::RenderWindow &window)
 
 void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved)
 {
+    int explosion_delay = 1;
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
     int multiplier = 0;
@@ -350,7 +351,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
         {
             int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
             int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
-            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE+multiplier*GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
+            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE+multiplier*GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, explosion_delay, 1, TEXTURE_SCALE, bomb_texture_);
             bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
         }
     }
