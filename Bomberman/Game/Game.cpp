@@ -132,9 +132,17 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             level_points += POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size());
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
-        points_ += 500+level_points;
         pixels_moved_ = 0;
         enemies_.clear();
+        if (check_if_players_are_dead_())
+        {
+            for (auto player : players_)
+            {
+                player->set_hp(3);
+                continue;
+            }
+        }
+        points_ += 500+level_points;
     }
     save_game_(save_number, 'S', game_board_->level_number(), points_);
     return;
@@ -724,7 +732,6 @@ bool Game::check_explosion_()
         {
             if (explosions_[i]->get_global_bounds().intersects(player->get_global_bounds()))
             {
-                player->set_hp(player->get_hp() - 1);
                 explosions_.clear();
                 explosions_on_board_ = 0;
                 return true;
@@ -738,22 +745,22 @@ bool Game::kill_players_(int pixels_moved)
 {
     if (check_explosion_())
     {
+        shift_game_board_(pixels_moved, 3);
         for (auto player : players_)
         {
             player->set_position({ 0, 0 });
             player->set_hp(player->get_hp() - 1);
         }
-        game_board_->move_items({ float(pixels_moved), 0 });
         return true;
     }
     if (check_enemies_())
     {
+        shift_game_board_(pixels_moved, 3);
         for (auto player : players_)
         {
             player->set_position({ 0, 0 });
             player->set_hp(player->get_hp() - 1);
         }
-        game_board_->move_items({ float(pixels_moved), 0 });
         return true;
     }
     return false;
@@ -898,6 +905,7 @@ void Game::generate_enemies()
         } while (is_coliding);
         enemies_[i]->set_position({ pos_x+GRID_SLOT_SIZE/4, pos_y+GRID_SLOT_SIZE/4 });
     }
+    std::cout << "\n\n";
 }
 
 void Game::draw_score_(sf::RenderWindow& window, int points)
