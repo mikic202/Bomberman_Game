@@ -29,7 +29,6 @@ void Menu::set_menu_fields(std::vector<sf::Text*> menu_fields)
 // EXCEPTION WHEN FONT IS NOT FOUND
 Menu::Menu()
 {
-
 	this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bomberman");
 	this->font.loadFromFile(FONT_PATH);
 	this->target_text = this->top_menu_field;
@@ -84,6 +83,14 @@ void Menu::run()
 
 	}
 }
+
+//void Menu::run(sf::RenderWindow& window)
+//{
+//	while (window.isOpen())
+//	{
+//
+//	}
+//}
 
 bool Menu::mouse_over(sf::Text* text)
 {

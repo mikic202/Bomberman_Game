@@ -6,6 +6,7 @@
 
 Enemy::Enemy()
 {
+	this->type = EnemyTypeMovement::RANDOM;
 }
 
 Enemy::Enemy(sf::Vector2f position, sf::Vector2f scale, sf::Texture &enemy_texture)
@@ -23,4 +24,9 @@ int Enemy::get_damage_to_player()
 void Enemy::set_damage_to_player(int new_damage)
 {
 	this->damage_to_player = damage_to_player;
+}
+
+void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs)
+{
+
 }

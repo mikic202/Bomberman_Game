@@ -20,6 +20,8 @@ public:
 	// selected option from text field
 	void run();
 
+	//virtual void run(sf::RenderWindow& window);
+
 	virtual void poll_events();
 
 	virtual void update();
