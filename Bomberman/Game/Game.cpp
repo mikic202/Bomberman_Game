@@ -49,6 +49,7 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     {
         play_coop_(save_number+3, new_game, window);
     }
+    return;
 }
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
@@ -75,6 +76,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     sf::Clock Clock;
     int items_number_before_loop = 0;
     pixels_moved_ = 0;
+    PauseMenu p_menu('S', window, 1);
     while (window.isOpen() && need_to_run)
     {
         level_points = 0;
@@ -97,10 +99,9 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                PauseMenu p_menu('S', 1);
-                //need_to_run = p_menu.run();
                 p_menu.run();
-                need_to_run = p_menu.get_can_continue();
+                need_to_run = p_menu.get_can_game_continue();
+                p_menu.set_is_menu_open(true);
             }
             int i = 0;
             move_players_(window);
@@ -149,6 +150,7 @@ void Game::play_versus_(sf::RenderWindow& window)
     sf::Texture explosion_texture;
     game_board_ = std::make_shared<VersusModeBoard>(VersusModeBoard(NUMBER_OF_WALLS_Y, wall_texture_, box_texture_));
     sf::Clock Clock;
+    PauseMenu p_menu('S', window, 1);
     while (window.isOpen() && need_to_run)
     {
         create_players_(2, true, NUMBER_OF_WALLS_Y);
@@ -165,10 +167,10 @@ void Game::play_versus_(sf::RenderWindow& window)
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                PauseMenu p_menu('S', 1);
                 //need_to_run = p_menu.run();
                 p_menu.run();
-                need_to_run = p_menu.get_can_continue();
+                need_to_run = p_menu.get_can_game_continue();
+                p_menu.set_is_menu_open(true);
             }
             int i = 0;
             move_players_(window, true);
@@ -180,7 +182,7 @@ void Game::play_versus_(sf::RenderWindow& window)
             bobm_explosion_(game_board_->items());
 
             kill_players_(0);
-
+            //std::cout << window.isOpen();
             window.clear(sf::Color(69, 159, 66));
             game_board_->draw_to(window);
             for (auto player : players_)

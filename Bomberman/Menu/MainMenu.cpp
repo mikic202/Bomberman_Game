@@ -70,14 +70,14 @@ void MainMenu::clickedField(sf::Text* target_text)
 	else if (this->target_text->getString() == "Play Story!")
 	{
 		ChooseModeMenu choose_mode_menu('S');
-		this->window->close();
+		//this->window->close();
 		choose_mode_menu.run();
 		cout << "story\n";
 	}
 	else if (this->target_text->getString() == "Play Cooperative!")
 	{
 		ChooseModeMenu choose_mode_menu('C');
-		this->window->close();
+		//this->window->close();
 		choose_mode_menu.run();
 		cout << "coop\n";
 	}

@@ -18,12 +18,18 @@ public:
 
 	void mouse_update() override;
 
+	bool get_can_game_continue();
+
+	void set_is_menu_open(bool value);
+
 	~PauseMenu();
 private:
 	char type; 
 	
 	// number of saved game
 	unsigned int saved_num;
+
+	bool can_game_continue = true;
 
 	// game that contains this pause menu
 	Game game;

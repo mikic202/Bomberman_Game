@@ -65,4 +65,6 @@ protected:
 
 	sf::Texture background_texture;
 	sf::Sprite background;
+
+	bool is_menu_open = true;
 };

@@ -75,7 +75,7 @@ Menu::Menu(sf::VideoMode video_mode, std::string name, std::vector<sf::Text*> me
 
 void Menu::run()
 {
-	while (this->window->isOpen())
+	while (this->window->isOpen() && this->is_menu_open)
 	{
 		this->update();
 

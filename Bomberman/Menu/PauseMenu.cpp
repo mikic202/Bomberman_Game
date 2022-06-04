@@ -6,16 +6,14 @@ bool PauseMenu::clickedMenuField(sf::Text* target_text)
 	std::cout << "s\n";
 	if (target_text->getString() == "Continue")
 	{
-		return true;
-		std::cout << "cont\n";
+		can_game_continue = true;
 
 	}
 	else if (target_text->getString() == "Start new game")
 	{
-		Game game;
-
-		game.play(saved_num, this->type, true, *this->window);
-		std::cout << "new game\n";
+		/*Game game;*/
+		can_game_continue = false;
+		/*game.play(saved_num, this->type, true, *this->window);*/
 	}
 	else if (target_text->getString() == "Exit")
 	{
@@ -23,8 +21,8 @@ bool PauseMenu::clickedMenuField(sf::Text* target_text)
 		this->window->close();
 		exit(1);
 
-		std::cout << "ex\n";
 	}
+	is_menu_open = false;
 	return false;
 }
 
@@ -67,7 +65,7 @@ void PauseMenu::poll_events()
 	//std::cout << string(this->target_text->getString()) << endl;
 
 
-	while (this->window->pollEvent(ev))
+	while (this->window->pollEvent(ev) && this->is_menu_open)
 	{
 		// Keyboard polling events
 		sf::Time elapsed_time = menu_clock.getElapsedTime();
@@ -124,6 +122,14 @@ void PauseMenu::mouse_update()
 			break;
 		}
 	}
+}
+bool PauseMenu::get_can_game_continue()
+{
+	return this->can_game_continue;
+}
+void PauseMenu::set_is_menu_open(bool value)
+{
+	this->is_menu_open = value;
 }
 //void PauseMenu::poll_events()
 //{
