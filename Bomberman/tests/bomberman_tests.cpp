@@ -129,6 +129,33 @@ TEST_CASE("Tsting Box class")
 	}
 }
 
+
+TEST_CASE("Explosion class tests")
+{
+	SECTION("Initialization tests")
+	{
+		REQUIRE_NOTHROW(Explosion({ 1, 2 }, { 3, 4 }));
+	}
+
+	SECTION("Test explosion expiring")
+	{
+		Explosion explosion({ 1, 2 }, { 3, 4 });
+
+		Sleep(1010);
+		REQUIRE(explosion.did_end());
+	}
+}
+
+
+TEST_CASE("Door class tests")
+{
+	SECTION("Initialization tests")
+	{
+		REQUIRE_NOTHROW(Door({ 1, 2 }, { 3, 4 }));
+	}
+}
+
+
 //TODO TESTS FOR PLAYER
 TEST_CASE("Tests for GameBoard class")
 {
@@ -172,6 +199,15 @@ TEST_CASE("Tests for StoryModeBoard class")
 		REQUIRE(board.door_position().x >= 50/2);
 
 		
+	}
+
+	SECTION("Move items tests")
+	{
+		StoryModeBoard board(4, 1, test_texture, test_texture, test_texture);
+
+		sf::Vector2f initial_position = board.items()[0]->position();
+		board.move_items({ 20, 0 });
+		REQUIRE((board.items()[0]->position().x == initial_position.x + 20.f && board.items()[0]->position().y == initial_position.y));
 	}
 }
 
