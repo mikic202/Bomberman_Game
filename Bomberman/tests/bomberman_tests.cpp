@@ -4,6 +4,7 @@
 #include"../Items/Box.h"
 #include"../Game Board/StoryModeBoard.h"
 #include"../Game Board/VersusModeBoard.h"
+#include <Windows.h>
 
 
 TEST_CASE("Tests for Item class")
@@ -35,9 +36,9 @@ TEST_CASE("Tests for Bomb class")
 	{
 		sf::Vector2f pos = { 2, 1 };
 		sf::Vector2f scale = { .5, .6 };
-		Bomb bomb(pos, 5, 9, 3, scale);
+		Bomb bomb(pos, 5, 3, 3, scale);
 
-		REQUIRE(bomb.delay() == 9);
+		REQUIRE(bomb.delay() == 3);
 
 		REQUIRE(bomb.radius() == 5);
 
@@ -47,10 +48,10 @@ TEST_CASE("Tests for Bomb class")
 
 	SECTION("Setters tests")
 	{
-		Bomb bomb({1, 2}, 5, 9, 3, {1, 2});
+		Bomb bomb({1, 2}, 5, 3, 3, {1, 2});
 
-		bomb.set_delay(4);
-		REQUIRE(bomb.delay() == 4);
+		bomb.set_delay(2);
+		REQUIRE(bomb.delay() == 2);
 
 		bomb.set_radius(1);
 		REQUIRE(bomb.radius() == 1);
@@ -65,6 +66,11 @@ TEST_CASE("Tests for Bomb class")
 
 		REQUIRE(!bomb.did_blow());
 
+
+		// Test below generates additional procesing time
+		// but it works
+
+		//Sleep(3000);
 		//bool n = bomb.did_blow();
 		//REQUIRE(bomb.did_blow());
 	}
@@ -80,6 +86,18 @@ TEST_CASE("Testing Wall class")
 		sf::Sprite wall_sprite = wall.item_sprite();
 
 		REQUIRE(wall.get_global_bounds() == wall_sprite.getGlobalBounds());
+		REQUIRE(wall.item_sprite().getPosition().x == 1);
+		REQUIRE(wall.item_sprite().getScale().x == 3);
+	}
+
+	SECTION("Test coliding with player")
+	{
+		sf::Texture test_texture;
+		if (!test_texture.loadFromFile(PLAYER_PATH));
+		Wall wall({ 1, 2 }, { 3, 4 });
+		Player player({ 1, 2 }, test_texture, { 3, 4 }, 2);
+		bool boll_val = wall.is_coloding_player(std::make_shared<Player>(player));
+		REQUIRE(boll_val);
 	}
 }
 
@@ -116,11 +134,12 @@ TEST_CASE("Tests for GameBoard class")
 {
 	SECTION("Setters and getters tests tests")
 	{
+		sf::Texture test_texture;
 		GameBoard board;
-		//Player player(1, 2, 3, 4, 5, 6);
+		Player player({ 1, 2 }, test_texture, { 3, 4 }, 2);
 
-		//board.add_player(player);
-		//REQUIRE(board.players()[0] -> get_hp() == 6);
+		board.add_player(player);
+		REQUIRE(board.players()[0] -> get_hp() == 3);
 
 	}
 
@@ -136,23 +155,24 @@ TEST_CASE("Tests for GameBoard class")
 
 TEST_CASE("Tests for StoryModeBoard class")
 {
-	//SECTION("Constructor tests")
-	//{
-	//	StoryModeBoard board(4, 1);
+	sf::Texture test_texture;
+	SECTION("Constructor tests")
+	{
+		StoryModeBoard board(4, 1, test_texture, test_texture, test_texture);
 
-	//	REQUIRE(board.level_number() == 4);
+		REQUIRE(board.level_number() == 4);
 
-	//	REQUIRE(board.items().size() <= 20*50/4 + 40);
-	//}
+		REQUIRE(board.items().size() <= 20*50/4 + 40);
+	}
 
-	//SECTION("Getters tests")
-	//{
-	//	StoryModeBoard board(4, 1);
+	SECTION("Getters tests")
+	{
+		StoryModeBoard board(4, 1, test_texture, test_texture, test_texture);
 
-	//	REQUIRE(board.door_position().x >= 50/2);
+		REQUIRE(board.door_position().x >= 50/2);
 
-	//	
-	//}
+		
+	}
 }
 
 
@@ -160,10 +180,11 @@ TEST_CASE("Tests for VersusModeBoard")
 {
 	SECTION("Constructor tests")
 	{
-		/*VersusModeBoard board(16);
+		sf::Texture test_texture;
+		VersusModeBoard board(16, test_texture, test_texture);
 
 		REQUIRE(board.size() == 16);
 
-		REQUIRE(board.items().size() >= 16 * 16 / 4);*/
+		REQUIRE(board.items().size() >= 16 * 16 / 4);
 	}
 }
