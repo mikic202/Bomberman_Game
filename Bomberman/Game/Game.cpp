@@ -302,6 +302,10 @@ void Game::shift_game_board_(float distance, int player_num)
             players_[i]->move({ distance, 0 });
         }
     }
+    for (auto enemy : enemies_)
+    {
+        enemy->set_position({ enemy->get_position().x + distance, enemy->get_position().y });
+    }
 }
 
 bool Game::can_gameboard_be_shifter_( bool right, sf::RenderWindow &window)
@@ -342,7 +346,7 @@ bool Game::can_gameboard_be_shifter_( bool right, sf::RenderWindow &window)
 
 void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved)
 {
-    int explosion_delay = 1;
+    int explosion_delay = 2;
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
     int multiplier = 0;
@@ -750,7 +754,7 @@ bool Game::kill_players_(int pixels_moved)
         game_board_->move_items({ float(pixels_moved), 0 });
         return true;
     }
-    /*if (check_enemies_())
+    if (check_enemies_())
     {
         for (auto player : players_)
         {
@@ -759,12 +763,31 @@ bool Game::kill_players_(int pixels_moved)
         }
         game_board_->move_items({ float(pixels_moved), 0 });
         return true;
-    }*/
+    }
     return false;
 }
 
 bool Game::check_enemies_()
 {
+    for (int i = 0; i < enemies_.size(); i++)
+    {
+        for (auto explosion : explosions_)
+        {
+            if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
+            {
+                enemies_.erase(enemies_.begin() + i);
+                i--;
+                continue;
+            }
+        }
+        for (std::shared_ptr<Player> player : players_)
+        {
+            if (player->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
