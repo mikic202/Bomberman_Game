@@ -134,6 +134,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         points_ += 500+level_points;
         pixels_moved_ = 0;
+        enemies_.clear();
     }
     save_game_(save_number, 'S', game_board_->level_number(), points_);
     return;
@@ -883,7 +884,9 @@ void Game::generate_enemies()
         {
             is_coliding = false;
             pos_x = (rand() % (STORY_SIZE[0] - 5) + 5)*GRID_SLOT_SIZE;
+            std::cout << pos_x / GRID_SLOT_SIZE << " ";
             pos_y = (rand() % STORY_SIZE[1])*GRID_SLOT_SIZE;
+            std::cout << pos_y / GRID_SLOT_SIZE << "\n";
             for (auto item : game_board_->items())
             {
                 if (item->position().x == pos_x && item->position().y == pos_y)
