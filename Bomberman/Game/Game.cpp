@@ -117,23 +117,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 pixels_moved_ = 0;
 
             window.clear(sf::Color(69, 159, 66));
-            game_board_->draw_to(window);
-            for (auto player : players_)
-            {
-                player->draw_to(window);
-            }
-            for (auto a : bombs_on_b_)
-            {
-                a->draw_to(window);
-            }
-            for (auto explo : explosions_)
-            {
-                explo->draw_to(window);
-            }
-            for (auto enemy : enemies_)
-            {
-                enemy->draw_to(window);
-            }
+            draw_game_(window);
             draw_score_(window, (points_ + level_points));
             window.display();
            /* std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
@@ -922,4 +906,25 @@ void Game::draw_score_(sf::RenderWindow& window, int points)
     score.setPosition({ .5f*size, window.getSize().y - 1.5f*size});
     score.setFont(font);
     window.draw(score);
+}
+
+void Game::draw_game_(sf::RenderWindow& window)
+{
+    game_board_->draw_to(window);
+    for (auto player : players_)
+    {
+        player->draw_to(window);
+    }
+    for (auto a : bombs_on_b_)
+    {
+        a->draw_to(window);
+    }
+    for (auto explo : explosions_)
+    {
+        explo->draw_to(window);
+    }
+    for (auto enemy : enemies_)
+    {
+        enemy->draw_to(window);
+    }
 }
