@@ -177,6 +177,16 @@ TEST_CASE("Tests for GameBoard class")
 		board.add_item(Wall());
 		REQUIRE(board.items().size() == 1);
 	}
+
+	SECTION("remove_items tests")
+	{
+		GameBoard board;
+
+		board.add_item(Wall());
+
+		board.remove_item(0);
+		REQUIRE(board.items().size() == 0);
+	}
 }
 
 
