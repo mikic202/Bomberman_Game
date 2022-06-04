@@ -794,6 +794,11 @@ void Game::display_player_move_sideways(std::shared_ptr<Player> player, int mult
 {
     int texture_number;
     int player_number = -1;
+    int add_text_pos = 0;
+    if (multiplier == -1)
+    {
+        add_text_pos = 2;
+    }
     for (int i = 0; i < players_.size(); i++)
     {
         if (player == players_[i] && player->can_textured_be_placed(50))
@@ -813,7 +818,7 @@ void Game::display_player_move_sideways(std::shared_ptr<Player> player, int mult
     }
     if (player_number == 0)
     {
-        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number];
+        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number+add_text_pos];
         if (!player1_texture_.loadFromFile(path))
         {
             throw (FliePathException());
@@ -891,9 +896,7 @@ void Game::generate_enemies()
         {
             is_coliding = false;
             pos_x = (rand() % (STORY_SIZE[0] - 5) + 5)*GRID_SLOT_SIZE;
-            std::cout << pos_x / GRID_SLOT_SIZE << " ";
             pos_y = (rand() % STORY_SIZE[1])*GRID_SLOT_SIZE;
-            std::cout << pos_y / GRID_SLOT_SIZE << "\n";
             for (auto item : game_board_->items())
             {
                 if (item->position().x == pos_x && item->position().y == pos_y)
@@ -905,7 +908,6 @@ void Game::generate_enemies()
         } while (is_coliding);
         enemies_[i]->set_position({ pos_x+GRID_SLOT_SIZE/4, pos_y+GRID_SLOT_SIZE/4 });
     }
-    std::cout << "\n\n";
 }
 
 void Game::draw_score_(sf::RenderWindow& window, int points)
