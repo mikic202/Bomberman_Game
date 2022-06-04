@@ -32,6 +32,10 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
     {
         throw (FliePathException());
     }
+    if (!enemy_texture_.loadFromFile(ENEMY_PATH))
+    {
+        throw (FliePathException());
+    }
     window.setFramerateLimit(60);
     if (type == 'S')
     {
@@ -96,6 +100,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 PauseMenu p_menu('S', 1);
                 //need_to_run = p_menu.run();
                 p_menu.run();
+                need_to_run = p_menu.get_can_continue();
             }
             int i = 0;
             move_players_(window);
@@ -133,20 +138,21 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         points_ += 500+level_points;
         pixels_moved_ = 0;
     }
-
+    save_game_(save_number, 'S', game_board_->level_number(), points_);
     return;
 }
 
 void Game::play_versus_(sf::RenderWindow& window)
 {
+    bool need_to_run = true;
     const int MOVEMNT_SPEED = 5;
     sf::Texture explosion_texture;
     game_board_ = std::make_shared<VersusModeBoard>(VersusModeBoard(NUMBER_OF_WALLS_Y, wall_texture_, box_texture_));
     sf::Clock Clock;
-    while (window.isOpen())
+    while (window.isOpen() && need_to_run)
     {
         create_players_(2, true, NUMBER_OF_WALLS_Y);
-        while (players_[0]->get_hp() == players_[1]->get_hp())
+        while (players_[0]->get_hp() == players_[1]->get_hp() && need_to_run)
         {
             sf::Event event;
             while (window.pollEvent(event))
@@ -162,6 +168,7 @@ void Game::play_versus_(sf::RenderWindow& window)
                 PauseMenu p_menu('S', 1);
                 //need_to_run = p_menu.run();
                 p_menu.run();
+                need_to_run = p_menu.get_can_continue();
             }
             int i = 0;
             move_players_(window, true);
@@ -842,8 +849,15 @@ void Game::display_player_move_backward(std::shared_ptr<Player> player)
 
 void Game::generate_enemies()
 {
-    for(int i = 0; i<10; i++)
+    srand(time(NULL));
+    int number_of_enemies = rand() % (10 - 5 + 1) + 5;
+    int pos_y;
+    int pos_x;
+    for(int i = 0; i<number_of_enemies; i++)
     {
+        int pos_y;
+        int pos_x;
+        enemies_.push_back(std::make_shared<Enemy>(Enemy({ 1, 1 }, TEXTURE_SCALE, enemy_texture_)));
     }
 }
 
@@ -851,7 +865,7 @@ void Game::draw_score_(sf::RenderWindow& window, int points)
 {
     sf::Text score;
     sf::Font font;
-    float size = 20;
+    float size = 40;
     if (!font.loadFromFile(FONT_PATH))
     {
         std::cout << "CANT LOAD FONT FOR MENU\n";
@@ -860,7 +874,7 @@ void Game::draw_score_(sf::RenderWindow& window, int points)
     score.setCharacterSize(size);
     score.setFillColor(sf::Color::Black);
     score.setStyle(sf::Text::Bold);
-    score.setPosition({ size, window.getSize().y - 2*size});
+    score.setPosition({ .5f*size, window.getSize().y - 1.5f*size});
     score.setFont(font);
     window.draw(score);
 }

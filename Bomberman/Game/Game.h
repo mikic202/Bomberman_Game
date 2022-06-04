@@ -12,12 +12,13 @@
 class Game
 {
 private:
-	int pixels_moved_;
+	int pixels_moved_ = 0;
 	std::shared_ptr<GameBoard> game_board_;
 	int points_ = 1;
 	std::vector<std::shared_ptr<Player> > players_;
 	sf::Texture player1_texture_;
 	sf::Texture player2_texture_;
+	sf::Texture enemy_texture_;
 	sf::Texture door_texture_;
 	sf::Texture bomb_texture_;
 	sf::Texture wall_texture_;
@@ -26,7 +27,7 @@ private:
 	std::vector<std::shared_ptr<Bomb> > bombs_on_b_;
 	std::vector<int> is_player_stationary_ = { 0, 0 };
 	std::vector<std::shared_ptr<Explosion> > explosions_;
-	std::vector<Enemy> enemies_;
+	std::vector<std::shared_ptr<Enemy> > enemies_;
 	int explosions_on_board_ = 0;
 	void play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players);
 	void play_coop_(int save_number, bool new_game, sf::RenderWindow& window);

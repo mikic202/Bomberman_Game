@@ -6,6 +6,7 @@
 
 const int DIMENSIONS = 2;
 const std::vector<int> STORY_SIZE = { 30, 11 };
+const std::vector<int> MAX_SIZE = { 1000, 1000 };
 const int WINDOW_WIDTH = 825;
 const int WINDOW_HEIGHT = 825;
 
