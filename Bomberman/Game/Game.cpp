@@ -77,7 +77,6 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     int items_number_before_loop = 0;
     pixels_moved_ = 0;
     PauseMenu p_menu('S', window, 1);
-    generate_enemies();
     while (window.isOpen() && need_to_run)
     {
         level_points = 0;
@@ -85,7 +84,15 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         {
             player->set_position({0, 0});
         }
-        while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run)
+        if (check_if_players_are_dead_())
+        {
+            for (auto player : players_)
+            {
+                player->set_hp(3);
+            }
+        }
+        generate_enemies();
+        while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run && not check_if_players_are_dead_())
         {
             items_number_before_loop = game_board_->items().size();
             sf::Event event;
@@ -927,4 +934,16 @@ void Game::draw_game_(sf::RenderWindow& window)
     {
         enemy->draw_to(window);
     }
+}
+
+bool Game::check_if_players_are_dead_()
+{
+    for (auto player : players_)
+    {
+        if (player->get_hp() <= 0)
+        {
+            return true;
+        }
+    }
+    return false;
 }

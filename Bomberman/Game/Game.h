@@ -57,6 +57,7 @@ private:
 	bool can_gameboard_be_shifter_(bool right,  sf::RenderWindow& window);
 	void draw_score_(sf::RenderWindow& window, int points);
 	void draw_game_(sf::RenderWindow& window);
+	bool check_if_players_are_dead_();
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
 	Game() {};
