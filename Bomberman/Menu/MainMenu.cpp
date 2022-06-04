@@ -84,8 +84,9 @@ void MainMenu::clickedField(sf::Text* target_text)
 	else if (this->target_text->getString() == "Play Versus!")
 	{
 		/*ChooseModeMenu choose_mode_menu('V');*/
+		sf::RenderWindow game_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bomberman");
 		Game game;
-		game.play(1, 'V', true, *this->window);
+		game.play(1, 'V', true, game_window);
 		//this->window->close();
 		//choose_mode_menu.run();
 		cout << "play versus\n";
