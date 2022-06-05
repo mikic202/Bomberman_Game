@@ -40,5 +40,10 @@ class Game
 ```
 ```mermaid
 classDiagram
+Menu--|>MainMenu
+Menu--|>PauseMenu
+Menu--|>CreditsMenu
+Menu--|>ChoseModeMenu
+Menu--|>ChoseGameMenu
 ```
 :exclamation: Those are only simple class diagrams and there are no methods or atributes on them to make those diagrams easier to read.
