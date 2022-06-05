@@ -92,5 +92,6 @@ void CreditsMenu::render()
 
 CreditsMenu::~CreditsMenu()
 {
-
+	if (this->window != nullptr)
+		delete this->window;
 }

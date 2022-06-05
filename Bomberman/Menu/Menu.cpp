@@ -4,8 +4,8 @@ using namespace std;
 Menu::~Menu()
 {
 	std::cout << "DESTRUCTOR OF MENU IS CALLED\n";
-	if(this->window != nullptr)
-		delete this->window;
+	//delete this->window;
+	
 	for (size_t i = 0; i < this->menu_fields.size(); i++)
 	{
 		if(menu_fields[i] != nullptr)

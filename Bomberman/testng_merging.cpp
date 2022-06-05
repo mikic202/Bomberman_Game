@@ -15,6 +15,6 @@ int main()
 	//MainMenu* mainmenu = new MainMenu();
 	//mainmenu->run();
 	//delete mainmenu;
-	//std::cout << "Ended main\n";
+	std::cout << "Ended main\n";
 
 }
