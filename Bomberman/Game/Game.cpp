@@ -518,6 +518,7 @@ void Game::create_players_(int player_number, bool versus_mode, int game_board_s
             throw (FliePathException());
         }
         players_.push_back(std::make_shared<Player>(Player(start_position, player2_texture_, TEXTURE_SCALE, 1)));
+        player2_texture_.setSrgb(true);
     }
     else if (player_number == 2 && versus_mode)
     {
@@ -526,6 +527,7 @@ void Game::create_players_(int player_number, bool versus_mode, int game_board_s
             throw (FliePathException());
         }
         players_.push_back(std::make_shared<Player>(Player({ float((game_board_size-1) * GRID_SLOT_SIZE), float((game_board_size - 1) * GRID_SLOT_SIZE)}, player2_texture_, TEXTURE_SCALE, 1)));
+        player2_texture_.setSrgb(true);
     }
 }
 
