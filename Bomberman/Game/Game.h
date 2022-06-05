@@ -46,8 +46,8 @@ private:
 	void bobm_explosion_(std::vector<std::shared_ptr<Wall> > items_on_b);
 	void place_explosion_(std::vector<std::shared_ptr<Wall> > items_on_b, std::shared_ptr<Bomb> bomb);
 	void check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > items_on_b, std::shared_ptr<Bomb> bomb);
-	bool check_explosion_();
-	bool kill_players_(int pixels_moved);
+	bool check_explosion_(bool versus = false);
+	bool kill_players_(int pixels_moved, bool versus = false);
 	bool check_enemies_();
 	void display_player_move_sideways(std::shared_ptr< Player> player, int multiplier);
 	void display_player_move_forward(std::shared_ptr< Player> player);
@@ -57,6 +57,7 @@ private:
 	bool can_gameboard_be_shifter_(bool right,  sf::RenderWindow& window);
 	void draw_score_(sf::RenderWindow& window, int points);
 	void draw_game_(sf::RenderWindow& window);
+	void draw_result_(sf::RenderWindow& window);
 	bool check_if_players_are_dead_();
 	//void draw_elements_of_game_(sf::RenderWindow& window);
 public:
