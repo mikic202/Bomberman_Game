@@ -18,5 +18,5 @@ Explosion::Explosion(sf::Vector2f position, sf::Vector2f scale, sf::Texture& exp
 
 bool Explosion::did_end()
 {
-	return(duration_ < std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - explosion_time_).count());
+	return(duration_*1000 <= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - explosion_time_).count());
 }

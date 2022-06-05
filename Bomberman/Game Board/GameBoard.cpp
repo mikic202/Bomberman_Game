@@ -86,8 +86,8 @@ void GameBoard::place_walls_(int size_x, int size_y, sf::Texture& wall_texture)
 
 void GameBoard::generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture)
 {
-	place_walls_(MAX_SIZE[0], MAX_SIZE[1], wall_texture);
-	place_boxes_(MAX_SIZE[0], MAX_SIZE[1], box_texture);
+	place_walls_(GAME_BOARD_SIZE, GAME_BOARD_SIZE, wall_texture);
+	place_boxes_(GAME_BOARD_SIZE, GAME_BOARD_SIZE, box_texture);
 }
 
 void GameBoard::place_boxes_(int size_x, int size_y, sf::Texture& box_texture)
