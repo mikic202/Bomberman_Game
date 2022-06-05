@@ -455,9 +455,9 @@ void Game::check_if_colides_down_(std::shared_ptr< Player> player, std::vector<s
                 player->set_position({ player_x, item_y - player_s_y });
         }
     }
-    if (player_y >= window.getSize().y - GRID_SLOT_SIZE)
+    if (player_y >= window.getSize().y - GRID_SLOT_SIZE + 20)
     {
-        player->set_position({ player_x, float(window.getSize().y - GRID_SLOT_SIZE) });
+        player->set_position({ player_x, float(window.getSize().y - GRID_SLOT_SIZE+20) });
     }
 }
 
