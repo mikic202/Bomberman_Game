@@ -17,3 +17,28 @@ After you choose the Versus mode, you need to choose whether you want to play a 
 This game mode is similar to the Story mode. The only differences are that there are two players, they share lives, and their score is combined.
 <h3 style="text-align: center;">Code discription</h3>
 There are 45 files that are either .h or .cpp files. There are 20 classes combined. Six classes represent items that the player can see on the board. Three classes represent Entities that can be seen in the game. Three classes represent a type of board. Seven classes represent Menu types. One that represents the game.
+
+
+```mermaid
+classDiagram
+Item --|> Wall
+Item --|> Bomb
+Wall--|> Box
+Wall--|> Door
+Wall--|> Explosion
+```
+```mermaid
+classDiagram
+GameBoard--|>StoryModeBoard
+GameBoard--|>VersusModeBoard
+```
+```mermaid
+classDiagram
+Entity--|>Player
+Entity--|>Enemy
+class Game
+```
+```mermaid
+classDiagram
+```
+:exclamation: Those are only simple class diagrams and there are no methods or atributes on them to make those diagrams easier to read.
