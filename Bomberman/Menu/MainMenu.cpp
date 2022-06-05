@@ -142,6 +142,8 @@ void MainMenu::render_text_fields()
 MainMenu::~MainMenu()
 {
 	std::cout << "DESTRUCTOR OF MAINMENU CALLED\n";
+	if (this->window != nullptr)
+		delete this->window;
 }
 
 

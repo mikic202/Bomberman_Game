@@ -105,7 +105,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                     exit(1);
                 }
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
                 p_menu.run();
                 need_to_run = p_menu.get_can_game_continue();

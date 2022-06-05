@@ -138,5 +138,6 @@ void ChooseGameMenu::render_menu_fields()
 
 ChooseGameMenu::~ChooseGameMenu()
 {
-
+	if (this->window != nullptr)
+		delete this->window;
 }

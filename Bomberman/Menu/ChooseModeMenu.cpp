@@ -135,4 +135,6 @@ void ChooseModeMenu::render()
 
 ChooseModeMenu::~ChooseModeMenu()
 {
+	if (this->window != nullptr)
+		delete this->window;
 }
