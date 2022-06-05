@@ -194,7 +194,8 @@ void Game::play_versus_(sf::RenderWindow& window)
             /*std::cout << 1.f / Clock.getElapsedTime().asSeconds() << "\n";
             Clock.restart();*/
         }
-        draw_result_(window);
+        if(need_to_run)
+            draw_result_(window);
         explosions_on_board_ = 0;
         game_board_->reset_board(NUMBER_OF_WALLS_Y,wall_texture_, box_texture_, door_texture_);
         bombs_on_b_.clear();
