@@ -47,3 +47,22 @@ Menu--|>ChoseModeMenu
 Menu--|>ChoseGameMenu
 ```
 :exclamation: Those are only simple class diagrams and there are no methods or atributes on them to make those diagrams easier to read.
+<h4>Item</h4>
+This class represents items that can be seen on the board. It has four protected attributes:
+
+- name_
+- item_sprite_
+- sprite_size_
+- item_textures_
+
+There are nine methods:
+
+- Move - can move item given distance. In this project, it is - mainly used for shifting the whole game board so that player stays on the screen.
+- set_name - setter for name_ attribute
+- name - getter for name_ attribute
+- item_sprite - getter for item_sprite_ attribute
+- load_immage_from_file - loads image onto the items sprite
+- draw_to - draws item onto the given render window
+- set_position - setter for the items position
+- position - getter for the position of the item
+- rescale - setter for the items scale
