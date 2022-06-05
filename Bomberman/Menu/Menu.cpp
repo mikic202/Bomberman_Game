@@ -4,11 +4,12 @@ using namespace std;
 Menu::~Menu()
 {
 	std::cout << "DESTRUCTOR OF MENU IS CALLED\n";
-	delete this->window;
-	delete this->pop_up_menu;
+	if(this->window != nullptr)
+		delete this->window;
 	for (size_t i = 0; i < this->menu_fields.size(); i++)
 	{
-		delete this->menu_fields[i];
+		if(menu_fields[i] != nullptr)
+			delete this->menu_fields[i];
 	}
 }
 

@@ -17,7 +17,11 @@ public:
 	Enemy(sf::Vector2f position, sf::Vector2f scale, sf::Texture& texture);
 	int get_damage_to_player();
 
+
+	Enemy(const Enemy& other);
 	void set_damage_to_player(int new_damage);
+
+	std::vector<std::pair<std::string, sf::Vector2i>> get_available_directions(std::vector<std::shared_ptr<Wall>> walls);
 
 	void move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs);
 private:
