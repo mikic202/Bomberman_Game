@@ -6,7 +6,7 @@
 
 const int DIMENSIONS = 2;
 const std::vector<int> STORY_SIZE = { 30, 11 };
-const std::vector<int> MAX_SIZE = { 1000, 1000 };
+const int GAME_BOARD_SIZE = 11;
 const int WINDOW_WIDTH = 825;
 const int WINDOW_HEIGHT = 825;
 
@@ -39,7 +39,7 @@ const std::string ENEMY_PATH = "Assets/Enemy.png";
 const std::string FONT_PATH = "Assets/Fonts/Pixeboy.ttf";
 const std::string EXPLOSION_PATH = "Assets/Explosion.png";
 const std::vector<std::string> PLAYER_MOVE_FORWARD{ "Assets/Player_move_f1.png", "Assets/Player_move_f2.png"};
-const std::vector<std::string> PLAYER_MOVE_SIDEWAYS{ "Assets/Player_move_side1.png", "Assets/Player_move_side1.png" };
+const std::vector<std::string> PLAYER_MOVE_SIDEWAYS{ "Assets/Player_move_side1.png", "Assets/Player_move_side2.png",  "Assets/Player_move_side3.png", "Assets/Player_move_side4.png" };
 const std::vector<float> PLAYER_TEXTURE_SIZE = { 113 * TEXTURE_SCALE.x, 253 * TEXTURE_SCALE.y };
 
 const int BOMB_PLACEMENT_TOLERANCES = 5;

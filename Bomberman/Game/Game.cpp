@@ -84,7 +84,15 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         {
             player->set_position({0, 0});
         }
-        while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run)
+        if (check_if_players_are_dead_())
+        {
+            for (auto player : players_)
+            {
+                player->set_hp(3);
+            }
+        }
+        generate_enemies();
+        while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run && not check_if_players_are_dead_())
         {
             items_number_before_loop = game_board_->items().size();
             sf::Event event;
@@ -116,19 +124,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 pixels_moved_ = 0;
 
             window.clear(sf::Color(69, 159, 66));
-            game_board_->draw_to(window);
-            for (auto player : players_)
-            {
-                player->draw_to(window);
-            }
-            for (auto a : bombs_on_b_)
-            {
-                a->draw_to(window);
-            }
-            for (auto explo : explosions_)
-            {
-                explo->draw_to(window);
-            }
+            draw_game_(window);
             draw_score_(window, (points_ + level_points));
             //for (auto& wall : this->game_board_.get()->items())
             //{
@@ -147,8 +143,17 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             level_points += POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size());
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
-        points_ += 500+level_points;
         pixels_moved_ = 0;
+        enemies_.clear();
+        if (check_if_players_are_dead_())
+        {
+            for (auto player : players_)
+            {
+                player->set_hp(3);
+                continue;
+            }
+        }
+        points_ += 500+level_points;
     }
     save_game_(save_number, 'S', game_board_->level_number(), points_);
     return;
@@ -192,26 +197,16 @@ void Game::play_versus_(sf::RenderWindow& window)
             }
             bobm_explosion_(game_board_->items());
 
-            kill_players_(0);
+            kill_players_(0, true);
             //std::cout << window.isOpen();
             window.clear(sf::Color(69, 159, 66));
-            game_board_->draw_to(window);
-            for (auto player : players_)
-            {
-                player->draw_to(window);
-            }
-            for (auto a : bombs_on_b_)
-            {
-                a->draw_to(window);
-            }
-            for (auto explo : explosions_)
-            {
-                explo->draw_to(window);
-            }
+            draw_game_(window);
             window.display();
             /*std::cout << 1.f / Clock.getElapsedTime().asSeconds() << "\n";
             Clock.restart();*/
         }
+        if(need_to_run)
+            draw_result_(window);
         explosions_on_board_ = 0;
         game_board_->reset_board(NUMBER_OF_WALLS_Y,wall_texture_, box_texture_, door_texture_);
         bombs_on_b_.clear();
@@ -308,6 +303,10 @@ void Game::shift_game_board_(float distance, int player_num)
             players_[i]->move({ distance, 0 });
         }
     }
+    for (auto enemy : enemies_)
+    {
+        enemy->set_position({ enemy->get_position().x + distance, enemy->get_position().y });
+    }
 }
 
 bool Game::can_gameboard_be_shifter_( bool right, sf::RenderWindow &window)
@@ -348,6 +347,7 @@ bool Game::can_gameboard_be_shifter_( bool right, sf::RenderWindow &window)
 
 void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_placing, int pixels_moved)
 {
+    int explosion_delay = 2;
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
     int multiplier = 0;
@@ -361,7 +361,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
         {
             int bomb_pos_x = (player_p_x + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
             int bomb_pos_y = (player_p_y + BOMB_PLACEMENT_TOLERANCES) / GRID_SLOT_SIZE;
-            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE+multiplier*GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, MAX_EXPLOSION_DELAY, 1, TEXTURE_SCALE, bomb_texture_);
+            Bomb bomb({ float(bomb_pos_x * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE+multiplier*GRID_SLOT_SIZE), float(bomb_pos_y * GRID_SLOT_SIZE) }, 4, explosion_delay, 1, TEXTURE_SCALE, bomb_texture_);
             bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
         }
     }
@@ -467,9 +467,9 @@ void Game::check_if_colides_down_(std::shared_ptr< Player> player, std::vector<s
                 player->set_position({ player_x, item_y - player_s_y });
         }
     }
-    if (player_y >= window.getSize().y - GRID_SLOT_SIZE)
+    if (player_y >= window.getSize().y - GRID_SLOT_SIZE + 20)
     {
-        player->set_position({ player_x, float(window.getSize().y - GRID_SLOT_SIZE) });
+        player->set_position({ player_x, float(window.getSize().y - GRID_SLOT_SIZE+20) });
     }
 }
 
@@ -530,6 +530,7 @@ void Game::create_players_(int player_number, bool versus_mode, int game_board_s
             throw (FliePathException());
         }
         players_.push_back(std::make_shared<Player>(Player(start_position, player2_texture_, TEXTURE_SCALE, 1)));
+        player2_texture_.setSrgb(true);
     }
     else if (player_number == 2 && versus_mode)
     {
@@ -538,6 +539,7 @@ void Game::create_players_(int player_number, bool versus_mode, int game_board_s
             throw (FliePathException());
         }
         players_.push_back(std::make_shared<Player>(Player({ float((game_board_size-1) * GRID_SLOT_SIZE), float((game_board_size - 1) * GRID_SLOT_SIZE)}, player2_texture_, TEXTURE_SCALE, 1)));
+        player2_texture_.setSrgb(true);
     }
 }
 
@@ -716,7 +718,7 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
 
 }
 
-bool Game::check_explosion_()
+bool Game::check_explosion_(bool versus)
 {
     for (int i = 0; i < explosions_.size(); i++)
     {
@@ -733,9 +735,12 @@ bool Game::check_explosion_()
         {
             if (explosions_[i]->get_global_bounds().intersects(player->get_global_bounds()))
             {
-                player->set_hp(player->get_hp() - 1);
                 explosions_.clear();
                 explosions_on_board_ = 0;
+                if (versus)
+                {
+                    player->set_hp(player->get_hp() - 1);
+                }
                 return true;
             }
         }
@@ -743,33 +748,55 @@ bool Game::check_explosion_()
     return false;
 }
 
-bool Game::kill_players_(int pixels_moved)
+bool Game::kill_players_(int pixels_moved, bool versus)
 {
-    if (check_explosion_())
+    if (check_explosion_(versus))
     {
+        shift_game_board_(pixels_moved, 3);
         for (auto player : players_)
         {
-            player->set_position({ 0, 0 });
-            player->set_hp(player->get_hp() - 1);
+            if (not versus)
+            {
+                player->set_position({ 0, 0 });
+                player->set_hp(player->get_hp() - 1);
+            }
         }
-        game_board_->move_items({ float(pixels_moved), 0 });
         return true;
     }
-    /*if (check_enemies_())
+    if (check_enemies_())
     {
+        shift_game_board_(pixels_moved, 3);
         for (auto player : players_)
         {
             player->set_position({ 0, 0 });
             player->set_hp(player->get_hp() - 1);
         }
-        game_board_->move_items({ float(pixels_moved), 0 });
         return true;
-    }*/
+    }
     return false;
 }
 
 bool Game::check_enemies_()
 {
+    for (int i = 0; i < enemies_.size(); i++)
+    {
+        for (auto explosion : explosions_)
+        {
+            if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
+            {
+                enemies_.erase(enemies_.begin() + i);
+                i--;
+                continue;
+            }
+        }
+        for (std::shared_ptr<Player> player : players_)
+        {
+            if (player->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -777,6 +804,11 @@ void Game::display_player_move_sideways(std::shared_ptr<Player> player, int mult
 {
     int texture_number;
     int player_number = -1;
+    int add_text_pos = 0;
+    if (multiplier == -1)
+    {
+        add_text_pos = 2;
+    }
     for (int i = 0; i < players_.size(); i++)
     {
         if (player == players_[i] && player->can_textured_be_placed(50))
@@ -796,7 +828,7 @@ void Game::display_player_move_sideways(std::shared_ptr<Player> player, int mult
     }
     if (player_number == 0)
     {
-        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number];
+        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number+add_text_pos];
         if (!player1_texture_.loadFromFile(path))
         {
             throw (FliePathException());
@@ -864,13 +896,27 @@ void Game::generate_enemies()
 {
     srand(time(NULL));
     int number_of_enemies = rand() % (10 - 5 + 1) + 5;
-    int pos_y;
-    int pos_x;
+    float pos_y;
+    float pos_x;
+    bool is_coliding = false;
     for(int i = 0; i<number_of_enemies; i++)
     {
-        int pos_y;
-        int pos_x;
         enemies_.push_back(std::make_shared<Enemy>(Enemy({ 1, 1 }, TEXTURE_SCALE, enemy_texture_)));
+        do
+        {
+            is_coliding = false;
+            pos_x = (rand() % (STORY_SIZE[0] - 5) + 5)*GRID_SLOT_SIZE;
+            pos_y = (rand() % STORY_SIZE[1])*GRID_SLOT_SIZE;
+            for (auto item : game_board_->items())
+            {
+                if (item->position().x == pos_x && item->position().y == pos_y)
+                {
+                    is_coliding = true;
+                    break;
+                }
+            }
+        } while (is_coliding);
+        enemies_[i]->set_position({ pos_x+GRID_SLOT_SIZE/4, pos_y+GRID_SLOT_SIZE/4 });
     }
 }
 
@@ -881,7 +927,7 @@ void Game::draw_score_(sf::RenderWindow& window, int points)
     float size = 40;
     if (!font.loadFromFile(FONT_PATH))
     {
-        std::cout << "CANT LOAD FONT FOR MENU\n";
+        throw FliePathException();
     }
     score.setString("Score: " + std::to_string(points));
     score.setCharacterSize(size);
@@ -890,4 +936,79 @@ void Game::draw_score_(sf::RenderWindow& window, int points)
     score.setPosition({ .5f*size, window.getSize().y - 1.5f*size});
     score.setFont(font);
     window.draw(score);
+}
+
+void Game::draw_game_(sf::RenderWindow& window)
+{
+    game_board_->draw_to(window);
+    for (auto player : players_)
+    {
+        player->draw_to(window);
+    }
+    for (auto a : bombs_on_b_)
+    {
+        a->draw_to(window);
+    }
+    for (auto explo : explosions_)
+    {
+        explo->draw_to(window);
+    }
+    for (auto enemy : enemies_)
+    {
+        enemy->draw_to(window);
+    }
+}
+
+void Game::draw_result_(sf::RenderWindow& window)
+{
+    sf::Text result;
+    sf::Font font;
+    float size = 80;
+    if (!font.loadFromFile(FONT_PATH))
+    {
+        throw FliePathException();
+    }
+    if (players_[0]->get_hp() > players_[1]->get_hp())
+    {
+        result.setString("Player 1 won");
+    }
+    else
+    {
+        result.setString("Player 2 won");
+    }
+    result.setCharacterSize(size);
+    result.setStyle(sf::Text::Bold);
+    result.setFillColor(sf::Color::Black);
+    result.setPosition({ window.getSize().x*0.5f - 2.5f * size , window.getSize().y * 0.5f - 0.5f*size });
+    result.setFont(font);
+    window.draw(result);
+    window.display();
+    sf::Event event;
+    while (true)
+    {
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+                exit(1);
+            }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                return;
+            }
+        }
+    }
+}
+
+bool Game::check_if_players_are_dead_()
+{
+    for (auto player : players_)
+    {
+        if (player->get_hp() <= 0)
+        {
+            return true;
+        }
+    }
+    return false;
 }
