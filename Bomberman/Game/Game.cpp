@@ -97,7 +97,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                     exit(1);
                 }
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
             {
                 p_menu.run();
                 need_to_run = p_menu.get_can_game_continue();
@@ -130,7 +130,18 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 explo->draw_to(window);
             }
             draw_score_(window, (points_ + level_points));
+            //for (auto& wall : this->game_board_.get()->items())
+            //{
+                //std::cout << wall
+                //std::cout << wall.get()->position().x << " " << wall.get()->position().y << std::endl;
+            //}
+
             window.display();
+            //std::cout << this->game_board_.get()->items().size() << std::endl;
+            //std::cout << this->w << std::endl;
+
+
+
            /* std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
             Clock.restart();*/
             level_points += POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size());
