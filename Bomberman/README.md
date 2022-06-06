@@ -12,11 +12,11 @@ If you want to start the game, please open the main.cpp file and compile it. The
 <h4>How to play Versus</h4>
 After you choose the Versus mode, you are automatically loaded to the game. The first player is located in the upper left corner and is controlled using WSAD keys and space. The second player is located in the lower right corner and is controlled using arrow keys and enter key. The goal of the game is to kill another player. If the player is killed game stops, and results are displayed. To restart press any key. If you press, escape, you open pause menu.
 <h4>How to play Story</h4>
-After you choose the Versus mode, you need to choose whether you want to play a new game or you want to load one of the saves. If you choose to play new game, you need to choose which save you want to overwrite. If you choose to play a load game, you need to choose which save you want to open. After that, you are loaded into the game. You need to find a door to enter another level. You have three lives, and you can lose them by walking into enemies and explosions. If you lose all three lives, current level gets restarted, and you lose all the points that you gathered on that level. Your points are displayed in the bottom left corner. Levels are randomly generated and get progressively harder. This game mode does not have any end. It is similar to the endless runner games.
+After you choose the Versus mode, you need to choose whether you want to play a new game or you want to load one of the saves. If you choose to play new game, you need to choose which save you want to overwrite. If you choose to play a load game, you need to choose which save you want to open. After that, you are loaded into the game. You need to find a door to enter another level. You have three lives, and you can lose them by walking into enemies and explosions. If you lose all three lives, current level gets restarted, and you lose all the points that you gathered on that level. Your points are displayed in the bottom left corner. When you find the door level statistics are displayed and you move to next level. Levels are randomly generated and get progressively harder. This game mode does not have any end. It is similar to the endless runner games.
 <h4>How to play Cooperative</h4>
 This game mode is similar to the Story mode. The only differences are that there are two players, they share lives, and their score is combined.
 <h3 style="text-align: center;">Code discription</h3>
-There are 45 files that are either .h or .cpp files. There are 20 classes combined. Six classes represent items that the player can see on the board. Three classes represent Entities that can be seen in the game. Three classes represent a type of board. Seven classes represent Menu types. One that represents the game.
+There are 43 files that are either .h or .cpp files. There are 19 classes combined. Six classes represent items that the player can see on the board. Three classes represent Entities that can be seen in the game. Three classes represent a type of board. Six classes represent Menu types. One that represents the game.
 
 
 ```mermaid
@@ -94,3 +94,83 @@ This class also has three constructors and eight methods.
 - strength
 - did_blow
 - position_on_board
+<h4>Box</h4>
+This class inherits after Wall class and represents box that player can see in the game and can also destroy them. It has two private atributes:
+
+- hits_to_brake_
+- box_texture_path_
+
+This class also has three constructors and three public methods:
+
+- set_hits_to_brake
+- hits_to_brake
+- hit
+<h4>Door</h4>
+This class inherits after Wall class and represents Door that player needs to find. It has one private method:
+
+- door_texture_path_
+
+This class also has three constructors.
+<h4>Explosion</h4>
+This class inherits after Wall class and represents explosions that Bomb creates. It has two private atributes:
+
+- duration_
+- explosion_time_
+
+This class also has three constructors and one poblic method:
+
+- did_end
+
+<h4>GameBoard</h4>
+This class represents GameBoard that players moves around on. It has six protected attributes:
+
+- background_
+- items_on_board_
+- max_boxes_on_board_
+- players_
+- wall_texture_
+- box_texture_
+
+This class also has twelve public methods and one template method:
+
+- remove_item
+- load_bacground
+- bacground
+- add_item - template
+- items
+- item
+- players
+- add_player
+- draw_to
+- move_items
+- get_door_global_bounds
+- reset_board
+- level_number
+
+<h4>StoryModeBoard</h4>
+This class inherits after GameBoard class, and it represents GameBoard that is used in the Stor and Cooperative modes. It has seven private atributes:
+
+- level_number_
+- door_
+- door_texture_
+- where_door_can_ocure
+- dificulty_map_
+- box_strength_map_
+- size_
+
+This class also has one constructor and six public methods:
+
+- draw_to
+- level_number
+- door_position
+- get_door_global_bounds
+- move_items
+- reset_board
+
+<h4>VersusModeBoard</h4>
+This class inherits after GameBoard class, and it represents GameBoard that is used in the Versus mode. It has one private atribute:
+
+- size_
+
+This class also has one constructor and one public method:
+- size
