@@ -8,12 +8,8 @@
 
 int main()
 {
-	Game game;
-	sf::RenderWindow window(sf::VideoMode(825, 825), "Bomberman");
-	game.play(3, 'S', true, window);
-	//MainMenu* mainmenu = new MainMenu();
-	//mainmenu->run();
-	//delete mainmenu;
-	//std::cout << "Ended main\n";
+	MainMenu* mainmenu = new MainMenu();
+	mainmenu->run();
+	delete mainmenu;
 
 }
