@@ -174,3 +174,22 @@ This class inherits after GameBoard class, and it represents GameBoard that is u
 
 This class also has one constructor and one public method:
 - size
+
+<h4>Game</h4>
+This class is the bigest class in the whole project. It is responsible for palying verious modes. It probably could have been separated into two or three classes (for example Game nad Phisics) but i realised that to late into writing it and at that point it was a bit like untangling headphones. It has few intresting algorithms but their are described in different sction. This class has seventeen private atributes, eight of them are different textures, other are:
+
+- pixels_moved_
+- game_board_
+- points_
+- players_
+- bombs_on_b_
+- is_player_stationary_
+- explosions_
+- enemies_
+- explosions_on_board_
+
+This class has one constructor and only one public method:
+
+- play
+
+Other methods ar private because they are responsible for running the game.
