@@ -269,11 +269,13 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
         {
             shift_game_board_(-MOVEMNT_SPEED, i);
             check_if_colides_right_(player, game_board_->items(), window);
+            display_player_move_sideways(player, 1);
             is_player_stationary_[i] = 0;
         }
         if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && can_gameboard_be_shifter_(false, window) && not versus)
         {
             shift_game_board_(MOVEMNT_SPEED, i);
+            display_player_move_sideways(player, -1);
             check_if_colides_left_(player, game_board_->items(), window);
             is_player_stationary_[i] = 0;
         }
