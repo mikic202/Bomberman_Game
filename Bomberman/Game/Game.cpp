@@ -93,7 +93,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 player->set_hp(3);
             }
         }
-        generate_enemies();
+        generate_enemies_();
         items_number_before_loop = game_board_->items().size();
         enemies_number_before_loop = enemies_.size();
         while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run && not check_if_players_are_dead_())
@@ -128,7 +128,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 i++;
             }
 
-            bobm_explosion_(game_board_->items());
+            bomb_explosion_(game_board_->items());
             if(kill_players_(pixels_moved_))
                 pixels_moved_ = 0;
 
@@ -193,7 +193,7 @@ void Game::play_versus_(sf::RenderWindow& window)
                 place_bombs_(player, PLAYERS_KEYS[i][4], 0);
                 i++;
             }
-            bobm_explosion_(game_board_->items());
+            bomb_explosion_(game_board_->items());
             kill_players_(0, true);
 
             window.clear(sf::Color(69, 159, 66));
@@ -245,41 +245,41 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
         {
             player->move({ 0, -MOVEMNT_SPEED });
             check_if_colides_up_(player, game_board_->items(), window);
-            display_player_move_forward(player);
+            display_player_move_forward_(player);
             is_player_stationary_[i] = 0;
         }
         else if (sf::Keyboard::isKeyPressed(keys[1]))
         {
             player->move({ 0, MOVEMNT_SPEED });
             check_if_colides_down_(player, game_board_->items(), window);
-            display_player_move_backward(player);
+            display_player_move_backward_(player);
             is_player_stationary_[i] = 0;
         }
         if (sf::Keyboard::isKeyPressed(keys[2]) && (not is_player_close_to_edge_(player, window) || pixels_moved_ >= 30 * GRID_SLOT_SIZE - window.getSize().x || versus))
         {
             player->move({ MOVEMNT_SPEED, 0 });
             check_if_colides_right_(player, game_board_->items(), window);
-            display_player_move_sideways(player, 1);
+            display_player_move_sideways_(player, 1);
             is_player_stationary_[i] = 0;
         }
         else if (sf::Keyboard::isKeyPressed(keys[3]) && (player_x >= 50 || not game_board_->items()[0]->position().x < 1 * GRID_SLOT_SIZE || versus))
         {
             player->move({ -MOVEMNT_SPEED, 0 });
             check_if_colides_left_(player, game_board_->items(), window);
-            display_player_move_sideways(player, -1);
+            display_player_move_sideways_(player, -1);
             is_player_stationary_[i] = 0;
         }
         if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][2]) && can_gameboard_be_shifter_(true, window) && not versus)
         {
             shift_game_board_(-MOVEMNT_SPEED, i);
             check_if_colides_right_(player, game_board_->items(), window);
-            display_player_move_sideways(player, 1);
+            display_player_move_sideways_(player, 1);
             is_player_stationary_[i] = 0;
         }
         if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && can_gameboard_be_shifter_(false, window) && not versus)
         {
             shift_game_board_(MOVEMNT_SPEED, i);
-            display_player_move_sideways(player, -1);
+            display_player_move_sideways_(player, -1);
             check_if_colides_left_(player, game_board_->items(), window);
             is_player_stationary_[i] = 0;
         }
@@ -555,7 +555,7 @@ bool Game::detect_player_door_colision_(const sf::FloatRect& door_bounds)
     return false;
 }
 
-void Game::bobm_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b)
+void Game::bomb_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b)
 {
     for (int i = 0; i < bombs_on_b_.size();i++)
     {
@@ -802,7 +802,7 @@ bool Game::check_enemies_()
     return false;
 }
 
-void Game::display_player_move_sideways(std::shared_ptr<Player> player, int multiplier)
+void Game::display_player_move_sideways_(std::shared_ptr<Player> player, int multiplier)
 {
     int texture_number;
     int player_number = -1;
@@ -848,7 +848,7 @@ void Game::display_player_move_sideways(std::shared_ptr<Player> player, int mult
     }
 }
 
-void Game::display_player_move_forward(std::shared_ptr<Player> player)
+void Game::display_player_move_forward_(std::shared_ptr<Player> player)
 {
     int texture_number;
     int player_number = -1;
@@ -889,12 +889,12 @@ void Game::display_player_move_forward(std::shared_ptr<Player> player)
     }
 }
 
-void Game::display_player_move_backward(std::shared_ptr<Player> player)
+void Game::display_player_move_backward_(std::shared_ptr<Player> player)
 {
-    display_player_move_forward(player);
+    display_player_move_forward_(player);
 }
 
-void Game::generate_enemies()
+void Game::generate_enemies_()
 {
     srand(time(NULL));
     int number_of_enemies = rand() % (10 - 5 + 1) + 5;
