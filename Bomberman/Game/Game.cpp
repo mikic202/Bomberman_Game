@@ -66,6 +66,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     int level_number = 1;
     window.setFramerateLimit(60);
     points_ = 0;
+
     if (not new_game)
     {
         std::vector<int> game_info = load_game_(save_number, 'S');
@@ -73,10 +74,11 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         points_ = game_info[1];
     }
     game_board_ = std::make_shared<StoryModeBoard>(StoryModeBoard(level_number, number_of_players, wall_texture_, box_texture_, door_texture_));
-    sf::Clock Clock;
     int items_number_before_loop = 0;
+    int enemies_number_before_loop = 0;
     pixels_moved_ = 0;
     PauseMenu p_menu('S', window, 1);
+
     while (window.isOpen() && need_to_run)
     {
         level_points = 0;
@@ -92,9 +94,11 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             }
         }
         generate_enemies();
+        items_number_before_loop = game_board_->items().size();
+        enemies_number_before_loop = enemies_.size();
         while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run && not check_if_players_are_dead_())
         {
-            items_number_before_loop = game_board_->items().size();
+
             sf::Event event;
             while (window.pollEvent(event))
             {
@@ -111,6 +115,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 need_to_run = p_menu.get_can_game_continue();
                 p_menu.set_is_menu_open(true);
             }
+
             int i = 0;
             move_players_(window);
             for (auto player : players_)
@@ -118,35 +123,25 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
                 place_bombs_(player, PLAYERS_KEYS[i][4], pixels_moved_);
                 i++;
             }
-            bobm_explosion_(game_board_->items());
 
+            bobm_explosion_(game_board_->items());
             if(kill_players_(pixels_moved_))
                 pixels_moved_ = 0;
 
             window.clear(sf::Color(69, 159, 66));
             draw_game_(window);
             draw_score_(window, (points_ + level_points));
-            //for (auto& wall : this->game_board_.get()->items())
-            //{
-                //std::cout << wall
-                //std::cout << wall.get()->position().x << " " << wall.get()->position().y << std::endl;
-            //}
-
             window.display();
-            //std::cout << this->game_board_.get()->items().size() << std::endl;
-            //std::cout << this->w << std::endl;
-
-
-
-           /* std::cout << 1.f/Clock.getElapsedTime().asSeconds()<<"\n";
-            Clock.restart();*/
-            level_points += POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size());
+            level_points = POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size()) + POINTS_PER_ENEMY*(enemies_number_before_loop-enemies_.size());
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         pixels_moved_ = 0;
+        if (need_to_run)
+            display_level_statistic_(level_points, items_number_before_loop - game_board_->items().size(), enemies_number_before_loop - enemies_.size(), window);
         enemies_.clear();
         if (check_if_players_are_dead_())
         {
+            game_board_->reset_board(level_number, wall_texture_, box_texture_, door_texture_);
             for (auto player : players_)
             {
                 player->set_hp(3);
@@ -165,7 +160,6 @@ void Game::play_versus_(sf::RenderWindow& window)
     const int MOVEMNT_SPEED = 5;
     sf::Texture explosion_texture;
     game_board_ = std::make_shared<VersusModeBoard>(VersusModeBoard(NUMBER_OF_WALLS_Y, wall_texture_, box_texture_));
-    sf::Clock Clock;
     PauseMenu p_menu('S', window, 1);
     while (window.isOpen() && need_to_run)
     {
@@ -183,11 +177,11 @@ void Game::play_versus_(sf::RenderWindow& window)
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                //need_to_run = p_menu.run();
                 p_menu.run();
                 need_to_run = p_menu.get_can_game_continue();
                 p_menu.set_is_menu_open(true);
             }
+
             int i = 0;
             move_players_(window, true);
             for (auto player : players_)
@@ -196,17 +190,16 @@ void Game::play_versus_(sf::RenderWindow& window)
                 i++;
             }
             bobm_explosion_(game_board_->items());
-
             kill_players_(0, true);
-            //std::cout << window.isOpen();
+
             window.clear(sf::Color(69, 159, 66));
             draw_game_(window);
             window.display();
-            /*std::cout << 1.f / Clock.getElapsedTime().asSeconds() << "\n";
-            Clock.restart();*/
+
         }
         if(need_to_run)
             draw_result_(window);
+
         explosions_on_board_ = 0;
         game_board_->reset_board(NUMBER_OF_WALLS_Y,wall_texture_, box_texture_, door_texture_);
         bombs_on_b_.clear();
@@ -227,6 +220,7 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
     {
         std::shared_ptr<Player> player = players_[i];
         std::vector<sf::Keyboard::Key> keys = PLAYERS_KEYS[i];
+
         if (not (sf::Keyboard::isKeyPressed(keys[0]) || sf::Keyboard::isKeyPressed(keys[1]) || sf::Keyboard::isKeyPressed(keys[2]) || sf::Keyboard::isKeyPressed(keys[3])) && not player->can_textured_be_placed(50) && is_player_stationary_[i] != 1)
         {
             if (i == 0 && !player1_texture_.loadFromFile(PLAYER_PATH))
@@ -239,6 +233,8 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
             }
             is_player_stationary_[i] = 1;
         }
+
+
         float player_x = player->get_position().x;
         const int MOVEMNT_SPEED = 5;
         if (sf::Keyboard::isKeyPressed(keys[0]))
@@ -273,11 +269,13 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
         {
             shift_game_board_(-MOVEMNT_SPEED, i);
             check_if_colides_right_(player, game_board_->items(), window);
+            display_player_move_sideways(player, 1);
             is_player_stationary_[i] = 0;
         }
         if (sf::Keyboard::isKeyPressed(PLAYERS_KEYS[i][3]) && can_gameboard_be_shifter_(false, window) && not versus)
         {
             shift_game_board_(MOVEMNT_SPEED, i);
+            display_player_move_sideways(player, -1);
             check_if_colides_left_(player, game_board_->items(), window);
             is_player_stationary_[i] = 0;
         }
@@ -729,6 +727,15 @@ bool Game::check_explosion_(bool versus)
             explosions_on_board_--;
         }
     }
+    for (auto explosion : explosions_)
+    {
+        for(int i = 0; i<enemies_.size(); i++)
+        if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
+        {
+            enemies_.erase(enemies_.begin() + i);
+            i--;
+        }
+    }
     for (auto player : players_)
     {
         for (int i = 0; i < explosions_.size(); i++)
@@ -750,6 +757,16 @@ bool Game::check_explosion_(bool versus)
 
 bool Game::kill_players_(int pixels_moved, bool versus)
 {
+    if (check_enemies_())
+    {
+        shift_game_board_(pixels_moved, 3);
+        for (auto player : players_)
+        {
+            player->set_position({ 0, 0 });
+            player->set_hp(player->get_hp() - 1);
+        }
+        return true;
+    }
     if (check_explosion_(versus))
     {
         shift_game_board_(pixels_moved, 3);
@@ -763,16 +780,6 @@ bool Game::kill_players_(int pixels_moved, bool versus)
         }
         return true;
     }
-    if (check_enemies_())
-    {
-        shift_game_board_(pixels_moved, 3);
-        for (auto player : players_)
-        {
-            player->set_position({ 0, 0 });
-            player->set_hp(player->get_hp() - 1);
-        }
-        return true;
-    }
     return false;
 }
 
@@ -780,15 +787,6 @@ bool Game::check_enemies_()
 {
     for (int i = 0; i < enemies_.size(); i++)
     {
-        for (auto explosion : explosions_)
-        {
-            if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
-            {
-                enemies_.erase(enemies_.begin() + i);
-                i--;
-                continue;
-            }
-        }
         for (std::shared_ptr<Player> player : players_)
         {
             if (player->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
@@ -976,6 +974,7 @@ void Game::draw_result_(sf::RenderWindow& window)
     {
         result.setString("Player 2 won");
     }
+
     result.setCharacterSize(size);
     result.setStyle(sf::Text::Bold);
     result.setFillColor(sf::Color::Black);
@@ -1011,4 +1010,67 @@ bool Game::check_if_players_are_dead_()
         }
     }
     return false;
+}
+
+void Game::display_level_statistic_(int level_points, int boxes, int enemies, sf::RenderWindow& window)
+{
+    sf::Text result;
+    sf::Text result2;
+    sf::Text result3;
+    sf::Font font;
+    float size = 80;
+    if (!font.loadFromFile(FONT_PATH))
+    {
+        throw FliePathException();
+    }
+    window.clear(sf::Color(69, 159, 66));
+    result.setString("Level points: " + std::to_string(level_points));
+    result.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f - 1.5f * size - 10 });
+    result.setCharacterSize(size);
+    result.setStyle(sf::Text::Bold);
+    result.setFillColor(sf::Color::Black);
+    result.setFont(font);
+    window.draw(result);
+    result2.setString("Boxes destroied: " + std::to_string(boxes));
+    result2.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f - 0.5f * size });
+    result2.setCharacterSize(size);
+    result2.setStyle(sf::Text::Bold);
+    result2.setFillColor(sf::Color::Black);
+    result2.setFont(font);
+    window.draw(result2);
+    result3.setString("Enemies kiled: " + std::to_string(enemies));
+    result3.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f + 0.5f * size + 10 });
+    result3.setCharacterSize(size);
+    result3.setStyle(sf::Text::Bold);
+    result3.setFillColor(sf::Color::Black);
+    result3.setFont(font);
+    window.draw(result3);
+    sf::Event event;
+    window.display();
+    bool run_stop = true;
+    while (run_stop)
+    {
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::KeyReleased)
+            {
+                run_stop = false;
+            }
+        }
+    }
+    while (true)
+    {
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+                exit(1);
+            }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                return;
+            }
+        }
+    }
 }

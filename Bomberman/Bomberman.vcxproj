@@ -171,7 +171,7 @@
     <ClCompile Include="Menu\Menu.cpp" />
     <ClCompile Include="Menu\PauseMenu.cpp" />
     <ClCompile Include="Menu\PopUpMenu.cpp" />
-    <ClCompile Include="testng_merging.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="tests\bomberman_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +198,9 @@
     <ClInclude Include="Menu\PauseMenu.h" />
     <ClInclude Include="Menu\PopUpMenu.h" />
     <ClInclude Include="tests\catch.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

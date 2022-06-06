@@ -82,6 +82,20 @@ void GameBoard::place_walls_(int size_x, int size_y, sf::Texture& wall_texture)
 			}
 		}
 	}
+	for (int x = 1; x <= size_x; x++)
+	{
+		Wall wall({ float((x - 1) * GRID_SLOT_SIZE), -GRID_SLOT_SIZE }, TEXTURE_SCALE, wall_texture);
+		add_item(wall);
+		wall.set_position({ float((x - 1) * GRID_SLOT_SIZE), float(size_y* GRID_SLOT_SIZE + GRID_SLOT_SIZE) });
+		add_item(wall);
+	}
+	for (int y = 1; y <= size_y; y++)
+	{
+		Wall wall({- GRID_SLOT_SIZE - 5, float((y - 1) * GRID_SLOT_SIZE)}, TEXTURE_SCALE, wall_texture);
+		add_item(wall);
+		wall.set_position({float(size_x*GRID_SLOT_SIZE+GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE)});
+		add_item(wall);
+	}
 }
 
 void GameBoard::generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture)
