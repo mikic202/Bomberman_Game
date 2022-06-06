@@ -55,7 +55,7 @@ This class represents items that can be seen on the board. It has four protected
 - sprite_size_
 - item_textures_
 
-There are nine methods:
+There are nine public methods:
 
 - Move - can move item given distance. In this project, it is - mainly used for shifting the whole game board so that player stays on the screen.
 - set_name - setter for name_ attribute
@@ -66,3 +66,31 @@ There are nine methods:
 - set_position - setter for the items position
 - position - getter for the position of the item
 - rescale - setter for the items scale
+<h4>Wall</h4>
+This class inherits after Item and represents Wall, which player cannot penetrate. It has one private attribute:
+
+- wall_texture_path_
+
+This class also has two public methods and three constructors. The methods are:
+
+- get_global_bounds
+- is_coloding_player
+<h4>Bomb</h4>
+This class inherits after Item and represents Bomb, which player canplace. It has six private attributes:
+
+- radius_
+- delay_
+- stregth_
+- placement_time_
+- position_on_board_
+- texture_path_
+
+This class also has three constructors and eight methods.
+- set_radius
+- radius
+- set_delay
+- delay
+- set_strength
+- strength
+- did_blow
+- position_on_board
