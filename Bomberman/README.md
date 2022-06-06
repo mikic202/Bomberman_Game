@@ -228,10 +228,15 @@ I tried to follow all ot he programing paradigmats and I think that I did a pret
 Looking back I would do somethings different, but at the same time I am proud of the way I did other things.
 
 Some of the problems that may occure is the fact that bomb doesn't spawn even close to player. This problem is related to the fact that the board is moved. I think that I fixed it but I am not sure.
+
+At the end I thin we did a pretty good job of creating our own version of Bomberman.
+
+One more thing I defninetly could do better job of is creating Cmake file or working on one from the ground up.
 <h3 style="text-align: center;">Issues we found</h3>
 
 - Bomb ocaisonly spawns in the wrong place
 - Too many boxes get destroyed (sometimes good for player)
+- Cmake may not be 100% correct
 <h3 style="text-align: center;">How to instal Sfml</h3>
 Most of the files needed to run Sfml are included in the repository.
 If you are using Visual Studio you just need to coopy three files into x64/Realase, but we strongly rcomen to follow this tutorial https://www.youtube.com/watch?v=A5tXaXa_Tss&list=LL&index=11(in polish).
