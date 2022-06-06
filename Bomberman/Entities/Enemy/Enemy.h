@@ -28,6 +28,6 @@ protected:
 	float movement_speed;
 	EnemyTypeMovement type;
 	sf::Vector2i movement_direction;
-
+	bool firstMove = true;
 	int damage_to_player = 0;
 };

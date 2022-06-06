@@ -63,7 +63,7 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 	sf::Texture enemy_text;
 	if (!enemy_text.loadFromFile(ENEMY_PATH)) std::cout << "wrong\n";
 
-
+	std::cout << "d";
 	Enemy enemy_right(sf::Vector2f(this->get_position().x + 1 * this->movement_speed, this->get_position().y), TEXTURE_SCALE, enemy_text);
 	Enemy enemy_top(sf::Vector2f(this->get_position().x, this->get_position().y - 1 * this->movement_speed), TEXTURE_SCALE, enemy_text);
 	Enemy enemy_bottom(sf::Vector2f(this->get_position().x, this->get_position().y + 1 * this->movement_speed), TEXTURE_SCALE, enemy_text);
@@ -123,25 +123,32 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 
 		// if next position of enemy intersects other object or border of screen than intersects_already is true
 		bool intersects_already = false;
-		// intersects border of screen check
-		if (next_pos_enemy.get_global_bounds().left <= 0
-			|| next_pos_enemy.get_global_bounds().left + next_pos_enemy.get_global_bounds().width >= WINDOW_WIDTH
-			|| next_pos_enemy.get_global_bounds().top <= 0
-			|| next_pos_enemy.get_global_bounds().top + next_pos_enemy.get_global_bounds().height >= WINDOW_HEIGHT)
+		if (firstMove)
 		{
 			intersects_already = true;
+			firstMove = false;
 		}
-		else
-		{
+		// intersects border of screen check
+		//if (next_pos_enemy.get_global_bounds().left <= 0
+		//	|| next_pos_enemy.get_global_bounds().left + next_pos_enemy.get_global_bounds().width >= WINDOW_WIDTH
+		//	|| next_pos_enemy.get_global_bounds().top <= 0
+		//	|| next_pos_enemy.get_global_bounds().top + next_pos_enemy.get_global_bounds().height >= WINDOW_HEIGHT)
+		//{
+		//	intersects_already = true;
+		//}
+		//else
+		//{
 			for (auto& wall : walls)
 			{
 				if (wall.get()->get_global_bounds().intersects(next_pos_enemy.get_global_bounds()))
 				{
+					std::cout << "s";
+
 					intersects_already = true;
 					break;
 				}
 			}
-		}
+		//}
 
 		// if next position of enemy intersects object then change its direction
 		if (intersects_already)
