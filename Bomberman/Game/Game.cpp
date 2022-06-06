@@ -725,6 +725,15 @@ bool Game::check_explosion_(bool versus)
             explosions_on_board_--;
         }
     }
+    for (auto explosion : explosions_)
+    {
+        for(int i = 0; i<enemies_.size(); i++)
+        if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
+        {
+            enemies_.erase(enemies_.begin() + i);
+            i--;
+        }
+    }
     for (auto player : players_)
     {
         for (int i = 0; i < explosions_.size(); i++)
@@ -776,15 +785,6 @@ bool Game::check_enemies_()
 {
     for (int i = 0; i < enemies_.size(); i++)
     {
-        for (auto explosion : explosions_)
-        {
-            if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
-            {
-                enemies_.erase(enemies_.begin() + i);
-                i--;
-                continue;
-            }
-        }
         for (std::shared_ptr<Player> player : players_)
         {
             if (player->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
