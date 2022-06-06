@@ -115,7 +115,7 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 	{
 
 		sf::Texture enemy_text;
-		if (!enemy_text.loadFromFile(ENEMY_PATH)) std::cout << "bruh\n";
+		if (!enemy_text.loadFromFile(ENEMY_PATH)) throw TextureCanNotBeLoadedException(("Can't load texture for enemy!");
 
 		Enemy next_pos_enemy(this->get_position(), TEXTURE_SCALE, enemy_text);
 		next_pos_enemy.sprite.move(sf::Vector2f(movement_direction.x * movement_speed, movement_direction.y * movement_speed));
