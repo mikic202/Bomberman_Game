@@ -8,6 +8,8 @@ This is our interpretation of the classic Bomberman game. We created the game wi
 <h3 style="text-align: center;">How to play</h3>
 :warning: This project makes use of the Sfml library. If you do not have it instaled, please follow the quick installation guide at the end of this file.
 
+Firstly you need to clone latest version of the git repository or download zip file. Then you need to open proi-project-bomberman folder(or similarly named one)(if you are using VisualStudio you need to open Bomberman project).
+
 If you want to start the game, please open the main.cpp file and compile it. Then you will see the main menu of the game, where you choose which game mode you want to play. If you choose Story mode or Cooperative mode, you then need to choose whether you want to play a new game or open a saved one, and then you need to choose the save.
 <h4>How to play Versus</h4>
 After you choose the Versus mode, you are automatically loaded to the game. The first player is located in the upper left corner and is controlled using WSAD keys and space. The second player is located in the lower right corner and is controlled using arrow keys and enter key. The goal of the game is to kill another player. If the player is killed game stops, and results are displayed. To restart press any key. If you press, escape, you open pause menu.
@@ -193,3 +195,9 @@ This class has one constructor and only one public method:
 - play
 
 Other methods ar private because they are responsible for running the game.
+<h3 style="text-align: center;">Algorithms</h3>
+In this section few more complex algorithms are described.
+<h4>Moving player</h4>
+Mocing player is one of the most important things in the game. We decided to make our game board bigger than screen so way of moving "camera" had to be created. This part isn't realy just small portion of the code it is combination of few methods and also makes use of Composite programing pater to ask object to draw themselves ont the window. It comes down to moving everything except the player. I think this algorith somewhat sumerises how different you sometimes have to think to solve some programing chalanges.
+
+Other part of moving player is object colision. It was really hard to create perfect algorithm, but at the end I think that it came uot prety well. It make use of sfml method intersect that check if two objects intersect. But before that this algorithm chack which direction player moves. Ater that it checks if player is coliding with boject on his corespondinh side and if yes sets player position right in front of the object.
