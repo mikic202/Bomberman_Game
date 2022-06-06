@@ -18,7 +18,11 @@ After you choose the Versus mode, you need to choose whether you want to play a 
 <h4>How to play Cooperative</h4>
 This game mode is similar to the Story mode. The only differences are that there are two players, they share lives, and their score is combined.
 <h3 style="text-align: center;">Code discription</h3>
-There are 43 files that are either .h or .cpp files. There are 19 classes combined. Six classes represent items that the player can see on the board. Three classes represent Entities that can be seen in the game. Three classes represent a type of board. Six classes represent Menu types. One that represents the game.
+There are 43 files that are either .h or .cpp files. There are 19 classes combined. Six classes represent items that the player can see on the board. Three classes represent Entities that can be seen in the game. Three classes represent a type of board. Six classes represent Menu types. One that represents the game. We tried to follow all of the object programing paradigmats and Bridge structural design pattern.
+Every class has privete or protected atributes with getters and setters where needed.
+We also created few abstract classes.
+
+
 
 
 ```mermaid
@@ -209,10 +213,25 @@ This algorithm is esential part of this game. It was quite a chalange to create 
 This algorithm is situated in chack_explosions_ and place_explosions_ private methods in Game class.
 <h4>Generating Board</h4>
 This one is quite simple one but it allows each level to look enique. I made use of rand c++ function to determine whether box needs to be placed in specific GameBoard position. I also used same function to determine where door to next level can be placed.
-<h3 style="text-align: center;">Test</h3>
+<h3 style="text-align: center;">Tests</h3>
 We created few tests that show how some of the methods work. Unfortunetly not all of the aspects of creating games can be tested using code. Some functionalities need to be tested by playing game over and over again.
 
 If you want to fier tests you need to open bomberman_tests.cpp file and hit compile. All of the tests should be correct. Some of the tests are comented because they use system pause to generate expected outcome
+<h3 style="text-align: center;">Our general toughts on the project</h3>
+<h4>Miko³aj Chomanski</h4>
+I personly think that in terms of writing code I did much better than in the last project, mainly because I created classes for everything. But I also see where I can improve, for example by spliting Game class into smaller classes.
+Anohter area that I have improved in is the frequency of commits.
+Of coure I also learnt a lot of thing while craeting this project. One of which is SFML, personly I think that this library has a lot of potential but it has some anoying quirks. For example I had really big problems with textures, thats why you can see textures in item class despite the fact that there are textures already in Game class. This problem is the fact that if texture is being keept as attribute in object and that object is turned into smart pointer, texture stops working.
+
+I tried to follow all ot he programing paradigmats and I think that I did a prety good job of that. But I also think that I will be able to tell whether its true in few weaks or months time.
+
+Looking back I would do somethings different, but at the same time I am proud of the way I did other things.
+
+Some of the problems that may occure is the fact that bomb doesn't spawn even close to player. This problem is related to the fact that the board is moved. I think that I fixed it but I am not sure.
+<h3 style="text-align: center;">Issues we found</h3>
+
+- Bomb ocaisonly spawns in the wrong place
+- Too many boxes get destroyed (sometimes good for player)
 <h3 style="text-align: center;">How to instal Sfml</h3>
 Most of the files needed to run Sfml are included in the repository.
 If you are using Visual Studio you just need to coopy three files into x64/Realase, but we strongly rcomen to follow this tutorial https://www.youtube.com/watch?v=A5tXaXa_Tss&list=LL&index=11(in polish).
