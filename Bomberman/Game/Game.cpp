@@ -220,6 +220,21 @@ void Game::play_coop_(int save_number, bool new_game, sf::RenderWindow& window)
 
 void Game::move_players_(sf::RenderWindow& window, bool versus)
 {
+    /**
+    * this method is responsible for player movement
+    * It takes in two parameters:
+    * *Reference of the render window
+    * *Bool information wheather game mode is versus
+    * In the front we can se that players texture is changed to static
+    * Than six if statements determine which side player is moving or maby board is moving
+    * each if check if the player is cooliding with anything and based on that it determines whether
+    * to move or stop player or to move whole board insted
+    * 
+    * All of the colisions checkin methods are similar
+    * first they check if player intersects with object
+    * than it check whether object solides from correct side
+    * if yes than players position is set to noe in right in front of that object
+    */
     for (int i = 0; i < players_.size(); i++)
     {
         std::shared_ptr<Player> player = players_[i];
@@ -570,6 +585,11 @@ void Game::bomb_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b)
 
 void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::shared_ptr<Bomb> bomb)
 {
+    /**
+    * This method is responsible for placing explosions on the board
+    * It places them in parts of four one for each arm of the cross pattern
+    * then it uses check_where_explosion_stops_ to determin which explosions need to be deleted
+    */
     int bomb_pos_x = bomb->position().x;
     int bomb_pos_y = bomb->position().y;
     explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y) }, TEXTURE_SCALE, explosion_texture_)));
@@ -588,6 +608,15 @@ void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::
 
 void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > items_on_b, std::shared_ptr<Bomb> bomb)
 {
+    /**
+    * This method is responsible for checking if any explosions need to be removed
+    * it checks each arm separtly to se if any of explosions colide with wall object
+    * if yes this explosion is registered as one that needs to be deleted and every explosion
+    * after that one in same arm is also registered be deleted
+    * At the same time algorithm chacks if tere are any boxes in the explosion if yes 
+    * hit method of boxes is called
+    * After each arm is checked explosions that need to be deleted are removed from explosions_ vector
+    */
     explosions_on_board_++;
     int bomb_pos_x = bomb->position().x;
     int bomb_pos_y = bomb->position().y;
