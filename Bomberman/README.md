@@ -10,7 +10,7 @@ This is our interpretation of the classic Bomberman game. We created the game wi
 
 Firstly you need to clone latest version of the git repository or download zip file. Then you need to open proi-project-bomberman folder(or similarly named one)(if you are using VisualStudio you need to open Bomberman project).
 
-If you want to start the game, please open the main.cpp file and compile it. Then you will see the main menu of the game, where you choose which game mode you want to play. If you choose Story mode or Cooperative mode, you then need to choose whether you want to play a new game or open a saved one, and then you need to choose the save.
+If you want to start the game, please open the main.cpp file and compile it (in Visual Studio in Realase). Then you will see the main menu of the game, where you choose which game mode you want to play. If you choose Story mode or Cooperative mode, you then need to choose whether you want to play a new game or open a saved one, and then you need to choose the save.
 <h4>How to play Versus</h4>
 After you choose the Versus mode, you are automatically loaded to the game. The first player is located in the upper left corner and is controlled using WSAD keys and space. The second player is located in the lower right corner and is controlled using arrow keys and enter key. The goal of the game is to kill another player. If the player is killed game stops, and results are displayed. To restart press any key. If you press, escape, you open pause menu.
 <h4>How to play Story</h4>
@@ -202,8 +202,18 @@ Mocing player is one of the most important things in the game. We decided to mak
 
 Other part of moving player is object colision. It was really hard to create perfect algorithm, but at the end I think that it came uot prety well. It make use of sfml method intersect that check if two objects intersect. But before that this algorithm chack which direction player moves. Ater that it checks if player is coliding with boject on his corespondinh side and if yes sets player position right in front of the object.
 
+Looking in code for this algorithm some weird numbers can be spoted. Those numers were determined trought trail and error to make colision mechanics stable for players texture.
+
 <h4>Explosion Detection</h4>
 This algorithm is esential part of this game. It was quite a chalange to create good one. Fortunetly I mannaged to do so. Explosion is created in form of the cross 9 by 9 board spaces. Than the algorithm checks if explosion is placed on the wall if yes than this explosions number and every explosions that comes after in the same line is pushed back into vector. Then explosions which numbers are in the vectore are deleted. After that it is checke if any boxes, players or enemyies intersect with explosions if yes they are also deleted or one life is taken away from them.
 This algorithm is situated in chack_explosions_ and place_explosions_ private methods in Game class.
 <h4>Generating Board</h4>
 This one is quite simple one but it allows each level to look enique. I made use of rand c++ function to determine whether box needs to be placed in specific GameBoard position. I also used same function to determine where door to next level can be placed.
+<h3 style="text-align: center;">Test</h3>
+We created few tests that show how some of the methods work. Unfortunetly not all of the aspects of creating games can be tested using code. Some functionalities need to be tested by playing game over and over again.
+
+If you want to fier tests you need to open bomberman_tests.cpp file and hit compile. All of the tests should be correct. Some of the tests are comented because they use system pause to generate expected outcome
+<h3 style="text-align: center;">How to instal Sfml</h3>
+Most of the files needed to run Sfml are included in the repository.
+If you are using Visual Studio you just need to coopy three files into x64/Realase, but we strongly rcomen to follow this tutorial https://www.youtube.com/watch?v=A5tXaXa_Tss&list=LL&index=11(in polish).
+If you are not yousing Visual Studio wi recomend you to follow oficial guide for your platform in this link https://www.sfml-dev.org/
