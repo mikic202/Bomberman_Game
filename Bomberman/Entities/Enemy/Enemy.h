@@ -2,6 +2,7 @@
 #include "../../Items/Wall.h"
 #include "../../Items/Bomb.h"
 #include "../Entity.h"
+#include "../../Exceptions/enemy_exteptions.h"
 #include <time.h>
 
 enum EnemyTypeMovement
