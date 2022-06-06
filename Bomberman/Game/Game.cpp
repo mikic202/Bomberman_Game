@@ -118,6 +118,10 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
 
             int i = 0;
             move_players_(window);
+            for (auto enemy : enemies_)
+            {
+                enemy->move(game_board_->items());
+            }
             for (auto player : players_)
             {
                 place_bombs_(player, PLAYERS_KEYS[i][4], pixels_moved_);

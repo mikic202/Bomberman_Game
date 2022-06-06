@@ -3,7 +3,6 @@
 
 Enemy::Enemy()
 {
-	srand(time(NULL));
 	std::cout << "f\n\n";
 	this->type = EnemyTypeMovement::RANDOM;
 	this->movement_speed = 1;
@@ -12,7 +11,6 @@ Enemy::Enemy()
 
 Enemy::Enemy(sf::Vector2f position, sf::Vector2f scale, sf::Texture& enemy_texture, float movement_speed)
 {
-	srand(time(NULL));
 	this->sprite.setTexture(enemy_texture);
 	this->sprite.setPosition(position);
 	this->sprite.setScale(scale);
@@ -109,7 +107,7 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 
 void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 {
-
+	srand(time(NULL));
 	// Movement is dependent on the type
 
 	// More description about movement you can find here: https://gitlab-stud.elka.pw.edu.pl/dfokashc/proi-project/-/tree/main/Bomberman
