@@ -86,14 +86,14 @@ void GameBoard::place_walls_(int size_x, int size_y, sf::Texture& wall_texture)
 	{
 		Wall wall({ float((x - 1) * GRID_SLOT_SIZE), -GRID_SLOT_SIZE }, TEXTURE_SCALE, wall_texture);
 		add_item(wall);
-		wall.set_position({ float((x - 1) * GRID_SLOT_SIZE), float(size_y* GRID_SLOT_SIZE + GRID_SLOT_SIZE) });
+		wall.set_position({ float((x - 1) * GRID_SLOT_SIZE), float(size_y* GRID_SLOT_SIZE) });
 		add_item(wall);
 	}
 	for (int y = 1; y <= size_y; y++)
 	{
 		Wall wall({- GRID_SLOT_SIZE - 5, float((y - 1) * GRID_SLOT_SIZE)}, TEXTURE_SCALE, wall_texture);
 		add_item(wall);
-		wall.set_position({float(size_x*GRID_SLOT_SIZE+GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE)});
+		wall.set_position({float(size_x*GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE)});
 		add_item(wall);
 	}
 }
