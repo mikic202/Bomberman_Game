@@ -59,7 +59,7 @@ private:
 	void draw_game_(sf::RenderWindow& window);
 	void draw_result_(sf::RenderWindow& window);
 	bool check_if_players_are_dead_();
-	//void draw_elements_of_game_(sf::RenderWindow& window);
+	void display_level_statistic_(int level_points, int boxes, int enemies, sf::RenderWindow& window);
 public:
 	Game() {};
 	void play(int save_number, char type, bool new_game, sf::RenderWindow &window);

@@ -75,6 +75,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     }
     game_board_ = std::make_shared<StoryModeBoard>(StoryModeBoard(level_number, number_of_players, wall_texture_, box_texture_, door_texture_));
     int items_number_before_loop = 0;
+    int enemies_number_before_loop = 0;
     pixels_moved_ = 0;
     PauseMenu p_menu('S', window, 1);
 
@@ -93,9 +94,10 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             }
         }
         generate_enemies();
+        items_number_before_loop = game_board_->items().size();
+        enemies_number_before_loop = enemies_.size();
         while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run && not check_if_players_are_dead_())
         {
-            items_number_before_loop = game_board_->items().size();
 
             sf::Event event;
             while (window.pollEvent(event))
@@ -130,13 +132,16 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             draw_game_(window);
             draw_score_(window, (points_ + level_points));
             window.display();
-            level_points += POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size());
+            level_points = POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size()) + POINTS_PER_ENEMY*(enemies_number_before_loop-enemies_.size());
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         pixels_moved_ = 0;
+        if (need_to_run)
+            display_level_statistic_(level_points, items_number_before_loop - game_board_->items().size(), enemies_number_before_loop - enemies_.size(), window);
         enemies_.clear();
         if (check_if_players_are_dead_())
         {
+            game_board_->reset_board(level_number, wall_texture_, box_texture_, door_texture_);
             for (auto player : players_)
             {
                 player->set_hp(3);
@@ -741,6 +746,16 @@ bool Game::check_explosion_(bool versus)
 
 bool Game::kill_players_(int pixels_moved, bool versus)
 {
+    if (check_enemies_())
+    {
+        shift_game_board_(pixels_moved, 3);
+        for (auto player : players_)
+        {
+            player->set_position({ 0, 0 });
+            player->set_hp(player->get_hp() - 1);
+        }
+        return true;
+    }
     if (check_explosion_(versus))
     {
         shift_game_board_(pixels_moved, 3);
@@ -751,16 +766,6 @@ bool Game::kill_players_(int pixels_moved, bool versus)
                 player->set_position({ 0, 0 });
                 player->set_hp(player->get_hp() - 1);
             }
-        }
-        return true;
-    }
-    if (check_enemies_())
-    {
-        shift_game_board_(pixels_moved, 3);
-        for (auto player : players_)
-        {
-            player->set_position({ 0, 0 });
-            player->set_hp(player->get_hp() - 1);
         }
         return true;
     }
@@ -1003,4 +1008,67 @@ bool Game::check_if_players_are_dead_()
         }
     }
     return false;
+}
+
+void Game::display_level_statistic_(int level_points, int boxes, int enemies, sf::RenderWindow& window)
+{
+    sf::Text result;
+    sf::Text result2;
+    sf::Text result3;
+    sf::Font font;
+    float size = 80;
+    if (!font.loadFromFile(FONT_PATH))
+    {
+        throw FliePathException();
+    }
+    window.clear(sf::Color(69, 159, 66));
+    result.setString("Level points: " + std::to_string(level_points));
+    result.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f - 1.5f * size - 10 });
+    result.setCharacterSize(size);
+    result.setStyle(sf::Text::Bold);
+    result.setFillColor(sf::Color::Black);
+    result.setFont(font);
+    window.draw(result);
+    result2.setString("Boxes destroied: " + std::to_string(boxes));
+    result2.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f - 0.5f * size });
+    result2.setCharacterSize(size);
+    result2.setStyle(sf::Text::Bold);
+    result2.setFillColor(sf::Color::Black);
+    result2.setFont(font);
+    window.draw(result2);
+    result3.setString("Enemies kiled: " + std::to_string(enemies));
+    result3.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f + 0.5f * size + 10 });
+    result3.setCharacterSize(size);
+    result3.setStyle(sf::Text::Bold);
+    result3.setFillColor(sf::Color::Black);
+    result3.setFont(font);
+    window.draw(result3);
+    sf::Event event;
+    window.display();
+    bool run_stop = true;
+    while (run_stop)
+    {
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::KeyReleased)
+            {
+                run_stop = false;
+            }
+        }
+    }
+    while (true)
+    {
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+                exit(1);
+            }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                return;
+            }
+        }
+    }
 }
