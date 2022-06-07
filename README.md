@@ -199,6 +199,60 @@ This class has one constructor and only one public method:
 - play
 
 Other methods ar private because they are responsible for running the game.
+
+<h4> Player </h4>
+This class represents actor, that can be controlled and moved by user using for this buttons WASD or keys (depends on mode of game).
+It has four private attributes:
+
+- hp                         - representing hitpoints of player
+- last_texture_number        - additional variable for changing sprite of player
+- time_since_texture_changed - additional variable for changing sprite of player
+- quanity_bombs              - variable, that should represent quanity of bombs that player placed on gameboard - will be used in the future!
+
+Public methods:
+
+- get_hp
+- set_last_texture_number
+- get_last_texture_number
+- set_hp
+- set_quanity_bombs
+- on_bomb
+- can_textured_be_placed
+- place_texture
+- constructor with parameters
+
+<h4> Menu </h4>
+It is pure abstract class, which is parent for other menus, such as MainMenu, CreditsMenu etc. This class is very crucial, because it implements a lot of interactional logic with user and contains a lot of methods that are used in inherited classes.
+
+Public methods:
+
+- constructors with different parameters
+- run     - method, that is called when this menu should be displayed
+- poll_events - method, that checks input from user
+- update - method, that check all interaction from user
+- render - method, that allows to display all of the content on window
+- mouse_over - method, that alllows to check if mouse is hover over the specific text field
+- mouse_update - method, that polls event from mouse
+- move_up - method, that is called when key W or arrow key up is pressed
+- move_down - method, that is called when key S or arrow key down is pressed
+- clicked_field - pure abstract method, that should be overrided in inherited classes
+
+Protected fields:
+
+- menu_clock - variable, to restrict user from to fast changing menu field
+- menu_fields - vector of text elements, that can be clicked by user using mouse or keyboard
+- window - window, where menu is rendered
+- font - font for all menu fields
+- bottom_menu_field - pointer to the menu field that is in the bottom
+- top_menu_field - pointer to the menu field that is on top
+- target_text - pointer to the menu field, that is choosen by user using mouse or keyboard ( has different color to differenciate it from inactive fields)
+- background_texture - texture, that will be displayed like a background, not every inherited menu should have this variable.
+- background - variable, for displaying background texture
+- is_menu_open - variable, that checks if this menu is currently open
+
+Other description of inherited classes you can find in code of that classes, they are very self-explanatory.
+
+
 <h3 style="text-align: center;">Algorithms</h3>
 In this section few more complex algorithms are described.
 <h4>Moving player</h4>
@@ -207,6 +261,10 @@ Mocing player is one of the most important things in the game. We decided to mak
 Other part of moving player is object colision. It was really hard to create perfect algorithm, but at the end I think that it came uot prety well. It make use of sfml method intersect that check if two objects intersect. But before that this algorithm chack which direction player moves. Ater that it checks if player is coliding with boject on his corespondinh side and if yes sets player position right in front of the object.
 
 Looking in code for this algorithm some weird numbers can be spoted. Those numers were determined trought trail and error to make colision mechanics stable for players texture.
+
+<h4> Moving Enemy </h4>
+We have a lot of thoughts of how enemies can move. Starting of moving by using breadth-first search algorythm and ending by algorythm, in which enemy is running away from bombs. We tried to implement these algorythms into our program, but unfortunately it made performance of game very poor, so we rejected from this idea. Maybe we will think about it later and implement this in our project. So the last idea that could work was creating "random" movement. Idea of this algorythm is following: if next position of enemy does not "touch" walls, then it continues to go in the same direction. When next position of enemy "touch" some obstacle, then it checks all available directions, using which next position of enemy won't touch walls(can be right, left, bottom or top) and choose from them one direction randomly. Then it continues to move in that direction until next position of enemy won't detect other obstacle. Then algorythm repeats.
+
 
 <h4>Explosion Detection</h4>
 This algorithm is esential part of this game. It was quite a chalange to create good one. Fortunetly I mannaged to do so. Explosion is created in form of the cross 9 by 9 board spaces. Than the algorithm checks if explosion is placed on the wall if yes than this explosions number and every explosions that comes after in the same line is pushed back into vector. Then explosions which numbers are in the vectore are deleted. After that it is checke if any boxes, players or enemyies intersect with explosions if yes they are also deleted or one life is taken away from them.
@@ -232,6 +290,17 @@ Some of the problems that may occure is the fact that bomb doesn't spawn even cl
 At the end I thin we did a pretty good job of creating our own version of Bomberman.
 
 One more thing I defninetly could do better job of is creating Cmake file or working on one from the ground up.
+
+<h4> Denys Fokashchuk</h4>
+This project was pretty tough for me. The main reason was not writing code in C++, although it is harder than writing code in python, but working on team.
+
+Earlier I worked only on my own and it was easy, because when only I write all code I understand everything, that is happening in the program. But when I work with someone else, I can not immediately understand what does some functions means and it takes some time to understand why something is working or is not working. And when we tried to combine my code and code of my groupmate we had some bugs that hard to understand why they even exists.
+
+But working on team has also advantages: the main plus is that you have less work than if you would do everything alone. To be honest, I worked not so hard as I supposed to work, so Mikolaj made more work than me and I very appreciate this. Only things that I have done are menus, enemy and player. Everything else was done not by me.
+
+So in conclussion, I want to say, that it was good experience for me, because I saw what is it working on small team. I hope that I will have more this kind of experience in the future :D
+
+
 <h3 style="text-align: center;">Issues we found</h3>
 
 - Bomb ocaisonly spawns in the wrong place
