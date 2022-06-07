@@ -1,6 +1,5 @@
 #include "CreditsMenu.h"
 
-// TODO EXCEPTION WHEN BACKGROUND IMAGE CAN'T BE LOADED
 CreditsMenu::CreditsMenu()
 {
 	this->go_back = new sf::Text("Return to main menu", this->font, 60);
@@ -14,13 +13,9 @@ CreditsMenu::CreditsMenu()
 	this->go_back->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
 	this->target_text = go_back;
 	if (!this->background_texture.loadFromFile("Assets/background_credits.png"))
-		std::cout << "ERROR DURING LOADING BACKGROUND FOR CREDITS\n";
+		throw MenuBackgroundCanNotBeEmpty("Can not load backgrround texture for CreditsMenu!");
 	this->background.setTexture(this->background_texture);
-
-	this->main_text->setPosition(
-		40,
-		40
-	);
+	this->main_text->setPosition(40, 40);
 
 	this->go_back->setPosition(
 		this->window->getSize().x / 2.f - this->go_back->getGlobalBounds().width / 2.f,
@@ -49,7 +44,6 @@ void CreditsMenu::render_text_fields()
 void CreditsMenu::poll_events()
 {
 	sf::Event ev;
-	//std::cout << string(this->target_text->getString()) << endl;
 
 
 	while (this->window->pollEvent(ev))
@@ -78,15 +72,12 @@ void CreditsMenu::poll_events()
 void CreditsMenu::update()
 {
 	this->poll_events();
-
-
 }
 
 void CreditsMenu::render()
 {
 	this->window->clear(sf::Color::Black);
 	this->render_text_fields();
-
 	this->window->display();
 }
 

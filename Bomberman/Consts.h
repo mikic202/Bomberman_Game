@@ -7,6 +7,8 @@
 const int DIMENSIONS = 2;
 const std::vector<int> STORY_SIZE = { 30, 11 };
 const int GAME_BOARD_SIZE = 11;
+
+// Width and height of viewport
 const int WINDOW_WIDTH = 825;
 const int WINDOW_HEIGHT = 825;
 

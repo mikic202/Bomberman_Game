@@ -10,7 +10,6 @@ public:
 	virtual void render_text_fields();
 	void poll_events() override;
 
-
 	void update() override;
 	void render() override;
 

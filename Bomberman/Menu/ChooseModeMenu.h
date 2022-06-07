@@ -2,7 +2,8 @@
 #include "Menu.h"
 #include "MainMenu.h"
 #include "ChooseGameMenu.h"
-// For chhosing new game or load game from file
+
+// Class that represents menu for choosing new game or load game from file
 class ChooseModeMenu : public Menu
 {
 public:

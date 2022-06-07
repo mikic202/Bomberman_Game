@@ -40,9 +40,6 @@ void Enemy::set_damage_to_player(int new_damage)
 	this->damage_to_player = damage_to_player;
 }
 
-
-
-
 std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_directions(std::vector<std::shared_ptr<Wall>> walls)
 {
 	std::vector<std::pair<std::string, sf::Vector2i>> directions{
@@ -72,30 +69,24 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 	for (auto& wall : walls)
 	{
 
-		if (wall.get()->get_global_bounds().intersects(enemy_right.get_global_bounds())
-			|| enemy_right.get_global_bounds().left + enemy_right.get_global_bounds().width >= WINDOW_WIDTH)
+		if (wall.get()->get_global_bounds().intersects(enemy_right.get_global_bounds()))
 		{
 			directions.erase(std::remove(directions.begin(), directions.end(), right), directions.end());
 		}
-		if (wall.get()->get_global_bounds().intersects(enemy_left.get_global_bounds())
-			|| enemy_left.get_global_bounds().left <= 0)
+		if (wall.get()->get_global_bounds().intersects(enemy_left.get_global_bounds()))
 		{
 
 			directions.erase(std::remove(directions.begin(), directions.end(), left), directions.end());
 		}
 
-		if (wall.get()->get_global_bounds().intersects(enemy_top.get_global_bounds())
-			|| enemy_top.get_global_bounds().top <= 0)
+		if (wall.get()->get_global_bounds().intersects(enemy_top.get_global_bounds()))
 		{
 
 			directions.erase(std::remove(directions.begin(), directions.end(), top), directions.end());
 		}
 
-		if (wall.get()->get_global_bounds().intersects(enemy_bottom.get_global_bounds())
-			|| enemy_bottom.get_global_bounds().top + enemy_bottom.get_global_bounds().height >= WINDOW_HEIGHT)
+		if (wall.get()->get_global_bounds().intersects(enemy_bottom.get_global_bounds()))
 		{
-
-
 			directions.erase(std::remove(directions.begin(), directions.end(), bottom), directions.end());
 		}
 	}

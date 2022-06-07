@@ -1,6 +1,5 @@
 #include "ChooseModeMenu.h"
 
-//TODO EXCEPTION WHEN BACKGROUND IMAGE IS NOT FOUND
 ChooseModeMenu::ChooseModeMenu(char type)
 {
 	//type
@@ -8,7 +7,7 @@ ChooseModeMenu::ChooseModeMenu(char type)
 	
 	// background
 	if(!this->background_texture.loadFromFile("Assets/choose_mode_background.jpg"))
-		std::cout << "ERROR DURING LOADING BACKGROUND FOR ChooseModeMenu\n";
+		throw MenuBackgroundCanNotBeEmpty("Can not load backgrround texture for ChooseModeMenu!");
 	this->background.setTexture(this->background_texture);
 	
 	// text fields
@@ -19,9 +18,8 @@ ChooseModeMenu::ChooseModeMenu(char type)
 	this->bottom_menu_field = go_back;
 	this->menu_fields = { new_game, load_game, go_back};
 	for (size_t i = 0; i < menu_fields.size(); i++)
-	{
 		this->menu_fields[i]->setFillColor(MAIN_MENU_TEXT_COLOR);
-	}
+	
 	// Position of text fields
 	this->new_game->setPosition(60, WINDOW_HEIGHT / 2.f - 60);
 	this->load_game->setPosition(WINDOW_WIDTH - 200 - load_game->getGlobalBounds().width / 2,
@@ -40,7 +38,6 @@ void ChooseModeMenu::clickedField(sf::Text* target_text)
 {
 	if (this->target_text->getString() == "New game")
 	{
-		std::cout << "new game\n";
 		ChooseGameMenu choose_game_menu(type, true);
 		this->window->close();
 		choose_game_menu.run();
@@ -70,7 +67,6 @@ void ChooseModeMenu::render_text_fields()
 void ChooseModeMenu::poll_events()
 {
 	sf::Event ev;
-	//std::cout << string(this->target_text->getString()) << endl;
 
 
 	while (this->window->pollEvent(ev))
@@ -104,8 +100,7 @@ void ChooseModeMenu::poll_events()
 					move_down();
 					menu_clock.restart();
 				}
-			if (ev.key.code == sf::Keyboard::Escape)
-				this->pop_up_menu->show();
+
 			break;
 		default:
 			break;
@@ -119,17 +114,9 @@ void ChooseModeMenu::poll_events()
 void ChooseModeMenu::render()
 {
 	this->window->clear();
-	//cout << this->menu_fields.size();
 	this->window->draw(this->background);
 
 	render_text_fields();
-
-
-	//for (size_t i = 0; i < this->menu_fields.size(); i++)
-	//{
-	//	this->window->draw(*this->menu_fields[i]);
-	//}
-
 	this->window->display();
 }
 
