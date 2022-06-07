@@ -4,6 +4,9 @@
 #include"../Items/Box.h"
 #include"../Game Board/StoryModeBoard.h"
 #include"../Game Board/VersusModeBoard.h"
+#include "../Menu/Menu.h"
+#include "../Entities/Enemy/Enemy.h"
+#include <algorithm>
 #include <Windows.h>
 
 
@@ -156,7 +159,6 @@ TEST_CASE("Door class tests")
 }
 
 
-//TODO TESTS FOR PLAYER
 TEST_CASE("Tests for GameBoard class")
 {
 	SECTION("Setters and getters tests tests")
@@ -234,3 +236,48 @@ TEST_CASE("Tests for VersusModeBoard")
 		REQUIRE(board.items().size() >= 16 * 16 / 4);
 	}
 }
+
+TEST_CASE("Tests for enemy")
+{
+	SECTION("Get available direction tests")
+	{
+		sf::Texture texture_wall;
+		texture_wall.loadFromFile(WALL_PATH);
+		sf::Texture texture_enemy;
+		texture_enemy.loadFromFile(ENEMY_PATH);
+
+		std::vector<std::shared_ptr<Wall>> walls{
+			std::make_shared<Wall>(sf::Vector2f(0, 0), TEXTURE_SCALE, texture_wall),
+			std::make_shared<Wall>(sf::Vector2f(75, 0), TEXTURE_SCALE, texture_wall),
+			std::make_shared<Wall>(sf::Vector2f(150, 0), TEXTURE_SCALE, texture_wall),
+			std::make_shared<Wall>(sf::Vector2f(0, 75), TEXTURE_SCALE, texture_wall),
+			std::make_shared<Wall>(sf::Vector2f(150, 75), TEXTURE_SCALE, texture_wall),
+			std::make_shared<Wall>(sf::Vector2f(0, 150), TEXTURE_SCALE, texture_wall),
+			std::make_shared<Wall>(sf::Vector2f(150, 150), TEXTURE_SCALE, texture_wall),
+			std::make_shared<Wall>(sf::Vector2f(75, 150), TEXTURE_SCALE, texture_wall)
+		};
+		Enemy enemy(sf::Vector2f(77, 77), TEXTURE_SCALE, texture_enemy, 5);
+		auto directions = enemy.get_available_directions(walls);
+		REQUIRE(directions.size() == 2);
+
+		bool condition1 = (
+			(directions[0].first == "right" && directions[1].first == "bottom")
+			|| (directions[1].first == "right" && directions[0].first == "bottom"));
+		REQUIRE(condition1);
+
+		enemy.set_speed(1);
+		enemy.set_position(sf::Vector2f(80, 80));
+		directions = enemy.get_available_directions(walls);
+		REQUIRE(directions.size() == 3);
+
+		std::pair<std::string, sf::Vector2i> right = std::make_pair("right", sf::Vector2i(1, 0));
+		std::pair<std::string, sf::Vector2i> top = std::make_pair("top", sf::Vector2i(0, -1));
+		std::pair<std::string, sf::Vector2i> bottom = std::make_pair("bottom", sf::Vector2i(0, 1));
+
+		bool condition2 = (std::find(directions.begin(), directions.end(), right) != directions.end()
+			&& std::find(directions.begin(), directions.end(), top) != directions.end()
+			&& std::find(directions.begin(), directions.end(), bottom) != directions.end());
+		REQUIRE(condition2);
+	}
+}
+

@@ -16,7 +16,7 @@ const int WINDOW_HEIGHT = 825;
 const int GRID_SLOT_SIZE = 75;
 const sf::Vector2f TEXTURE_SCALE = { .214286, .214286 };
 
-//gameplya consts
+//gameplay consts
 const int MAX_EXPLOSION_DELAY = 3;
 const int PLAYER_LIVES = 3;
 const std::vector < std::vector<sf::Keyboard::Key> > PLAYERS_KEYS = {
