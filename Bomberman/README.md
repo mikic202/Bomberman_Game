@@ -240,4 +240,4 @@ One more thing I defninetly could do better job of is creating Cmake file or wor
 <h3 style="text-align: center;">How to instal Sfml</h3>
 Most of the files needed to run Sfml are included in the repository.
 If you are using Visual Studio you just need to coopy three files into x64/Realase, but we strongly rcomen to follow this tutorial https://www.youtube.com/watch?v=A5tXaXa_Tss&list=LL&index=11(in polish).
-If you are not yousing Visual Studio wi recomend you to follow oficial guide for your platform in this link https://www.sfml-dev.org/
+If you are not yousing Visual Studio we recomend you to follow oficial guide for your platform from this Sfml site https://www.sfml-dev.org/
