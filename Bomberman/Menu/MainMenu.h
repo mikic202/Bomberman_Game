@@ -7,9 +7,6 @@ class MainMenu : public Menu
 public:
 	MainMenu();
 	void clickedField(sf::Text* target_text) override;
-
-	//void run() override;
-
 	void update() override;
 
 	// function to draw everything

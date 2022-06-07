@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include "../Game/Game.h"
 #include "MainMenu.h"
+
 // Menu that will be displayed if ESCAPE button was pressed during game
 class PauseMenu : public Menu
 {
@@ -13,8 +14,6 @@ public:
 
 	// When menu field is clicked
 	bool clickedMenuField(sf::Text* target_text);
-
-	//void poll_events() override;
 
 	void mouse_update() override;
 

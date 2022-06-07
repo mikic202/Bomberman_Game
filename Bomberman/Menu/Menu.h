@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 #include "../Consts.h"
-#include "PopUpMenu.h"
+#include "../Exceptions/menus_exceptions.h"
 #include <SFML/Graphics/Text.hpp>
 
 class Menu
@@ -14,13 +14,12 @@ public:
 	// menu_fields vector of text fields in menu; can't be changed after creating menu
 	Menu(float width, float height, std::string name, std::vector<sf::Text*> menu_fields);
 	
-	Menu(sf::VideoMode video_mode, std::string name, std::vector<sf::Text*> menu_fields, PopUpMenu* pop_up_menu = nullptr);
+	Menu(sf::VideoMode video_mode, std::string name, std::vector<sf::Text*> menu_fields);
 
 	// function to show window with menu until it is closed or 
 	// selected option from text field
 	void run();
 
-	//virtual void run(sf::RenderWindow& window);
 
 	virtual void poll_events();
 
@@ -34,12 +33,11 @@ public:
 
 	virtual void mouse_update();
 
-
+	// When arrow key up or button W is pressed then this function is called
 	void move_up();
+
+	// When arrow key down or button S is pressed then this function is called
 	void move_down();
-
-	bool menu_field_clicked();
-
 
 	// function that is called when text field is pressed
 	virtual void clickedField(sf::Text* target_text) = 0;
@@ -51,18 +49,13 @@ protected:
 
 	sf::Clock menu_clock;
 
-
 	std::vector<sf::Text*> menu_fields;
-	//int MainMenuSelected;
 	sf::RenderWindow* window;
-	PopUpMenu* pop_up_menu;
 	sf::Font font;
 	
 	sf::Text* bottom_menu_field;
 	sf::Text* top_menu_field;
 	sf::Text* target_text;
-
-
 	sf::Texture background_texture;
 	sf::Sprite background;
 

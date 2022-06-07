@@ -170,7 +170,6 @@
     <ClCompile Include="Menu\MainMenu.cpp" />
     <ClCompile Include="Menu\Menu.cpp" />
     <ClCompile Include="Menu\PauseMenu.cpp" />
-    <ClCompile Include="Menu\PopUpMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tests\bomberman_tests.cpp" />
   </ItemGroup>
@@ -179,7 +178,9 @@
     <ClInclude Include="Entities\Enemy\Enemy.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\Player\Player.h" />
+    <ClInclude Include="Exceptions\enemy_exteptions.h" />
     <ClInclude Include="Exceptions\Item_exceptions.h" />
+    <ClInclude Include="Exceptions\menus_exceptions.h" />
     <ClInclude Include="Game Board\GameBoard.h" />
     <ClInclude Include="Game Board\StoryModeBoard.h" />
     <ClInclude Include="Game Board\VersusModeBoard.h" />
@@ -196,7 +197,6 @@
     <ClInclude Include="Menu\MainMenu.h" />
     <ClInclude Include="Menu\Menu.h" />
     <ClInclude Include="Menu\PauseMenu.h" />
-    <ClInclude Include="Menu\PopUpMenu.h" />
     <ClInclude Include="tests\catch.hpp" />
   </ItemGroup>
   <ItemGroup>

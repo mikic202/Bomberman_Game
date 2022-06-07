@@ -1,7 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-// Pure abstract class that describes
-// object that can be displayed and move
 
 enum class Direction
 {
@@ -10,11 +8,13 @@ enum class Direction
 	LEFT = 2,
 	RIGHT = 3
 };
+
+// Pure abstract class that describes
+// object that can be displayed and move
 class Entity 
 {
 public:
 	Entity();
-	//Entity(int pos_x, int pos_y, unsigned int size_x, unsigned int size_y, int speed);
 	Entity(sf::Vector2f position, sf::Texture& texture, int speed = 5);
 	Entity(sf::Vector2f position, sf::Texture& texture, sf::Vector2f size, int speed = 5);
 
@@ -24,14 +24,10 @@ public:
 
 	void draw_to(sf::RenderWindow& window);
 
-	//int get_position_x();
-	//int get_position_y();
 	sf::Vector2f get_position();
 	int get_speed();
 	sf::Vector2f get_size();
 
-	//void set_position_x(int new_pos_x); 
-	//void set_position_y(int new_pos_y);
 	void set_position(sf::Vector2f position);
 
 	void set_speed(int new_speed);
@@ -40,7 +36,7 @@ public:
 
 	void scale(sf::Vector2f size);
 
-	virtual ~Entity();
+	virtual ~Entity() = 0;
 protected:
 	int speed;
 	sf::Texture texture;

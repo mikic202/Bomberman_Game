@@ -1,41 +1,14 @@
 #include "PauseMenu.h"
 
-//TODO logic
-bool PauseMenu::clickedMenuField(sf::Text* target_text)
-{
-	std::cout << "s\n";
-	if (target_text->getString() == "Continue")
-	{
-		can_game_continue = true;
-
-	}
-	else if (target_text->getString() == "Start new game")
-	{
-		/*Game game;*/
-		can_game_continue = false;
-		/*game.play(saved_num, this->type, true, *this->window);*/
-	}
-	else if (target_text->getString() == "Exit")
-	{
-		// EXIT PROGRAM
-		this->window->close();
-		exit(1);
-
-	}
-	is_menu_open = false;
-	return false;
-}
-
-
 PauseMenu::PauseMenu( char type, unsigned int saved_num)
 {
-	//this->game = game;
 	this->type = type;
 	this->saved_num = saved_num;
 	std::vector<std::string> text_fields_names = { "Continue", "Start new game", "Exit" };
 	
-	// Y position for every menu field
+	// y position for every menu field
 	float current_pos_y = WINDOW_HEIGHT / 2 - 200;
+	// setting menu fields
 	for (size_t i = 0; i < text_fields_names.size(); i++)
 	{
 		sf::Text* temp_text = new sf::Text(text_fields_names[i], this->font, 70);
@@ -59,11 +32,31 @@ PauseMenu::PauseMenu(char type, sf::RenderWindow& window, unsigned int saved_num
 	this->window = &window;
 }
 
+bool PauseMenu::clickedMenuField(sf::Text* target_text)
+{
+	if (target_text->getString() == "Continue")
+	{
+		can_game_continue = true;
+
+	}
+	else if (target_text->getString() == "Start new game")
+	{
+		can_game_continue = false;
+	}
+	else if (target_text->getString() == "Exit")
+	{
+		// Close entire program
+		this->window->close();
+		exit(1);
+
+	}
+	is_menu_open = false;
+	return false;
+}
+
 void PauseMenu::poll_events()
 {
 	sf::Event ev;
-	//std::cout << string(this->target_text->getString()) << endl;
-
 
 	while (this->window->pollEvent(ev) && this->is_menu_open)
 	{
@@ -89,8 +82,6 @@ void PauseMenu::poll_events()
 					move_down();
 					menu_clock.restart();
 				}
-			if (ev.key.code == sf::Keyboard::Escape)
-				this->pop_up_menu->show();
 			break;
 		default:
 			break;
@@ -107,7 +98,6 @@ void PauseMenu::mouse_update()
 {
 	for (size_t i = 0; i < this->menu_fields.size(); i++)
 	{
-		//std::cout << "CONTAINS\n";
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouse_over(menu_fields[i]))
 		{
 			clickedMenuField(menu_fields[i]);
@@ -115,7 +105,6 @@ void PauseMenu::mouse_update()
 		}
 		if (mouse_over(menu_fields[i]))
 		{
-			//menu_fields[i]->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
 			target_text->setFillColor(MAIN_MENU_TEXT_COLOR);
 			target_text = menu_fields[i];
 			target_text->setFillColor(MAIN_MENU_TEXT_TARGET_COLOR);
@@ -123,22 +112,8 @@ void PauseMenu::mouse_update()
 		}
 	}
 }
-bool PauseMenu::get_can_game_continue()
-{
-	return this->can_game_continue;
-}
-void PauseMenu::set_is_menu_open(bool value)
-{
-	this->is_menu_open = value;
-}
-//void PauseMenu::poll_events()
-//{
-//
-//}
 
+bool PauseMenu::get_can_game_continue() { return this->can_game_continue; }
+void PauseMenu::set_is_menu_open(bool value) { this->is_menu_open = value; }
 
-
-PauseMenu::~PauseMenu()
-{
-
-}
+PauseMenu::~PauseMenu() { }

@@ -54,7 +54,7 @@ Menu--|>ChoseGameMenu
 ```
 :exclamation: Those are only simple class diagrams and there are no methods or atributes on them to make those diagrams easier to read.
 <h4>Item</h4>
-This class represents items that can be seen on the board. It has four protected attributes:
+This Abstract class represents items that can be seen on the board. It has four protected attributes:
 
 - name_
 - item_sprite_
@@ -64,14 +64,14 @@ This class represents items that can be seen on the board. It has four protected
 There are nine public methods:
 
 - Move - can move item given distance. In this project, it is - mainly used for shifting the whole game board so that player stays on the screen.
-- set_name - setter for name_ attribute
-- name - getter for name_ attribute
-- item_sprite - getter for item_sprite_ attribute
-- load_immage_from_file - loads image onto the items sprite
-- draw_to - draws item onto the given render window
-- set_position - setter for the items position
-- position - getter for the position of the item
-- rescale - setter for the items scale
+- set_name
+- name
+- item_sprite
+- load_immage_from_file
+- draw_to
+- set_position
+- position
+- rescale
 <h4>Wall</h4>
 This class inherits after Item and represents Wall, which player cannot penetrate. It has one private attribute:
 
@@ -128,7 +128,7 @@ This class also has three constructors and one poblic method:
 - did_end
 
 <h4>GameBoard</h4>
-This class represents GameBoard that players moves around on. It has six protected attributes:
+This Abstract class represents GameBoard that players moves around on. It has six protected attributes:
 
 - background_
 - items_on_board_
@@ -218,10 +218,10 @@ We created few tests that show how some of the methods work. Unfortunetly not al
 
 If you want to fier tests you need to open bomberman_tests.cpp file and hit compile. All of the tests should be correct. Some of the tests are comented because they use system pause to generate expected outcome
 <h3 style="text-align: center;">Our general toughts on the project</h3>
-<h4>Miko³aj Chomanski</h4>
+<h4>Mikoï¿½aj Chomanski</h4>
 I personly think that in terms of writing code I did much better than in the last project, mainly because I created classes for everything. But I also see where I can improve, for example by spliting Game class into smaller classes.
 Anohter area that I have improved in is the frequency of commits.
-Of coure I also learnt a lot of thing while craeting this project. One of which is SFML, personly I think that this library has a lot of potential but it has some anoying quirks. For example I had really big problems with textures, thats why you can see textures in item class despite the fact that there are textures already in Game class. This problem is the fact that if texture is being keept as attribute in object and that object is turned into smart pointer, texture stops working.
+Of coure I also learnt a lot of thing while craeting this project. One of which is SFML, personly I think that this library has a lot of potential but it has some anoying quirks. For example I had really big problems with textures, thats why you can see textures in item class despite the fact that there are textures already in Game class. This problem is the fact that if texture is being keept as attribute in object and that object is turned into smart pointer, texture stops working. For that reason some parts of classes are prety much unused, I decided to keep them because I tought that those classes can be used in other implementations of the game( or other games). It does not folow "No, you won't need it" rule but I tought that if I have already created that code and it doesn't break anything it can stay.
 
 I tried to follow all ot he programing paradigmats and I think that I did a prety good job of that. But I also think that I will be able to tell whether its true in few weaks or months time.
 
@@ -240,4 +240,4 @@ One more thing I defninetly could do better job of is creating Cmake file or wor
 <h3 style="text-align: center;">How to instal Sfml</h3>
 Most of the files needed to run Sfml are included in the repository.
 If you are using Visual Studio you just need to coopy three files into x64/Realase, but we strongly rcomen to follow this tutorial https://www.youtube.com/watch?v=A5tXaXa_Tss&list=LL&index=11(in polish).
-If you are not yousing Visual Studio wi recomend you to follow oficial guide for your platform in this link https://www.sfml-dev.org/
+If you are not yousing Visual Studio we recomend you to follow oficial guide for your platform from this Sfml site https://www.sfml-dev.org/

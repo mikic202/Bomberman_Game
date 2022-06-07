@@ -3,6 +3,8 @@
 #include "MainMenu.h"
 #include "ChooseModeMenu.h"
 #include "../Game/Game.h"
+
+// Class representing menu for choosing in which file game will be saved
 class ChooseGameMenu : public Menu
 {
 public:
@@ -12,17 +14,13 @@ public:
 	// Return number of saving for current target_field
 	int get_target_number();
 
-	//void poll_events() override;
 
-	//void render() override;
-	//virtual void render_text_fields();
 	void poll_events() override;
 
 	void render_menu_fields();
 	void render() override;
 
 	~ChooseGameMenu();
-
 
 private:
 	char type;

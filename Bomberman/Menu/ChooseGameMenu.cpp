@@ -41,9 +41,6 @@ ChooseGameMenu::ChooseGameMenu(char type, bool new_game)
 void ChooseGameMenu::poll_events()
 {
 	sf::Event ev;
-	//std::cout << string(this->target_text->getString()) << endl;
-
-
 	while (this->window->pollEvent(ev))
 	{
 		// Keyboard polling events
@@ -75,10 +72,6 @@ void ChooseGameMenu::poll_events()
 					move_down();
 					menu_clock.restart();
 				}
-			if (ev.key.code == sf::Keyboard::Escape)
-				std::cout << 1;
-				//this->pop_up_menu->show();
-
 			break;
 		}
 		// mouse polling events
@@ -100,10 +93,8 @@ void ChooseGameMenu::clickedField(sf::Text* target_text)
 		Game game;
 		sf::RenderWindow window(sf::VideoMode(this->window->getSize().x, this->window->getSize().y), "Bomberman");
 		this->window->close();
-		std::cout <<  "New game: " << this->get_target_number() << std::endl;
 
 		game.play(get_target_number(), type, new_game, window);
-		std::cout << 1;
 	}
 }
 
@@ -131,9 +122,7 @@ void ChooseGameMenu::render()
 void ChooseGameMenu::render_menu_fields()
 {
 	for (size_t i = 0; i < this->menu_fields.size(); i++)
-	{
 		this->window->draw(*this->menu_fields[i]);
-	}
 }
 
 ChooseGameMenu::~ChooseGameMenu()

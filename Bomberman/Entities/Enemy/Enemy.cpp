@@ -3,7 +3,6 @@
 
 Enemy::Enemy()
 {
-	std::cout << "f\n\n";
 	this->type = EnemyTypeMovement::RANDOM;
 	this->movement_speed = 1;
 }
@@ -17,7 +16,6 @@ Enemy::Enemy(sf::Vector2f position, sf::Vector2f scale, sf::Texture& enemy_textu
 	this->movement_direction = sf::Vector2i(-1, 0);
 	this->movement_speed = movement_speed;
 	this->type = EnemyTypeMovement::RANDOM;
-
 }
 
 int Enemy::get_damage_to_player()
@@ -42,9 +40,6 @@ void Enemy::set_damage_to_player(int new_damage)
 	this->damage_to_player = damage_to_player;
 }
 
-
-
-
 std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_directions(std::vector<std::shared_ptr<Wall>> walls)
 {
 	std::vector<std::pair<std::string, sf::Vector2i>> directions{
@@ -59,11 +54,10 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 	std::pair<std::string, sf::Vector2i> bottom = directions[3];
 
 
-	//todo
 	sf::Texture enemy_text;
-	if (!enemy_text.loadFromFile(ENEMY_PATH)) std::cout << "wrong\n";
+	if (!enemy_text.loadFromFile(ENEMY_PATH)) 
+		throw TextureCanNotBeLoadedException("Can not load texture for enemy from ENEMY_PATH variable!");
 
-	std::cout << "d";
 	Enemy enemy_right(sf::Vector2f(this->get_position().x + 1 * this->movement_speed, this->get_position().y), TEXTURE_SCALE, enemy_text);
 	Enemy enemy_top(sf::Vector2f(this->get_position().x, this->get_position().y - 1 * this->movement_speed), TEXTURE_SCALE, enemy_text);
 	Enemy enemy_bottom(sf::Vector2f(this->get_position().x, this->get_position().y + 1 * this->movement_speed), TEXTURE_SCALE, enemy_text);
@@ -75,30 +69,24 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 	for (auto& wall : walls)
 	{
 
-		if (wall.get()->get_global_bounds().intersects(enemy_right.get_global_bounds())
-			|| enemy_right.get_global_bounds().left + enemy_right.get_global_bounds().width >= WINDOW_WIDTH)
+		if (wall.get()->get_global_bounds().intersects(enemy_right.get_global_bounds()))
 		{
 			directions.erase(std::remove(directions.begin(), directions.end(), right), directions.end());
 		}
-		if (wall.get()->get_global_bounds().intersects(enemy_left.get_global_bounds())
-			|| enemy_left.get_global_bounds().left <= 0)
+		if (wall.get()->get_global_bounds().intersects(enemy_left.get_global_bounds()))
 		{
 
 			directions.erase(std::remove(directions.begin(), directions.end(), left), directions.end());
 		}
 
-		if (wall.get()->get_global_bounds().intersects(enemy_top.get_global_bounds())
-			|| enemy_top.get_global_bounds().top <= 0)
+		if (wall.get()->get_global_bounds().intersects(enemy_top.get_global_bounds()))
 		{
 
 			directions.erase(std::remove(directions.begin(), directions.end(), top), directions.end());
 		}
 
-		if (wall.get()->get_global_bounds().intersects(enemy_bottom.get_global_bounds())
-			|| enemy_bottom.get_global_bounds().top + enemy_bottom.get_global_bounds().height >= WINDOW_HEIGHT)
+		if (wall.get()->get_global_bounds().intersects(enemy_bottom.get_global_bounds()))
 		{
-
-
 			directions.erase(std::remove(directions.begin(), directions.end(), bottom), directions.end());
 		}
 	}
@@ -123,32 +111,21 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 
 		// if next position of enemy intersects other object or border of screen than intersects_already is true
 		bool intersects_already = false;
+
+		// After the start intersects_already should be true so that enemy can start to go
 		if (firstMove)
 		{
 			intersects_already = true;
 			firstMove = false;
 		}
-		// intersects border of screen check
-		//if (next_pos_enemy.get_global_bounds().left <= 0
-		//	|| next_pos_enemy.get_global_bounds().left + next_pos_enemy.get_global_bounds().width >= WINDOW_WIDTH
-		//	|| next_pos_enemy.get_global_bounds().top <= 0
-		//	|| next_pos_enemy.get_global_bounds().top + next_pos_enemy.get_global_bounds().height >= WINDOW_HEIGHT)
-		//{
-		//	intersects_already = true;
-		//}
-		//else
-		//{
-			for (auto& wall : walls)
+		for (auto& wall : walls)
+		{
+			if (wall.get()->get_global_bounds().intersects(next_pos_enemy.get_global_bounds()))
 			{
-				if (wall.get()->get_global_bounds().intersects(next_pos_enemy.get_global_bounds()))
-				{
-					std::cout << "s";
-
-					intersects_already = true;
-					break;
-				}
+				intersects_already = true;
+				break;
 			}
-		//}
+		}
 
 		// if next position of enemy intersects object then change its direction
 		if (intersects_already)

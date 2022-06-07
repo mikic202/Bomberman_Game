@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+
 class TextureCanNotBeLoadedException : public std::exception
 {
 public:
