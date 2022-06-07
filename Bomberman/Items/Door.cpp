@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #include "Door.h"
 
 

@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Item_Exceptions_H
 #define Item_Exceptions_H
 #include <stdexcept>

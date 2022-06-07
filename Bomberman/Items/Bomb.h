@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Bomb_H
 #define Bomb_H
 #include "Item.h"

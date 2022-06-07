@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef StoryModeBoard_H
 #define StoryModeBoard_H
 #include "GameBoard.h"

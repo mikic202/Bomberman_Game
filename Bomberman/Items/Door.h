@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Door_H
 #define Door_H
 #include "Explosion.h"

@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #include "GameBoard.h"
 #include "../Exceptions/Item_exceptions.h"
 #include "../Items/Box.h"
