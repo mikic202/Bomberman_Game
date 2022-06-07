@@ -589,6 +589,9 @@ void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::
 {
     /**
     * This method is responsible for placing explosions on the board
+    * 
+    * It takes vector of walls and boxes, and vector of bombs
+    * 
     * It places them in parts of four one for each arm of the cross pattern
     * then it uses check_where_explosion_stops_ to determin which explosions need to be deleted
     */
@@ -612,6 +615,9 @@ void Game::check_where_explosion_stops_(std::vector<std::shared_ptr<Wall> > item
 {
     /**
     * This method is responsible for checking if any explosions need to be removed
+    * 
+    * It takes vector of walls and boxes, and vector of bombs
+    * 
     * it checks each arm separtly to se if any of explosions colide with wall object
     * if yes this explosion is registered as one that needs to be deleted and every explosion
     * after that one in same arm is also registered be deleted
