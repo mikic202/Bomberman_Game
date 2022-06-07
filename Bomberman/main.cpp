@@ -1,3 +1,6 @@
+//Miko³aj Chomanski
+//Denys Fokashchuk
+
 #include <SFML/Graphics.hpp>
 #include"Items/Bomb.h"
 #include "Game Board/StoryModeBoard.h"

@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #include "Game.h"
 #include <fstream>
 #include <string>

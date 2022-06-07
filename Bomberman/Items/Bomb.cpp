@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #include "Bomb.h"
 #include "../Consts.h"
 #include <cmath>

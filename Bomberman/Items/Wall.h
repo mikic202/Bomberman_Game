@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Wall_H
 #define Wall_H
 #include "Item.h"

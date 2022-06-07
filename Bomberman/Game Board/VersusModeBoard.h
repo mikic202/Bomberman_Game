@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef VersusModeBoard_H
 #define VersusModeBoard_H
 #include "GameBoard.h"

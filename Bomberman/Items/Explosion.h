@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Explosion_H
 #define Explosion_H
 #include "Wall.h"

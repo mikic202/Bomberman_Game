@@ -1,3 +1,6 @@
+//Miko³aj Chomanski
+//Denys Fokashchuk
+
 #ifndef Consts_H
 #define Consts_H
 #include <vector>

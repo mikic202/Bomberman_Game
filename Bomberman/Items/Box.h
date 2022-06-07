@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Box_H
 #define Box_H
 #include "Wall.h"

@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef GameBoard_H
 #define GameBoard_H
 #include <SFML/Graphics.hpp>

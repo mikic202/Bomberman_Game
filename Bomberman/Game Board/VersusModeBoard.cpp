@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #include "VersusModeBoard.h"
 
 VersusModeBoard::VersusModeBoard(int size, sf::Texture& wall_texture, sf::Texture& box_texture)

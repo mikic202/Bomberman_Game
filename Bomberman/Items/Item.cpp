@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #include "Item.h"
 #include "../Consts.h"
 #include "../Exceptions/Item_exceptions.h"

@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Game_H
 #define Game_H
 #include <SFML/Graphics.hpp>

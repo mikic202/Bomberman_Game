@@ -1,3 +1,5 @@
+//Miko³aj Chomanski
+
 #ifndef Item_H
 #define Item_H
 #include <iostream>
