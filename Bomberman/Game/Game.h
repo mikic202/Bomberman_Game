@@ -62,6 +62,7 @@ private:
 	void draw_result_(sf::RenderWindow& window);
 	bool check_if_players_are_dead_();
 	void display_level_statistic_(int level_points, int boxes, int enemies, sf::RenderWindow& window);
+	void move_enemies_();
 public:
 	Game() {};
 	void play(int save_number, char type, bool new_game, sf::RenderWindow &window);

@@ -2,6 +2,7 @@
 
 #include "Game.h"
 #include <fstream>
+#include <thread>
 #include <string>
 #include "../Exceptions/Item_exceptions.h"
 #include "../Menu/PauseMenu.h"
@@ -120,10 +121,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
 
             int i = 0;
             move_players_(window);
-            for (auto enemy : enemies_)
-            {
-                enemy->move(game_board_->items());
-            }
+            std::thread move_enem(&Game::move_enemies_, this);
             for (auto player : players_)
             {
                 place_bombs_(player, PLAYERS_KEYS[i][4], pixels_moved_);
@@ -139,6 +137,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             draw_score_(window, (points_ + level_points));
             window.display();
             level_points = POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size()) + POINTS_PER_ENEMY*(enemies_number_before_loop-enemies_.size());
+            move_enem.join();
         }
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         pixels_moved_ = 0;
@@ -1113,5 +1112,13 @@ void Game::display_level_statistic_(int level_points, int boxes, int enemies, sf
                 return;
             }
         }
+    }
+}
+
+void Game::move_enemies_()
+{
+    for (auto enemy : enemies_)
+    {
+        enemy->move(game_board_->items());
     }
 }
