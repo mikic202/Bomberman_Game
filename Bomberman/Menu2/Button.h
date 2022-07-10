@@ -7,10 +7,10 @@
 class Button
 {
 private:
-	sf::RectangleShape butto_rect_;
+	sf::Font font_;
 	sf::Text button_text_;
 public:
-	Button(sf::Vector2f position, sf::Vector2f size, sf::Color button_color, sf::Text text);
+	Button(sf::Vector2f position, int size, sf::Color color, std::string text);
 	void draw_to(sf::RenderWindow& window);
 	bool is_pressed(sf::RenderWindow& window);
 };
