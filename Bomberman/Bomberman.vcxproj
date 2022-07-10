@@ -165,6 +165,7 @@
     <ClCompile Include="Items\Item.cpp" />
     <ClCompile Include="Items\Wall.cpp" />
     <ClCompile Include="Menu2\Button.cpp" />
+    <ClCompile Include="Menu2\MainMenu.cpp" />
     <ClCompile Include="Menu2\Menu.cpp" />
     <ClCompile Include="Menu\ChooseGameMenu.cpp" />
     <ClCompile Include="Menu\ChooseModeMenu.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Items\Item.h" />
     <ClInclude Include="Items\Wall.h" />
     <ClInclude Include="Menu2\Button.h" />
+    <ClInclude Include="Menu2\MainMenu.h" />
     <ClInclude Include="Menu2\Menu.h" />
     <ClInclude Include="Menu\ChooseGameMenu.h" />
     <ClInclude Include="Menu\ChooseModeMenu.h" />
