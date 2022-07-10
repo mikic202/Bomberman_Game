@@ -1,11 +1,12 @@
 #ifndef Menu_H
 #define Menu_H
-
+#include "Button.h"
 
 class Menu
 {
 protected:
 	bool is_menu_open_ = false;
+	std::vector<Button> buttons;
 	virtual void check_buttons_(){};
 	void virtual draw_menu(){};
 public:
