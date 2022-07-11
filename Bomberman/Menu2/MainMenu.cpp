@@ -17,3 +17,8 @@ void MainMenu::draw_menu_(sf::RenderWindow& window)
 		buttons.second.draw_to(window);
 	}
 }
+
+MainMenu::MainMenu()
+{
+	is_menu_open_ = true;
+}
