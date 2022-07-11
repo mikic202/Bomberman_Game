@@ -56,7 +56,8 @@ enum class GameTypeEnum {
 	coop ,
 	versus ,
 	new_game,
-	open_save 
+	open_save,
+	no_choice
 };
 
 
