@@ -15,7 +15,7 @@ void Menu::check_quit_(sf::RenderWindow& window)
     }
 }
 
-void Menu::open_menu(sf::RenderWindow& window)
+std::vector<GameTypeEnum> Menu::open_menu(sf::RenderWindow& window)
 {
 	genarate_menu_();
 	while (is_menu_open_)

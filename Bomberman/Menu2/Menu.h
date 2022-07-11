@@ -15,7 +15,7 @@ protected:
 	void virtual genarate_menu_() {};
 	void check_quit_(sf::RenderWindow& window);
 public:
-	virtual void open_menu(sf::RenderWindow& window);
+	virtual std::vector<GameTypeEnum> open_menu(sf::RenderWindow& window);
 };
 
 
