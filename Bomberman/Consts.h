@@ -50,6 +50,16 @@ const std::map<int, std::string> STORY_SAVES = { {1, "Game Saves/Story1.txt"}, {
 const std::map<int, std::string> CO_OP_SAVES = { {1, "Game Saves/Co-op1.txt"}, {2, "Game Saves/Co-op2.txt"} , {3, "Game Saves/Co-op3.txt"} };
 
 
+//Game Type consts
+enum class GameTypeEnum {
+	story,
+	coop ,
+	versus ,
+	new_game,
+	open_save 
+};
+
+
 
 #endif // !Consts_H
 

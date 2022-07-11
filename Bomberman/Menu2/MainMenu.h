@@ -8,6 +8,7 @@ class MainMenu : public Menu
 private:
 	void genarate_menu_();
 	void draw_menu_(sf::RenderWindow& window);
+	void check_actions_(sf::RenderWindow& window);
 public:
 	MainMenu();
 };

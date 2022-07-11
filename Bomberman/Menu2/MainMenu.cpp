@@ -4,9 +4,9 @@
 
 void MainMenu::genarate_menu_()
 {
-	buttons_.insert(std::pair<int, Button>(1, Button({ WINDOW_WIDTH / 2, 250.f }, 50, sf::Color::Yellow, "Play Story", font_)));
-	buttons_.insert(std::pair<int, Button>(2, Button({ WINDOW_WIDTH / 2, 400.f }, 50, sf::Color::Yellow, "Play Cooperation", font_)));
-	buttons_.insert(std::pair<int, Button>(3, Button({ WINDOW_WIDTH / 2, 560.f }, 50, sf::Color::Yellow, "Play Versus", font_)));
+	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::story, Button({ WINDOW_WIDTH / 2, 250.f }, 50, sf::Color::Yellow, "Play Story", font_)));
+	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::coop, Button({ WINDOW_WIDTH / 2, 400.f }, 50, sf::Color::Yellow, "Play Cooperation", font_)));
+	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::versus, Button({ WINDOW_WIDTH / 2, 560.f }, 50, sf::Color::Yellow, "Play Versus", font_)));
 }
 
 void MainMenu::draw_menu_(sf::RenderWindow& window)
@@ -17,6 +17,14 @@ void MainMenu::draw_menu_(sf::RenderWindow& window)
 		buttons.second.draw_to(window);
 	}
 	window.display();
+}
+
+void MainMenu::check_actions_(sf::RenderWindow& window)
+{
+	for (auto button_pair : buttons_)
+	{
+
+	}
 }
 
 MainMenu::MainMenu()

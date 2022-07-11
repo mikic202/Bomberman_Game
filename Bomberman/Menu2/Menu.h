@@ -2,13 +2,14 @@
 #define Menu_H
 #include "Button.h"
 #include <map>
+#include "../Consts.h"
 
 class Menu
 {
 protected:
 	sf::Font font_;
 	bool is_menu_open_ = false;
-	std::map<int, Button> buttons_;
+	std::map<GameTypeEnum, Button> buttons_;
 	virtual void check_actions_(sf::RenderWindow &window){};
 	void virtual draw_menu_(sf::RenderWindow& window){};
 	void virtual genarate_menu_() {};
