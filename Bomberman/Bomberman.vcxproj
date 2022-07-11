@@ -168,12 +168,6 @@
     <ClCompile Include="Menu2\ChoseSaveMenu.cpp" />
     <ClCompile Include="Menu2\MainMenu.cpp" />
     <ClCompile Include="Menu2\Menu.cpp" />
-    <ClCompile Include="Menu\ChooseGameMenu.cpp" />
-    <ClCompile Include="Menu\ChooseModeMenu.cpp" />
-    <ClCompile Include="Menu\CreditsMenu.cpp" />
-    <ClCompile Include="Menu\MainMenu.cpp" />
-    <ClCompile Include="Menu\Menu.cpp" />
-    <ClCompile Include="Menu\PauseMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tests\bomberman_tests.cpp" />
   </ItemGroup>
@@ -199,12 +193,6 @@
     <ClInclude Include="Menu2\ChoseSaveMenu.h" />
     <ClInclude Include="Menu2\MainMenu.h" />
     <ClInclude Include="Menu2\Menu.h" />
-    <ClInclude Include="Menu\ChooseGameMenu.h" />
-    <ClInclude Include="Menu\ChooseModeMenu.h" />
-    <ClInclude Include="Menu\CreditsMenu.h" />
-    <ClInclude Include="Menu\MainMenu.h" />
-    <ClInclude Include="Menu\Menu.h" />
-    <ClInclude Include="Menu\PauseMenu.h" />
     <ClInclude Include="tests\catch.hpp" />
   </ItemGroup>
   <ItemGroup>
