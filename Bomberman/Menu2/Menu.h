@@ -6,6 +6,7 @@
 class Menu
 {
 protected:
+	sf::Font font_;
 	bool is_menu_open_ = false;
 	std::map<int, Button> buttons_;
 	virtual void check_buttons_(sf::RenderWindow &window){};

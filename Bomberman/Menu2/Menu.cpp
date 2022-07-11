@@ -8,6 +8,7 @@ void Menu::check_quit_(sf::RenderWindow& window)
     {
         if (event.type == sf::Event::Closed)
         {
+            is_menu_open_ = false;
             window.close();
             exit(1);
         }
