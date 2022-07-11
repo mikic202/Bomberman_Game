@@ -10,7 +10,7 @@ protected:
 	sf::Font font_;
 	bool is_menu_open_ = false;
 	std::map<GameTypeEnum, Button> buttons_;
-	virtual void check_actions_(sf::RenderWindow &window){};
+	virtual GameTypeEnum check_actions_(sf::RenderWindow &window){};
 	void virtual draw_menu_(sf::RenderWindow& window){};
 	void virtual genarate_menu_() {};
 	void check_quit_(sf::RenderWindow& window);
