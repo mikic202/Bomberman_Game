@@ -166,6 +166,7 @@
     <ClCompile Include="Items\Wall.cpp" />
     <ClCompile Include="Menu2\Button.cpp" />
     <ClCompile Include="Menu2\ChoseSaveMenu.cpp" />
+    <ClCompile Include="Menu2\ChoseTypeMenu.cpp" />
     <ClCompile Include="Menu2\MainMenu.cpp" />
     <ClCompile Include="Menu2\Menu.cpp" />
     <ClCompile Include="main.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Items\Wall.h" />
     <ClInclude Include="Menu2\Button.h" />
     <ClInclude Include="Menu2\ChoseSaveMenu.h" />
+    <ClInclude Include="Menu2\ChoseTypeMenu.h" />
     <ClInclude Include="Menu2\MainMenu.h" />
     <ClInclude Include="Menu2\Menu.h" />
     <ClInclude Include="tests\catch.hpp" />

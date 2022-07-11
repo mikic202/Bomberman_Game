@@ -72,6 +72,9 @@
     <ClCompile Include="Menu2\ChoseSaveMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Menu2\ChoseTypeMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests\catch.hpp">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu2\ChoseSaveMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu2\ChoseTypeMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
