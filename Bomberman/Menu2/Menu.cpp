@@ -21,7 +21,7 @@ void Menu::open_menu(sf::RenderWindow& window)
 	while (is_menu_open_)
 	{
         check_quit_(window);
-		check_buttons_(window);
+		check_actions_(window);
 		draw_menu_(window);
 	}
 }
