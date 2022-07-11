@@ -5,7 +5,7 @@
 #include <thread>
 #include <string>
 #include "../Exceptions/Item_exceptions.h"
-#include "../Menu/PauseMenu.h"
+//#include "../Menu/PauseMenu.h"
 
 
 const int POINTS_PER_BOX = 20;
@@ -13,7 +13,7 @@ const int POINTS_PER_ENEMY = 40;
 
 
 
-void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &window)
+void Game::play(int save_number, GameTypeEnum type, GameTypeEnum new_game, sf::RenderWindow &window)
 {
     if (!bomb_texture_.loadFromFile(BOMB_PATH))
     {
@@ -40,17 +40,19 @@ void Game::play(int save_number, char type, bool new_game, sf::RenderWindow &win
         throw (FliePathException());
     }
     window.setFramerateLimit(60);
-    if (type == 'S')
+    bool new_game_b = false;
+    if (new_game == GameTypeEnum::new_game) new_game_b = true;
+    if (type == GameTypeEnum::story)
     {
-        play_story_(save_number, new_game, window, 1); 
+        play_story_(save_number, new_game_b, window, 1); 
     }
-    else if (type == 'V')
+    else if (type == GameTypeEnum::versus)
     {
         play_versus_(window);
     }
-    else if (type == 'C')
+    else if (type == GameTypeEnum::coop)
     {
-        play_coop_(save_number+3, new_game, window);
+        play_coop_(save_number+3, new_game_b, window);
     }
     return;
 }
@@ -80,7 +82,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     int items_number_before_loop = 0;
     int enemies_number_before_loop = 0;
     pixels_moved_ = 0;
-    PauseMenu p_menu('S', window, 1);
+    //PauseMenu p_menu('S', window, 1);
 
     while (window.isOpen() && need_to_run)
     {
@@ -114,9 +116,9 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                p_menu.run();
+                /*p_menu.run();
                 need_to_run = p_menu.get_can_game_continue();
-                p_menu.set_is_menu_open(true);
+                p_menu.set_is_menu_open(true);*/
             }
 
             int i = 0;
@@ -165,7 +167,7 @@ void Game::play_versus_(sf::RenderWindow& window)
     const int MOVEMNT_SPEED = 5;
     sf::Texture explosion_texture;
     game_board_ = std::make_shared<VersusModeBoard>(VersusModeBoard(NUMBER_OF_WALLS_Y, wall_texture_, box_texture_));
-    PauseMenu p_menu('S', window, 1);
+    //PauseMenu p_menu('S', window, 1);
     while (window.isOpen() && need_to_run)
     {
         create_players_(2, true, NUMBER_OF_WALLS_Y);
@@ -182,9 +184,9 @@ void Game::play_versus_(sf::RenderWindow& window)
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                p_menu.run();
+                /*p_menu.run();
                 need_to_run = p_menu.get_can_game_continue();
-                p_menu.set_is_menu_open(true);
+                p_menu.set_is_menu_open(true);*/
             }
 
             int i = 0;

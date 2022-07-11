@@ -65,7 +65,7 @@ private:
 	void move_enemies_();
 public:
 	Game() {};
-	void play(int save_number, char type, bool new_game, sf::RenderWindow &window);
+	void play(int save_number, GameTypeEnum type, GameTypeEnum new_game, sf::RenderWindow &window);
 };
 
 
