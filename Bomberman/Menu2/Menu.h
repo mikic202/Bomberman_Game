@@ -14,6 +14,7 @@ protected:
 	void virtual draw_menu_(sf::RenderWindow& window){};
 	void virtual genarate_menu_() {};
 	void check_quit_(sf::RenderWindow& window);
+	void check_if_mouse_still_pressed_();
 public:
 	virtual std::vector<GameTypeEnum> open_menu(sf::RenderWindow& window);
 };

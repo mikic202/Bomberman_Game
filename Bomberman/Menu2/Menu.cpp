@@ -15,6 +15,14 @@ void Menu::check_quit_(sf::RenderWindow& window)
     }
 }
 
+void Menu::check_if_mouse_still_pressed_()
+{
+	while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+
+	}
+}
+
 std::vector<GameTypeEnum> Menu::open_menu(sf::RenderWindow& window)
 {
 	genarate_menu_();
