@@ -26,3 +26,15 @@ std::vector<GameTypeEnum> Menu::open_menu(sf::RenderWindow& window)
 	}
 }
 
+GameTypeEnum Menu::check_actions_(sf::RenderWindow& window)
+{
+	for (auto button_pair : buttons_)
+	{
+		if (button_pair.second.is_pressed(window))
+		{
+			return button_pair.first;
+		}
+	}
+	return GameTypeEnum::no_choice;
+}
+
