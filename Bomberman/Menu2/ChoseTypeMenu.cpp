@@ -41,6 +41,7 @@ std::vector<GameTypeEnum> ChoseTypeMenu::open_menu(sf::RenderWindow& window)
         {
             ChoseSaveMenu save_menu;
             chose_save = save_menu.open_menu(window);
+            is_menu_open_ = false;
         }
     }
     return { chosen_mode, chose_save[0]};
