@@ -57,12 +57,12 @@ enum class GameTypeEnum {
 	versus ,
 	new_game,
 	open_save,
-	no_choice,
 	first_s = 1,
 	second_s = 2,
 	third_s = 3,
 	exit,
-	contin
+	restart,
+	no_choice
 };
 
 
