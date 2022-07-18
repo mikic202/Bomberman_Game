@@ -170,6 +170,7 @@
     <ClCompile Include="Menu2\MainMenu.cpp" />
     <ClCompile Include="Menu2\Menu.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu2\PauseMenu.cpp" />
     <ClCompile Include="tests\bomberman_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@
     <ClInclude Include="Menu2\ChoseTypeMenu.h" />
     <ClInclude Include="Menu2\MainMenu.h" />
     <ClInclude Include="Menu2\Menu.h" />
+    <ClInclude Include="Menu2\PauseMenu.h" />
     <ClInclude Include="tests\catch.hpp" />
   </ItemGroup>
   <ItemGroup>
