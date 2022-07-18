@@ -61,7 +61,7 @@ std::vector<GameTypeEnum> MainMenu::open_menu(sf::RenderWindow& window)
 				save_number = 2;
 				break;
 			case GameTypeEnum::third_s:
-				save_number = 2;
+				save_number = 3;
 				break;
 			}
 			Game game;
