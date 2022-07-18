@@ -60,7 +60,9 @@ enum class GameTypeEnum {
 	no_choice,
 	first_s = 1,
 	second_s = 2,
-	third_s = 3
+	third_s = 3,
+	exit,
+	contin
 };
 
 
