@@ -1,5 +1,5 @@
-<h1 style="text-align: center;">Bomberman</h1>
-This is our interpretation of the classic Bomberman game. We created the game with three game modes:
+﻿<h1 style="text-align: center;">Bomberman</h1>
+This interpretation of the classic Bomberman game. This was a group project, but I decided to make few of functionalities on my own to test my skils. Base idea behind the game is the same. We created the game with three game modes:
 
 - Versus mode - two players playing on one computer face each other to see who can blow up the other one.
 - Story mode - one player ventures out on the adventure to find an exit from the mines. He needs to destroy boxes and avoid enemies to find the door that will allow him to leave.
@@ -48,9 +48,8 @@ class Game
 classDiagram
 Menu--|>MainMenu
 Menu--|>PauseMenu
-Menu--|>CreditsMenu
-Menu--|>ChoseModeMenu
-Menu--|>ChoseGameMenu
+Menu--|>ChoseTypeMenu
+Menu--|>ChoseSaveMenu
 ```
 :exclamation: Those are only simple class diagrams and there are no methods or atributes on them to make those diagrams easier to read.
 <h4>Item</h4>
@@ -221,37 +220,6 @@ Public methods:
 - place_texture
 - constructor with parameters
 
-<h4> Menu </h4>
-It is pure abstract class, which is parent for other menus, such as MainMenu, CreditsMenu etc. This class is very crucial, because it implements a lot of interactional logic with user and contains a lot of methods that are used in inherited classes.
-
-Public methods:
-
-- constructors with different parameters
-- run     - method, that is called when this menu should be displayed
-- poll_events - method, that checks input from user
-- update - method, that check all interaction from user
-- render - method, that allows to display all of the content on window
-- mouse_over - method, that alllows to check if mouse is hover over the specific text field
-- mouse_update - method, that polls event from mouse
-- move_up - method, that is called when key W or arrow key up is pressed
-- move_down - method, that is called when key S or arrow key down is pressed
-- clicked_field - pure abstract method, that should be overrided in inherited classes
-
-Protected fields:
-
-- menu_clock - variable, to restrict user from to fast changing menu field
-- menu_fields - vector of text elements, that can be clicked by user using mouse or keyboard
-- window - window, where menu is rendered
-- font - font for all menu fields
-- bottom_menu_field - pointer to the menu field that is in the bottom
-- top_menu_field - pointer to the menu field that is on top
-- target_text - pointer to the menu field, that is choosen by user using mouse or keyboard ( has different color to differenciate it from inactive fields)
-- background_texture - texture, that will be displayed like a background, not every inherited menu should have this variable.
-- background - variable, for displaying background texture
-- is_menu_open - variable, that checks if this menu is currently open
-
-Other description of inherited classes you can find in code of that classes, they are very self-explanatory.
-
 
 <h3 style="text-align: center;">Algorithms</h3>
 In this section few more complex algorithms are described.
@@ -291,17 +259,8 @@ At the end I thin we did a pretty good job of creating our own version of Bomber
 
 One more thing I defninetly could do better job of is creating Cmake file or working on one from the ground up.
 
-<h4> Denys Fokashchuk</h4>
-This project was pretty tough for me. The main reason was not writing code in C++, although it is harder than writing code in python, but working on team.
 
-Earlier I worked only on my own and it was easy, because when only I write all code I understand everything, that is happening in the program. But when I work with someone else, I can not immediately understand what does some functions means and it takes some time to understand why something is working or is not working. And when we tried to combine my code and code of my groupmate we had some bugs that hard to understand why they even exists.
-
-But working on team has also advantages: the main plus is that you have less work than if you would do everything alone. To be honest, I worked not so hard as I supposed to work, so Mikolaj made more work than me and I very appreciate this. Only things that I have done are menus, enemy and player. Everything else was done not by me.
-
-So in conclussion, I want to say, that it was good experience for me, because I saw what is it working on small team. I hope that I will have more this kind of experience in the future :D
-
-
-<h3 style="text-align: center;">Issues we found</h3>
+<h3 style="text-align: center;">Issues I found</h3>
 
 - Bomb ocaisonly spawns in the wrong place
 - Too many boxes get destroyed (sometimes good for player)
