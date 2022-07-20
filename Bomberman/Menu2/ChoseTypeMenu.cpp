@@ -3,13 +3,22 @@
 
 void ChoseTypeMenu::genarate_menu_()
 {
-    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::new_game, Button({ WINDOW_WIDTH / 2, 250.f }, 50, sf::Color::Yellow, "New Game", font_)));
-    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::open_save, Button({ WINDOW_WIDTH / 2, 400.f }, 50, sf::Color::Yellow, "Open Save", font_)));
+    title_text_.setFont(font_);
+    title_text_.setString("Chose type");
+    title_text_.setCharacterSize(70);
+    title_text_.setFillColor(sf::Color::Yellow);
+    auto center = title_text_.getLocalBounds().width / 2.f;
+    title_text_.setOrigin({ center, title_text_.getGlobalBounds().top });
+    title_text_.setPosition({ WINDOW_WIDTH / 2, 100.f });
+
+    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::new_game, Button({ WINDOW_WIDTH / 4, 350.f }, 50, sf::Color::Yellow, "New Game", font_)));
+    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::open_save, Button({ 3*WINDOW_WIDTH / 4, 350.f }, 50, sf::Color::Yellow, "Open Save", font_)));
 }
 
 void ChoseTypeMenu::draw_menu_(sf::RenderWindow& window)
 {
     window.clear(sf::Color(69, 159, 66));
+    window.draw(title_text_);
     for (auto buttons : buttons_)
     {
         buttons.second.draw_to(window);

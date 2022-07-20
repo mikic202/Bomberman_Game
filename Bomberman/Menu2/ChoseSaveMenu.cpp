@@ -2,14 +2,23 @@
 
 void ChoseSaveMenu::genarate_menu_()
 {
-    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::first_s, Button({ WINDOW_WIDTH / 2, 250.f }, 50, sf::Color::Yellow, "Save 1", font_)));
-    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::second_s, Button({ WINDOW_WIDTH / 2, 400.f }, 50, sf::Color::Yellow, "Save 2", font_)));
-    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::third_s, Button({ WINDOW_WIDTH / 2, 560.f }, 50, sf::Color::Yellow, "Save 3", font_)));
+    title_text_.setFont(font_);
+    title_text_.setString("Chose Save");
+    title_text_.setCharacterSize(70);
+    title_text_.setFillColor(sf::Color::Yellow);
+    auto center = title_text_.getLocalBounds().width / 2.f;
+    title_text_.setOrigin({ center, title_text_.getGlobalBounds().top });
+    title_text_.setPosition({ WINDOW_WIDTH / 2, 100.f });
+
+    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::first_s, Button({ WINDOW_WIDTH / 6, 400.f }, 50, sf::Color::Yellow, "Save 1", font_)));
+    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::second_s, Button({ 3*WINDOW_WIDTH / 6, 400.f }, 50, sf::Color::Yellow, "Save 2", font_)));
+    buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::third_s, Button({ 5*WINDOW_WIDTH / 6, 400.f }, 50, sf::Color::Yellow, "Save 3", font_)));
 }
 
 void ChoseSaveMenu::draw_menu_(sf::RenderWindow& window)
 {
     window.clear(sf::Color(69, 159, 66));
+    window.draw(title_text_);
     for (auto buttons : buttons_)
     {
         buttons.second.draw_to(window);
