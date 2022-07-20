@@ -9,6 +9,7 @@ class Menu
 protected:
 	sf::Font font_;
 	bool is_menu_open_ = false;
+	sf::Text title_text_;
 	std::map<GameTypeEnum, Button> buttons_;
 	virtual GameTypeEnum check_actions_(sf::RenderWindow& window);
 	void virtual draw_menu_(sf::RenderWindow& window){};
