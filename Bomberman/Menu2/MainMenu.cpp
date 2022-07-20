@@ -6,14 +6,23 @@
 
 void MainMenu::genarate_menu_()
 {
-	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::story, Button({ WINDOW_WIDTH / 2, 250.f }, 50, sf::Color::Yellow, "Play Story", font_)));
-	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::coop, Button({ WINDOW_WIDTH / 2, 400.f }, 50, sf::Color::Yellow, "Play Cooperation", font_)));
-	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::versus, Button({ WINDOW_WIDTH / 2, 560.f }, 50, sf::Color::Yellow, "Play Versus", font_)));
+	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::story, Button({ WINDOW_WIDTH / 2, 300.f }, 50, sf::Color::Yellow, "Play Story", font_)));
+	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::coop, Button({ WINDOW_WIDTH / 2, 450.f }, 50, sf::Color::Yellow, "Play Cooperation", font_)));
+	buttons_.insert(std::pair<GameTypeEnum, Button>(GameTypeEnum::versus, Button({ WINDOW_WIDTH / 2, 600.f }, 50, sf::Color::Yellow, "Play Versus", font_)));
 }
 
 void MainMenu::draw_menu_(sf::RenderWindow& window)
 {
 	window.clear(sf::Color(69, 159, 66));
+	sf::Text title_text;
+	title_text.setFont(font_);
+	title_text.setString("Bomberman");
+	title_text.setCharacterSize(70);
+	title_text.setFillColor(sf::Color::Yellow);
+	auto center = title_text.getLocalBounds().width / 2.f;
+	title_text.setOrigin({ center, title_text.getGlobalBounds().top });
+	title_text.setPosition({ WINDOW_WIDTH / 2, 100.f });
+	window.draw(title_text);
 	for (auto buttons : buttons_)
 	{
 		buttons.second.draw_to(window);
