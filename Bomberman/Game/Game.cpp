@@ -144,10 +144,10 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             level_points = POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size()) + POINTS_PER_ENEMY*(enemies_number_before_loop-enemies_.size());
             move_enem.join();
         }
-        game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         pixels_moved_ = 0;
         if (need_to_run && not check_if_players_are_dead_())
             display_level_statistic_(level_points, items_number_before_loop - game_board_->items().size(), enemies_number_before_loop - enemies_.size(), window);
+        game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         enemies_.clear();
         if (check_if_players_are_dead_())
         {
