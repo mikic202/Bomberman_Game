@@ -37,6 +37,8 @@ public:
 	void scale(sf::Vector2f size);
 
 	virtual ~Entity() = 0;
+
+	sf::FloatRect get_local_bounds();
 protected:
 	int speed;
 	sf::Texture texture;

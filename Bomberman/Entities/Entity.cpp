@@ -80,4 +80,9 @@ void Entity::scale(sf::Vector2f size)
 	this->sprite.scale(size);
 }
 
-Entity::~Entity() { };
+Entity::~Entity() { }
+sf::FloatRect Entity::get_local_bounds()
+{
+	return sprite.getLocalBounds();
+}
+;
