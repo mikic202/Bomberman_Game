@@ -59,7 +59,7 @@ void Game::play(int save_number, GameTypeEnum type, GameTypeEnum new_game, sf::R
 
 void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window, int number_of_players)
 {
-    bool need_to_run = true;
+    needs_to_run_ = true;
     players_.clear();
 
     int level_points;
@@ -83,7 +83,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     int enemies_number_before_loop = 0;
     pixels_moved_ = 0;
 
-    while (window.isOpen() && need_to_run)
+    while (window.isOpen() && needs_to_run_)
     {
         level_points = 0;
         for (auto player : players_)
@@ -100,7 +100,8 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
         generate_enemies_();
         items_number_before_loop = game_board_->items().size();
         enemies_number_before_loop = enemies_.size();
-        while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && need_to_run && not check_if_players_are_dead_())
+        std::thread move_enem(&Game::move_enemies_, this);
+        while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && needs_to_run_ && not check_if_players_are_dead_())
         {
 
             sf::Event event;
@@ -108,6 +109,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             {
                 if (event.type == sf::Event::Closed)
                 {
+                    needs_to_run_ = false;
                     save_game_(save_number, 'S', game_board_->level_number(), points_);
                     window.close();
                     exit(1);
@@ -115,18 +117,19 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
+                stop_loop_ = true;
                 PauseMenu p_menu;
                 GameTypeEnum players_choice;
                 players_choice = (p_menu.open_menu(window))[0];
                 if (players_choice != GameTypeEnum::restart)
                 {
-                    need_to_run = false;
+                    needs_to_run_ = false;
                 }
+                stop_loop_ = false;
             }
 
             int i = 0;
             move_players_(window);
-            std::thread move_enem(&Game::move_enemies_, this);
             for (auto player : players_)
             {
                 place_bombs_(player, PLAYERS_KEYS[i][4], pixels_moved_);
@@ -142,10 +145,10 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             draw_score_(window, (points_ + level_points));
             window.display();
             level_points = POINTS_PER_BOX*(items_number_before_loop - game_board_->items().size()) + POINTS_PER_ENEMY*(enemies_number_before_loop-enemies_.size());
-            move_enem.join();
         }
+        move_enem.join();
         pixels_moved_ = 0;
-        if (need_to_run && not check_if_players_are_dead_())
+        if (needs_to_run_ && not check_if_players_are_dead_())
             display_level_statistic_(level_points, items_number_before_loop - game_board_->items().size(), enemies_number_before_loop - enemies_.size(), window);
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         enemies_.clear();
@@ -1125,8 +1128,15 @@ void Game::display_level_statistic_(int level_points, int boxes, int enemies, sf
 
 void Game::move_enemies_()
 {
-    for (auto enemy : enemies_)
+    while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && needs_to_run_ && not check_if_players_are_dead_())
     {
-        enemy->move(game_board_->items());
+        for (auto enemy : enemies_)
+        {
+            enemy->move(game_board_->items());
+        }
+        while (stop_loop_)
+        {
+
+        }
     }
 }

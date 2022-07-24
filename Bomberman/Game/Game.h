@@ -15,6 +15,8 @@ class Game
 {
 private:
 	int pixels_moved_ = 0;
+	bool needs_to_run_;
+	bool stop_loop_ = false;
 	std::shared_ptr<GameBoard> game_board_;
 	int points_ = 1;
 	std::vector<std::shared_ptr<Player> > players_;
@@ -63,6 +65,7 @@ private:
 	bool check_if_players_are_dead_();
 	void display_level_statistic_(int level_points, int boxes, int enemies, sf::RenderWindow& window);
 	void move_enemies_();
+
 public:
 	Game() {};
 	void play(int save_number, GameTypeEnum type, GameTypeEnum new_game, sf::RenderWindow &window);
