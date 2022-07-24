@@ -14,7 +14,6 @@ Bomb::Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vecto
 	set_delay(delay);
 	set_strength(strength);
 	rescale(scale);
-	load_immage_from_file(texture_path_);
 	placement_time_ = std::chrono::high_resolution_clock::now();
 }
 

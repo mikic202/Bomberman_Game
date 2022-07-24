@@ -25,17 +25,6 @@ sf::Sprite Item::item_sprite() const
 	return item_sprite_;
 }
 
-void Item::load_immage_from_file(std::string image_path)
-{
-    //item_sprite_.setOrigin(sprite_size_[0] / 2, sprite_size_[1] / 2);
-
-    if (!item_texture_.loadFromFile(image_path))
-    {
-        throw (FliePathException());
-    }
-    item_sprite_.setTexture(item_texture_);
-}
-
 void Item::draw_to(sf::RenderWindow& window) const
 {
     window.draw(item_sprite_);

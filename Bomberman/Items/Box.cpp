@@ -7,7 +7,6 @@ Box::Box(sf::Vector2f position, int hits_to_brake, sf::Vector2f scale)
 {
 	set_position(position);
 	rescale(scale);
-	load_immage_from_file(box_texture_path_);
 	set_hits_to_brake(hits_to_brake);
 }
 

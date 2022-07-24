@@ -28,7 +28,6 @@ TEST_CASE("Tests for Item class")
 		REQUIRE(items_sprite.getPosition() == pos);
 		REQUIRE(items_sprite.getScale() == scale);
 
-		REQUIRE_THROWS(item.load_immage_from_file("abcnnd"));
 	}
 }
 
