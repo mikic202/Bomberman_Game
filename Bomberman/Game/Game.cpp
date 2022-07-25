@@ -152,6 +152,7 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
             display_level_statistic_(level_points, items_number_before_loop - game_board_->items().size(), enemies_number_before_loop - enemies_.size(), window);
         game_board_->reset_board(++level_number, wall_texture_, box_texture_, door_texture_);
         enemies_.clear();
+        bombs_on_b_.clear();
         if (check_if_players_are_dead_())
         {
             game_board_->reset_board(level_number, wall_texture_, box_texture_, door_texture_);
@@ -380,7 +381,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
     int player_p_x = player->get_position().x;
     int player_p_y = player->get_position().y;
     int multiplier = 0;
-    if (pixels_moved > 0 && pixels_moved%GRID_SLOT_SIZE > GRID_SLOT_SIZE/5)
+    if (pixels_moved > 0 && pixels_moved%GRID_SLOT_SIZE > GRID_SLOT_SIZE/2)
     {
         multiplier = 1;
     }
@@ -778,15 +779,6 @@ bool Game::check_explosion_(bool versus)
             explosions_on_board_--;
         }
     }
-    for (auto explosion : explosions_)
-    {
-        for(int i = 0; i<enemies_.size(); i++)
-        if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()))
-        {
-            enemies_.erase(enemies_.begin() + i);
-            i--;
-        }
-    }
     for (auto player : players_)
     {
         for (int i = 0; i < explosions_.size(); i++)
@@ -1130,9 +1122,20 @@ void Game::move_enemies_()
 {
     while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && needs_to_run_ && not check_if_players_are_dead_())
     {
+        for (auto explosion : explosions_)
+        {
+            for (int i = 0; i < enemies_.size(); i++)
+                if (explosion->get_global_bounds().intersects(enemies_[i]->get_global_bounds()) && not enemies_[i]->is_dead())
+                {
+                    enemies_.erase(enemies_.begin() + i);
+                    i--;
+                }
+        }
+
         for (auto enemy : enemies_)
         {
-            enemy->move(game_board_->items());
+            if(not enemy->is_dead())
+                enemy->move(game_board_->items());
         }
         while (stop_loop_)
         {
