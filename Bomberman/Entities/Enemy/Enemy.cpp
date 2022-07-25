@@ -118,9 +118,9 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 			intersects_already = true;
 			firstMove = false;
 		}
-		for (auto& wall : walls)
+		for (int i = 0; i < walls.size(); i++)
 		{
-			if (wall.get()->get_global_bounds().intersects(next_pos_enemy.get_global_bounds()))
+			if (walls[i].get()->get_global_bounds().intersects(next_pos_enemy.get_global_bounds()))
 			{
 				intersects_already = true;
 				break;
