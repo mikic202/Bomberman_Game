@@ -611,9 +611,9 @@ void Game::place_explosion_(std::vector<std::shared_ptr<Wall>> items_on_b, std::
     explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x),float(bomb_pos_y) }, TEXTURE_SCALE, explosion_texture_)));
     for (int i = 1; i <= bomb->radius(); i++)
     {
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x - GRID_SLOT_SIZE * i),float( bomb_pos_y+3) }, { float(TEXTURE_SCALE.x), float(TEXTURE_SCALE.y - 0.02) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x - GRID_SLOT_SIZE * i + 5),float( bomb_pos_y+3) }, { float(TEXTURE_SCALE.x), float(TEXTURE_SCALE.y - 0.02) }, explosion_texture_)));
 
-        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x + GRID_SLOT_SIZE * i),float(bomb_pos_y+3) }, { float(TEXTURE_SCALE.x), float(TEXTURE_SCALE.y - 0.02) }, explosion_texture_)));
+        explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x + GRID_SLOT_SIZE * i - 5),float(bomb_pos_y+3) }, { float(TEXTURE_SCALE.x), float(TEXTURE_SCALE.y - 0.02) }, explosion_texture_)));
 
         explosions_.push_back(std::make_shared<Explosion>(Explosion({ float(bomb_pos_x+3),float(bomb_pos_y - GRID_SLOT_SIZE * i) }, { float(TEXTURE_SCALE.x - 0.02), float(TEXTURE_SCALE.y) }, explosion_texture_)));
 
