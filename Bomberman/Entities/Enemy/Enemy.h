@@ -27,7 +27,10 @@ public:
 	std::vector<std::pair<std::string, sf::Vector2i>> get_available_directions(std::vector<std::shared_ptr<Wall>> walls);
 
 	void move(std::vector<std::shared_ptr<Wall>> walls);
+	void set_is_dead(bool new_value);
+	bool is_dead();
 protected:
+	bool is_dead_ = false;
 	float movement_speed;
 	EnemyTypeMovement type;
 	sf::Vector2i movement_direction;

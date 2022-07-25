@@ -137,3 +137,13 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 		this->sprite.move(sf::Vector2f(movement_direction.x * movement_speed, movement_direction.y * movement_speed));
 	}
 }
+
+void Enemy::set_is_dead(bool new_value)
+{
+	is_dead_ = new_value;
+}
+
+bool Enemy::is_dead()
+{
+	return is_dead_;
+}
