@@ -66,8 +66,9 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 
 
 	// delete specific direction from directions if next position intersects border of screen or border of wall
-	for (auto& wall : walls)
+	for (int i = 0; i < walls.size(); i++)
 	{
+		auto wall = walls[i];
 
 		if (wall.get()->get_global_bounds().intersects(enemy_right.get_global_bounds()))
 		{
