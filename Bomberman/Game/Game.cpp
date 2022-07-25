@@ -1076,21 +1076,21 @@ void Game::display_level_statistic_(int level_points, int boxes, int enemies, sf
     }
     window.clear(sf::Color(69, 159, 66));
     result.setString("Level points: " + std::to_string(level_points));
-    result.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f - 1.5f * size - 10 });
+    result.setPosition({ window.getSize().x * 0.5f - 4.f * size , window.getSize().y * 0.5f - 1.5f * size - 10 });
     result.setCharacterSize(size);
     result.setStyle(sf::Text::Bold);
     result.setFillColor(sf::Color::Black);
     result.setFont(font);
     window.draw(result);
     result2.setString("Boxes destroied: " + std::to_string(boxes));
-    result2.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f - 0.5f * size });
+    result2.setPosition({ window.getSize().x * 0.5f - 4.f * size , window.getSize().y * 0.5f - 0.5f * size });
     result2.setCharacterSize(size);
     result2.setStyle(sf::Text::Bold);
     result2.setFillColor(sf::Color::Black);
     result2.setFont(font);
     window.draw(result2);
     result3.setString("Enemies kiled: " + std::to_string(enemies));
-    result3.setPosition({ window.getSize().x * 0.5f - 3.f * size , window.getSize().y * 0.5f + 0.5f * size + 10 });
+    result3.setPosition({ window.getSize().x * 0.5f - 4.f * size , window.getSize().y * 0.5f + 0.5f * size + 10 });
     result3.setCharacterSize(size);
     result3.setStyle(sf::Text::Bold);
     result3.setFillColor(sf::Color::Black);
