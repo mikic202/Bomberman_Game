@@ -1120,8 +1120,15 @@ void Game::display_level_statistic_(int level_points, int boxes, int enemies, sf
 
 void Game::move_enemies_()
 {
+    std::chrono::time_point<std::chrono::steady_clock> last_loop;
+    last_loop = std::chrono::high_resolution_clock::now();
     while (detect_player_door_colision_(game_board_->get_door_global_bounds()) && needs_to_run_ && not check_if_players_are_dead_())
     {
+        while (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - last_loop).count() <= 10)
+        {
+
+        }
+        last_loop = std::chrono::high_resolution_clock::now();
         for (auto explosion : explosions_)
         {
             for (int i = 0; i < enemies_.size(); i++)
