@@ -389,7 +389,7 @@ void Game::place_bombs_(std::shared_ptr< Player> player, sf::Keyboard::Key bomb_
     {
         if (not player->on_bomb(bombs_on_b_))
         {
-            int bomb_pos_x = (player_p_x + player->get_local_bounds().width / 2 + 20) / GRID_SLOT_SIZE;
+            int bomb_pos_x = (player_p_x + player->get_local_bounds().width / 2 + 25) / GRID_SLOT_SIZE;
             int bomb_pos_y = (player_p_y + player->get_local_bounds().height/2) / GRID_SLOT_SIZE;
             Bomb bomb({ float((bomb_pos_x- 1 + multiplier) * GRID_SLOT_SIZE - pixels_moved % GRID_SLOT_SIZE), float((bomb_pos_y-1) * GRID_SLOT_SIZE) }, 4, explosion_delay, 1, TEXTURE_SCALE, bomb_texture_);
             bombs_on_b_.push_back(std::make_shared<Bomb>(bomb));
