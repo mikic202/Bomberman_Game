@@ -40,7 +40,7 @@ const std::string BOX_PATH = "Assets/Box.png";
 const std::string DOOR_PATH = "Assets/Door.png";
 const std::string PLAYER_PATH = "Assets/Player.png";
 const std::string ENEMY_PATH = "Assets/Enemy.png";
-const std::string FONT_PATH = "Assets/Fonts/Freedom-10eM.ttf";
+const std::string FONT_PATH = "Assets/Fonts/Nasa21-l23X.ttf";
 const std::string EXPLOSION_PATH = "Assets/Explosion.png";
 const std::vector<std::string> PLAYER_MOVE_FORWARD{ "Assets/Player_move_f1.png", "Assets/Player_move_f2.png"};
 const std::vector<std::string> PLAYER_MOVE_SIDEWAYS{ "Assets/Player_move_side1.png", "Assets/Player_move_side2.png",  "Assets/Player_move_side3.png", "Assets/Player_move_side4.png" };
