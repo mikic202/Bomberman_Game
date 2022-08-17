@@ -220,6 +220,17 @@ Public methods:
 - place_texture
 - constructor with parameters
 
+<h4>Menu</h4>
+This abstract represents menu and every menu class inherits after it. This class only has one public method:
+
+- open menu
+
+This method is virtual and can look and function different in inheriting classes.
+
+<h4>MainMenu, ChoseTypeMenu and ChoseSaveMenu</h4>
+This classes inherit after Menu class. MainMenu represent main menu that you see after opening apilcation. ChoseTypeMenu class represents menu that you see when you need to chose whether you want to play new save or open previous save. ChoseSaveMenu this class represents menu which you see when you need to chose number of save. All of the classes have one constructor and only one method:
+
+- open menu
 
 <h3 style="text-align: center;">Algorithms</h3>
 In this section few more complex algorithms are described.
