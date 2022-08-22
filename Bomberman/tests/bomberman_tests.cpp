@@ -256,7 +256,7 @@ TEST_CASE("Tests for enemy")
 			std::make_shared<Wall>(sf::Vector2f(75, 150), TEXTURE_SCALE, texture_wall)
 		};
 		Enemy enemy(sf::Vector2f(77, 77), TEXTURE_SCALE, texture_enemy, 5);
-		auto directions = enemy.get_available_directions(walls);
+		auto directions = enemy.get_available_directions(walls, std::vector<std::shared_ptr<Bomb> >());
 		REQUIRE(directions.size() == 2);
 
 		bool condition1 = (
@@ -266,7 +266,7 @@ TEST_CASE("Tests for enemy")
 
 		enemy.set_speed(1);
 		enemy.set_position(sf::Vector2f(80, 80));
-		directions = enemy.get_available_directions(walls);
+		directions = enemy.get_available_directions(walls, std::vector<std::shared_ptr<Bomb> >());
 		REQUIRE(directions.size() == 3);
 
 		std::pair<std::string, sf::Vector2i> right = std::make_pair("right", sf::Vector2i(1, 0));
