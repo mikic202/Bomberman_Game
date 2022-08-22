@@ -40,7 +40,7 @@ void Enemy::set_damage_to_player(int new_damage)
 	this->damage_to_player = damage_to_player;
 }
 
-std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_directions(std::vector<std::shared_ptr<Wall>> walls)
+std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_directions(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs)
 {
 	std::vector<std::pair<std::string, sf::Vector2i>> directions{
 		std::make_pair("left", sf::Vector2i(-1, 0)),
@@ -91,10 +91,33 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 			directions.erase(std::remove(directions.begin(), directions.end(), bottom), directions.end());
 		}
 	}
+
+	for (auto bomb : bombs)
+	{
+		if (sprite.getPosition().x - bomb->position().x < bomb->radius() * GRID_SLOT_SIZE && abs(sprite.getPosition().y - bomb->position().y) <GRID_SLOT_SIZE && sprite.getPosition().x - bomb->position().x >0)
+		{
+			directions.erase(std::remove(directions.begin(), directions.end(), left), directions.end());
+		}
+
+		if (bomb->position().x - sprite.getPosition().x < bomb->radius() * GRID_SLOT_SIZE && abs(sprite.getPosition().y - bomb->position().y) < GRID_SLOT_SIZE && bomb->position().x - sprite.getPosition().x >0)
+		{
+			directions.erase(std::remove(directions.begin(), directions.end(), right), directions.end());
+		}
+
+		if (sprite.getPosition().y - bomb->position().y < bomb->radius() * GRID_SLOT_SIZE && abs(sprite.getPosition().x - bomb->position().x) < GRID_SLOT_SIZE && sprite.getPosition().y - bomb->position().y >0)
+		{
+			directions.erase(std::remove(directions.begin(), directions.end(), top), directions.end());
+		}
+
+		if (bomb->position().y - sprite.getPosition().y < bomb->radius() * GRID_SLOT_SIZE && abs(sprite.getPosition().x - bomb->position().x) < GRID_SLOT_SIZE && bomb->position().y - sprite.getPosition().y >0)
+		{
+			directions.erase(std::remove(directions.begin(), directions.end(), bottom), directions.end());
+		}
+	}
 	return directions;
 }
 
-void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
+void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs)
 {
 	srand(time(NULL));
 	// Movement is dependent on the type
@@ -112,6 +135,7 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 
 		// if next position of enemy intersects other object or border of screen than intersects_already is true
 		bool intersects_already = false;
+		bool close_to_bomb = close_to_bobm(bombs);
 
 		// After the start intersects_already should be true so that enemy can start to go
 		if (firstMove)
@@ -129,11 +153,18 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls)
 		}
 
 		// if next position of enemy intersects object then change its direction
-		if (intersects_already)
+		if (intersects_already || close_to_bomb)
 		{
-			auto available_direction = get_available_directions(walls);
-			int chosen_index = rand() % available_direction.size();
-			this->movement_direction = available_direction[chosen_index].second;
+			auto available_direction = get_available_directions(walls, bombs);
+			if (available_direction.size() != 0)
+			{
+				int chosen_index = rand() % available_direction.size();
+				this->movement_direction = available_direction[chosen_index].second;
+			}
+			else
+			{
+				movement_direction = { 0, 0 };
+			}
 		}
 		this->sprite.move(sf::Vector2f(movement_direction.x * movement_speed, movement_direction.y * movement_speed));
 	}
@@ -147,4 +178,16 @@ void Enemy::set_is_dead(bool new_value)
 bool Enemy::is_dead()
 {
 	return is_dead_;
+}
+
+bool Enemy::close_to_bobm(std::vector<std::shared_ptr<Bomb>> bombs)
+{
+	for (auto bomb : bombs)
+	{
+		if (abs(sprite.getPosition().x - bomb->position().x) < GRID_SLOT_SIZE && abs(sprite.getPosition().y - bomb->position().y) < GRID_SLOT_SIZE)
+		{
+			return true;
+		}
+	}
+	return false;
 }
