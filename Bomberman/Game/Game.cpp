@@ -1142,7 +1142,7 @@ void Game::move_enemies_()
         for (auto enemy : enemies_)
         {
             if(not enemy->is_dead())
-                enemy->move(game_board_->items(), bombs_on_b_);
+                enemy->move(game_board_->items(), bombs_on_b_, players_);
         }
         while (stop_loop_)
         {

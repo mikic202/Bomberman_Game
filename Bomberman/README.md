@@ -273,7 +273,6 @@ One more thing I defninetly could do better job of is creating Cmake file or wor
 
 <h3 style="text-align: center;">Issues I found</h3>
 
-- Bomb ocaisonly spawns in the wrong place
 - Too many boxes get destroyed (sometimes good for player)
 - Cmake may not be 100% correct
 <h3 style="text-align: center;">How to instal Sfml</h3>

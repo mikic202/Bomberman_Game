@@ -40,7 +40,7 @@ void Enemy::set_damage_to_player(int new_damage)
 	this->damage_to_player = damage_to_player;
 }
 
-std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_directions(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs)
+std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_directions(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs, std::vector<std::shared_ptr<Player> > players)
 {
 	std::vector<std::pair<std::string, sf::Vector2i>> directions{
 		std::make_pair("left", sf::Vector2i(-1, 0)),
@@ -114,14 +114,40 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 			directions.erase(std::remove(directions.begin(), directions.end(), bottom), directions.end());
 		}
 	}
+
+	for (auto player : players)
+	{
+		if (sprite.getPosition().x - player->get_position().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/2 && sprite.getPosition().x - player->get_position().x > 0)
+		{
+			add_direction_to_player_if_possible_(directions, right);
+		}
+
+		if (player->get_position().x - sprite.getPosition().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/2 && player->get_position().x - sprite.getPosition().x > 0)
+		{
+			add_direction_to_player_if_possible_(directions, left);
+		}
+
+		if (sprite.getPosition().y - player->get_position().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/2 && sprite.getPosition().y - player->get_position().y > 0)
+		{
+			add_direction_to_player_if_possible_(directions, bottom);
+		}
+
+		if (player->get_position().y - sprite.getPosition().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/2 && player->get_position().y - sprite.getPosition().y > 0)
+		{
+			add_direction_to_player_if_possible_(directions, top);
+		}
+	}
 	return directions;
 }
 
-void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs)
+void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs, std::vector<std::shared_ptr<Player> > players)
 {
 	srand(time(NULL));
 	// Movement is dependent on the type
-
+	if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - last_dir_change_).count() < 10)
+	{
+		return;
+	}
 	// More description about movement you can find here: https://gitlab-stud.elka.pw.edu.pl/dfokashc/proi-project/-/tree/main/Bomberman
 	if (this->type == EnemyTypeMovement::RANDOM)
 	{
@@ -135,7 +161,8 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shar
 
 		// if next position of enemy intersects other object or border of screen than intersects_already is true
 		bool intersects_already = false;
-		bool close_to_bomb = close_to_bobm(bombs);
+		bool close_to_bomb = close_to_bobm_(bombs);
+		bool close_to_player = close_to_player_(players);
 
 		// After the start intersects_already should be true so that enemy can start to go
 		if (firstMove)
@@ -153,9 +180,9 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shar
 		}
 
 		// if next position of enemy intersects object then change its direction
-		if (intersects_already || close_to_bomb)
+		if (intersects_already || close_to_bomb || close_to_player)
 		{
-			auto available_direction = get_available_directions(walls, bombs);
+			auto available_direction = get_available_directions(walls, bombs, players);
 			if (available_direction.size() != 0)
 			{
 				int chosen_index = rand() % available_direction.size();
@@ -168,6 +195,7 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shar
 		}
 		this->sprite.move(sf::Vector2f(movement_direction.x * movement_speed, movement_direction.y * movement_speed));
 	}
+	last_dir_change_ = std::chrono::high_resolution_clock::now();
 }
 
 void Enemy::set_is_dead(bool new_value)
@@ -180,11 +208,38 @@ bool Enemy::is_dead()
 	return is_dead_;
 }
 
-bool Enemy::close_to_bobm(std::vector<std::shared_ptr<Bomb>> bombs)
+bool Enemy::close_to_bobm_(std::vector<std::shared_ptr<Bomb>> bombs)
 {
 	for (auto bomb : bombs)
 	{
 		if (abs(sprite.getPosition().x - bomb->position().x) < GRID_SLOT_SIZE && abs(sprite.getPosition().y - bomb->position().y) < GRID_SLOT_SIZE)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+std::vector<std::pair<std::string, sf::Vector2i>> Enemy::add_direction_to_player_if_possible_(std::vector<std::pair<std::string, sf::Vector2i>> directions, std::pair<std::string, sf::Vector2i> possible_dir)
+{
+	for (auto direction : directions)
+	{
+		if (direction.first == possible_dir.first)
+		{
+			directions.push_back(possible_dir);
+			directions.push_back(possible_dir);
+			directions.push_back(possible_dir);
+			return directions;
+		}
+	}
+	return directions;
+}
+
+bool Enemy::close_to_player_(std::vector<std::shared_ptr<Player>> players)
+{
+	for (auto player : players)
+	{
+		if (abs(player->get_position().x - sprite.getPosition().x) < 2 * GRID_SLOT_SIZE && abs(player->get_position().y - sprite.getPosition().y) < 2 * GRID_SLOT_SIZE)
 		{
 			return true;
 		}

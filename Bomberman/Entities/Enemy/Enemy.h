@@ -24,18 +24,21 @@ public:
 	void set_damage_to_player(int new_damage);
 
 	// function that return vector of available direction for enemy
-	std::vector<std::pair<std::string, sf::Vector2i>> get_available_directions(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs);
+	std::vector<std::pair<std::string, sf::Vector2i>> get_available_directions(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs, std::vector<std::shared_ptr<Player> > players);
 
-	void move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs);
+	void move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shared_ptr<Bomb>> bombs, std::vector<std::shared_ptr<Player> > players);
 	void set_is_dead(bool new_value);
 	bool is_dead();
 
 protected:
-	bool close_to_bobm(std::vector<std::shared_ptr<Bomb>> bombs);
+	bool close_to_bobm_(std::vector<std::shared_ptr<Bomb>> bombs);
+	std::vector<std::pair<std::string, sf::Vector2i>> add_direction_to_player_if_possible_(std::vector<std::pair<std::string, sf::Vector2i>> directions, std::pair<std::string, sf::Vector2i> possible_dir);
+	bool close_to_player_(std::vector<std::shared_ptr<Player> > players);
 	bool is_dead_ = false;
 	float movement_speed;
 	EnemyTypeMovement type;
 	sf::Vector2i movement_direction;
 	bool firstMove = true;
 	int damage_to_player = 0;
+	std::chrono::time_point<std::chrono::steady_clock> last_dir_change_;
 };
