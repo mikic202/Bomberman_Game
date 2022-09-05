@@ -117,22 +117,22 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 
 	for (auto player : players)
 	{
-		if (sprite.getPosition().x - player->get_position().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/2 && sprite.getPosition().x - player->get_position().x > 0)
+		if (sprite.getPosition().x - player->get_position().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/10 && sprite.getPosition().x - player->get_position().x > 0)
 		{
 			directions = add_direction_to_player_if_possible_(directions, left);
 		}
 
-		if (player->get_position().x - sprite.getPosition().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/2 && player->get_position().x - sprite.getPosition().x > 0)
+		if (player->get_position().x - sprite.getPosition().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/10 && player->get_position().x - sprite.getPosition().x > 0)
 		{
 			directions = add_direction_to_player_if_possible_(directions, right);
 		}
 
-		if (sprite.getPosition().y - player->get_position().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/2 && sprite.getPosition().y - player->get_position().y > 0)
+		if (sprite.getPosition().y - player->get_position().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/10 && sprite.getPosition().y - player->get_position().y > 0)
 		{
 			directions = add_direction_to_player_if_possible_(directions, top);
 		}
 
-		if (player->get_position().y - sprite.getPosition().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/2 && player->get_position().y - sprite.getPosition().y > 0)
+		if (player->get_position().y - sprite.getPosition().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/10 && player->get_position().y - sprite.getPosition().y > 0)
 		{
 			directions = add_direction_to_player_if_possible_(directions, bottom);
 		}
@@ -235,7 +235,8 @@ bool Enemy::close_to_player_(std::vector<std::shared_ptr<Player>> players)
 {
 	for (auto player : players)
 	{
-		if (abs(player->get_position().x - sprite.getPosition().x) < 2 * GRID_SLOT_SIZE && abs(player->get_position().y - sprite.getPosition().y) < 2 * GRID_SLOT_SIZE)
+		if ((abs(player->get_position().x - sprite.getPosition().x) < 2 * GRID_SLOT_SIZE && abs(player->get_position().y - sprite.getPosition().y) <  GRID_SLOT_SIZE/10) ||
+			(abs(player->get_position().y - sprite.getPosition().y) < 2 * GRID_SLOT_SIZE && abs(player->get_position().x - sprite.getPosition().x) < GRID_SLOT_SIZE / 10))
 		{
 			return true;
 		}
