@@ -936,7 +936,7 @@ void Game::display_player_move_backward_(std::shared_ptr<Player> player)
 void Game::generate_enemies_()
 {
     srand(time(NULL));
-    int number_of_enemies = rand() % (10 - 5 + 1) + 5;
+    int number_of_enemies = rand() % (8 - 5 + 1) + 5;
     float pos_y;
     float pos_x;
     bool is_coliding = false;

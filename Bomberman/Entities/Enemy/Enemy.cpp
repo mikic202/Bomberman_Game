@@ -58,10 +58,10 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 	if (!enemy_text.loadFromFile(ENEMY_PATH)) 
 		throw TextureCanNotBeLoadedException("Can not load texture for enemy from ENEMY_PATH variable!");
 
-	Enemy enemy_right(sf::Vector2f(this->get_position().x + 1 * this->movement_speed, this->get_position().y), TEXTURE_SCALE, enemy_text);
-	Enemy enemy_top(sf::Vector2f(this->get_position().x, this->get_position().y - 1 * this->movement_speed), TEXTURE_SCALE, enemy_text);
-	Enemy enemy_bottom(sf::Vector2f(this->get_position().x, this->get_position().y + 1 * this->movement_speed), TEXTURE_SCALE, enemy_text);
-	Enemy enemy_left(sf::Vector2f(this->get_position().x - 1 * this->movement_speed, this->get_position().y), TEXTURE_SCALE, enemy_text);
+	Enemy enemy_right(sf::Vector2f(this->get_position().x + 5 * this->movement_speed, this->get_position().y), TEXTURE_SCALE, enemy_text);
+	Enemy enemy_top(sf::Vector2f(this->get_position().x, this->get_position().y - 5 * this->movement_speed), TEXTURE_SCALE, enemy_text);
+	Enemy enemy_bottom(sf::Vector2f(this->get_position().x, this->get_position().y + 5 * this->movement_speed), TEXTURE_SCALE, enemy_text);
+	Enemy enemy_left(sf::Vector2f(this->get_position().x - 5 * this->movement_speed, this->get_position().y), TEXTURE_SCALE, enemy_text);
 
 
 
@@ -119,22 +119,22 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::get_available_direction
 	{
 		if (sprite.getPosition().x - player->get_position().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/2 && sprite.getPosition().x - player->get_position().x > 0)
 		{
-			add_direction_to_player_if_possible_(directions, right);
+			directions = add_direction_to_player_if_possible_(directions, left);
 		}
 
 		if (player->get_position().x - sprite.getPosition().x < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().y - player->get_position().y) < GRID_SLOT_SIZE/2 && player->get_position().x - sprite.getPosition().x > 0)
 		{
-			add_direction_to_player_if_possible_(directions, left);
+			directions = add_direction_to_player_if_possible_(directions, right);
 		}
 
 		if (sprite.getPosition().y - player->get_position().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/2 && sprite.getPosition().y - player->get_position().y > 0)
 		{
-			add_direction_to_player_if_possible_(directions, bottom);
+			directions = add_direction_to_player_if_possible_(directions, top);
 		}
 
 		if (player->get_position().y - sprite.getPosition().y < 2 * GRID_SLOT_SIZE && abs(sprite.getPosition().x - player->get_position().x) < GRID_SLOT_SIZE/2 && player->get_position().y - sprite.getPosition().y > 0)
 		{
-			add_direction_to_player_if_possible_(directions, top);
+			directions = add_direction_to_player_if_possible_(directions, bottom);
 		}
 	}
 	return directions;
@@ -144,10 +144,6 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shar
 {
 	srand(time(NULL));
 	// Movement is dependent on the type
-	if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - last_dir_change_).count() < 10)
-	{
-		return;
-	}
 	// More description about movement you can find here: https://gitlab-stud.elka.pw.edu.pl/dfokashc/proi-project/-/tree/main/Bomberman
 	if (this->type == EnemyTypeMovement::RANDOM)
 	{
@@ -195,7 +191,6 @@ void Enemy::move(std::vector<std::shared_ptr<Wall>> walls, std::vector<std::shar
 		}
 		this->sprite.move(sf::Vector2f(movement_direction.x * movement_speed, movement_direction.y * movement_speed));
 	}
-	last_dir_change_ = std::chrono::high_resolution_clock::now();
 }
 
 void Enemy::set_is_dead(bool new_value)
@@ -226,6 +221,7 @@ std::vector<std::pair<std::string, sf::Vector2i>> Enemy::add_direction_to_player
 	{
 		if (direction.first == possible_dir.first)
 		{
+			directions.push_back(possible_dir);
 			directions.push_back(possible_dir);
 			directions.push_back(possible_dir);
 			directions.push_back(possible_dir);
