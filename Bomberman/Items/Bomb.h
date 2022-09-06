@@ -14,7 +14,6 @@ private:
 	int strength_ = 0;
 	std::chrono::time_point<std::chrono::steady_clock> placement_time_;
 	std::vector<int> position_on_board_;
-	std::string texture_path_ = "Assets/Bomb.png";
 public:
 	Bomb() {};
 	Bomb(sf::Vector2f position, int radius, int delay, int strength, sf::Vector2f scale);

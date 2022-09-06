@@ -10,7 +10,6 @@
 class Wall : public Item
 {
 private:
-	std::string wall_texture_path_ = BOMB_PATH;
 public:
 	Wall() {};
 	Wall(sf::Vector2f position, sf::Vector2f scale);
