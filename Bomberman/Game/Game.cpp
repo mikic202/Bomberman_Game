@@ -255,11 +255,11 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
 
         if (not (sf::Keyboard::isKeyPressed(keys[0]) || sf::Keyboard::isKeyPressed(keys[1]) || sf::Keyboard::isKeyPressed(keys[2]) || sf::Keyboard::isKeyPressed(keys[3])) && not player->can_textured_be_placed(50) && is_player_stationary_[i] != 1)
         {
-            if (i == 0 && !player1_texture_.loadFromFile(PLAYER_PATH))
+            if (i == 0 && !player_textures_[0].loadFromFile(PLAYER_PATH))
             {
                 throw (FliePathException());
             }
-            if (i == 1 && !player2_texture_.loadFromFile(PLAYER_PATH))
+            if (i == 1 && !player_textures_[1].loadFromFile(PLAYER_PATH))
             {
                 throw (FliePathException());
             }
@@ -548,28 +548,30 @@ bool Game::is_player_close_to_edge_(std::shared_ptr< Player> player, sf::RenderW
 void Game::create_players_(int player_number, bool versus_mode, int game_board_size)
 {
     sf::Vector2f start_position = { 0, 0 };
-    if (!player1_texture_.loadFromFile(PLAYER_PATH))
+    player_textures_.push_back(sf::Texture());
+    player_textures_.push_back(sf::Texture());
+    if (!player_textures_[0].loadFromFile(PLAYER_PATH))
     {
         throw (FliePathException());
     }
-    players_.push_back(std::make_shared<Player>(Player(start_position, player1_texture_, TEXTURE_SCALE, 1)));
+    players_.push_back(std::make_shared<Player>(Player(start_position, player_textures_[0], TEXTURE_SCALE, 1)));
     if (player_number == 2 && not versus_mode)
     {
-        if (!player2_texture_.loadFromFile(PLAYER_PATH))
+        if (!player_textures_[1].loadFromFile(PLAYER_PATH))
         {
             throw (FliePathException());
         }
-        players_.push_back(std::make_shared<Player>(Player(start_position, player2_texture_, TEXTURE_SCALE, 1)));
-        player2_texture_.setSrgb(true);
+        players_.push_back(std::make_shared<Player>(Player(start_position, player_textures_[1], TEXTURE_SCALE, 1)));
+        player_textures_[1].setSrgb(true);
     }
     else if (player_number == 2 && versus_mode)
     {
-        if (!player2_texture_.loadFromFile(PLAYER_PATH))
+        if (!player_textures_[1].loadFromFile(PLAYER_PATH))
         {
             throw (FliePathException());
         }
-        players_.push_back(std::make_shared<Player>(Player({ float((game_board_size-1) * GRID_SLOT_SIZE), float((game_board_size - 1) * GRID_SLOT_SIZE)}, player2_texture_, TEXTURE_SCALE, 1)));
-        player2_texture_.setSrgb(true);
+        players_.push_back(std::make_shared<Player>(Player({ float((game_board_size-1) * GRID_SLOT_SIZE), float((game_board_size - 1) * GRID_SLOT_SIZE)}, player_textures_[1], TEXTURE_SCALE, 1)));
+        player_textures_[1].setSrgb(true);
     }
 }
 
@@ -870,7 +872,7 @@ void Game::display_player_move_sideways_(std::shared_ptr<Player> player, int mul
     if (player_number == 0)
     {
         std::string path = PLAYER_MOVE_SIDEWAYS[texture_number+add_text_pos];
-        if (!player1_texture_.loadFromFile(path))
+        if (!player_textures_[0].loadFromFile(path))
         {
             throw (FliePathException());
         }
@@ -879,7 +881,7 @@ void Game::display_player_move_sideways_(std::shared_ptr<Player> player, int mul
     else if (player_number == 1)
     {
         std::string path = PLAYER_MOVE_SIDEWAYS[texture_number];
-        if (!player2_texture_.loadFromFile(path))
+        if (!player_textures_[1].loadFromFile(path))
         {
             throw (FliePathException());
         }
@@ -911,7 +913,7 @@ void Game::display_player_move_forward_(std::shared_ptr<Player> player)
     if (player_number == 0)
     {
         std::string path = PLAYER_MOVE_FORWARD[texture_number];
-        if (!player1_texture_.loadFromFile(path))
+        if (!player_textures_[0].loadFromFile(path))
         {
             throw (FliePathException());
         }
@@ -920,7 +922,7 @@ void Game::display_player_move_forward_(std::shared_ptr<Player> player)
     else if (player_number == 1)
     {
         std::string path = PLAYER_MOVE_FORWARD[texture_number];
-        if (!player2_texture_.loadFromFile(path))
+        if (!player_textures_[1].loadFromFile(path))
         {
             throw (FliePathException());
         }

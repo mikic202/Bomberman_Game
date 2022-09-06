@@ -20,8 +20,7 @@ private:
 	std::shared_ptr<GameBoard> game_board_;
 	int points_ = 1;
 	std::vector<std::shared_ptr<Player> > players_;
-	sf::Texture player1_texture_;
-	sf::Texture player2_texture_;
+	std::vector<sf::Texture> player_textures_;
 	sf::Texture enemy_texture_;
 	sf::Texture door_texture_;
 	sf::Texture bomb_texture_;
