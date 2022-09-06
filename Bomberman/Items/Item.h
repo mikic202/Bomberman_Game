@@ -12,7 +12,6 @@ class Item
 protected:
 	std::string name_;
 	sf::Sprite item_sprite_;
-	std::vector<int> sprite_size_;
 public:
 	void move(sf::Vector2f move_distance);
 	void set_name(std::string nem_name);
