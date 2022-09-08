@@ -13,7 +13,7 @@ private:
 	int level_number_;
 	Door door_;
 	const int where_door_can_ocure = 50;
-	std::map<int, int> dificulty_map_ {{0, 80}, {5, 110}, {10, 140}};// first - levels pased, second - boxes on board
+	std::map<int, int> dificulty_map_ {{0, 50}, {5, 70}, {10, 90}};// first - levels pased, second - boxes on board
 	std::map<int, int> box_strength_map_{ {0, 1}, {5, 2}, {10, 3} };
 	void generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture, sf::Texture& door_texture);
 	int box_num_(int level_num) const;

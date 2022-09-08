@@ -58,6 +58,7 @@ void StoryModeBoard::generate_board_(sf::Texture& wall_texture, sf::Texture& box
     place_walls_(size_[0], size_[1], wall_texture);
     place_boxes_(size_[0], size_[1], box_texture);
     place_door_(door_texture);
+    std::cout << "b";
 }
 
 int StoryModeBoard::box_num_(int level_num) const
@@ -93,18 +94,17 @@ void StoryModeBoard::place_boxes_(int size_x, int size_y, sf::Texture& box_textu
 {
     srand(time(NULL));
     if (size_y == -1) size_y = size_x;
-    int box_num = box_num_(level_number_);
+    int box_proc = box_num_(level_number_);
     int random_nuber_if_box;
     for (int y = 1; y <= size_y; y++)
     {
         for (int x = 1; x <= size_x; x++)
         {
-            random_nuber_if_box = std::rand() % 3 + 1;
-            if (((x % 2 == 1 && y % 2 == 0) || (y % 2 == 1)) && random_nuber_if_box == 1 && box_num > 0 && (x >2 || y > 2))
+            random_nuber_if_box = std::rand() % 100;
+            if (((x % 2 == 1 && y % 2 == 0) || (y % 2 == 1)) && box_proc >= random_nuber_if_box && (x >2 || y > 2))
             {
                 Box box({ float((x - 1) * GRID_SLOT_SIZE), float((y - 1) * GRID_SLOT_SIZE) }, max_box_strength_(level_number_), TEXTURE_SCALE, box_texture);
                 add_item(box);
-                box_num--;
             }
         }
     }
