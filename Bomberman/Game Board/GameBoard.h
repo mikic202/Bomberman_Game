@@ -13,11 +13,7 @@ class GameBoard
 protected:
 	sf::Texture background_;
 	std::vector<std::shared_ptr<Wall> > items_on_board_;
-	int max_boxes_on_board_;
-	std::vector<std::shared_ptr<Player> > players_;
 	void place_walls_(int size_x, int size_y, sf::Texture& wall_texture);
-	sf::Texture wall_texture_;
-	sf::Texture box_texture_;
 	virtual void generate_board_(sf::Texture& wall_texture, sf::Texture& box_texture);
 	virtual void place_boxes_(int size_x, int size_y, sf::Texture& box_texture);
 public:
@@ -27,8 +23,6 @@ public:
 	template<typename T> void add_item(T new_item);
 	std::vector<std::shared_ptr<Wall> > items();
 	std::shared_ptr<Wall> item(int item_position);
-	std::vector<std::shared_ptr<Player> > players();
-	void add_player(Player new_player);
 	virtual void draw_to(sf::RenderWindow& window);
 	virtual void move_items(sf::Vector2f distance);
 	virtual sf::FloatRect get_door_global_bounds() { return sf::FloatRect(); };

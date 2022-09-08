@@ -33,17 +33,6 @@ std::shared_ptr<Wall> GameBoard::item(int item_position)
 	return items_on_board_[item_position];
 }
 
-std::vector<std::shared_ptr<Player>> GameBoard::players()
-{
-	return players_;
-}
-
-void GameBoard::add_player(Player new_player)
-{
-	std::shared_ptr<Player> ptr = std::make_shared<Player>(new_player);
-	players_.push_back(std::move(ptr));;
-}
-
 void GameBoard::draw_to(sf::RenderWindow& window)
 {
 	for (std::shared_ptr<Item> item : items_on_board_)
@@ -108,10 +97,6 @@ void GameBoard::generate_board_(sf::Texture& wall_texture, sf::Texture& box_text
 
 void GameBoard::place_boxes_(int size_x, int size_y, sf::Texture& box_texture)
 {
-	if (!box_texture_.loadFromFile(BOX_PATH))
-	{
-		throw (FliePathException());
-	}
 	srand(time(NULL));
 	if (size_y == -1) size_y = size_x;
 	int random_nuber_if_box;

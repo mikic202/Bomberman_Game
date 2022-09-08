@@ -166,8 +166,6 @@ TEST_CASE("Tests for GameBoard class")
 		GameBoard board;
 		Player player({ 1, 2 }, test_texture, { 3, 4 }, 2);
 
-		board.add_player(player);
-		REQUIRE(board.players()[0] -> get_hp() == 3);
 
 	}
 

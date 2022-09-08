@@ -6,8 +6,6 @@ VersusModeBoard::VersusModeBoard(int size, sf::Texture& wall_texture, sf::Textur
 {
 	size_ = size;
 	generate_board_(wall_texture, box_texture);
-	wall_texture_ = wall_texture;
-	box_texture_ = box_texture;
 }
 
 int VersusModeBoard::size()

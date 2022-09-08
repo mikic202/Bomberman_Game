@@ -23,13 +23,6 @@ int StoryModeBoard::level_number()
 StoryModeBoard::StoryModeBoard(int level_number, int number_of_players, sf::Texture &wall_texture, sf::Texture &box_texture, sf::Texture &door_texture)
 {
     level_number_ = level_number;
-    wall_texture_ = wall_texture;
-    box_texture_ = box_texture;
-    door_texture_ = door_texture;
-    /*for (int i = 1; i <= number_of_players; i++)
-    {
-        players_.push_back(Player());
-    }*/
     generate_board_(wall_texture, box_texture, door_texture);
 }
 
