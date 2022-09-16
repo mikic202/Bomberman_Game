@@ -43,6 +43,7 @@ classDiagram
 Entity--|>Player
 Entity--|>Enemy
 class Game
+class Button
 ```
 ```mermaid
 classDiagram
