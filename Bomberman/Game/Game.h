@@ -64,6 +64,7 @@ private:
 	bool check_if_players_are_dead_();
 	void display_level_statistic_(int level_points, int boxes, int enemies, sf::RenderWindow& window);
 	void move_enemies_();
+	void activate_textures_();
 
 public:
 	Game() {};

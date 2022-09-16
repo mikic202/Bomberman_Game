@@ -15,30 +15,7 @@ const int POINTS_PER_ENEMY = 40;
 
 void Game::play(int save_number, GameTypeEnum type, GameTypeEnum new_game, sf::RenderWindow &window)
 {
-    if (!bomb_texture_.loadFromFile(BOMB_PATH))
-    {
-        throw (FliePathException());
-    }
-    if (!door_texture_.loadFromFile(DOOR_PATH))
-    {
-        throw (FliePathException());
-    }
-    if (!box_texture_.loadFromFile(BOX_PATH))
-    {
-        throw (FliePathException());
-    }
-    if (!wall_texture_.loadFromFile(WALL_PATH))
-    {
-        throw (FliePathException());
-    }
-    if (!explosion_texture_.loadFromFile(EXPLOSION_PATH))
-    {
-        throw (FliePathException());
-    }
-    if (!enemy_texture_.loadFromFile(ENEMY_PATH))
-    {
-        throw (FliePathException());
-    }
+    activate_textures_();
     window.setFramerateLimit(60);
     bool new_game_b = false;
     if (new_game == GameTypeEnum::new_game) new_game_b = true;
@@ -63,11 +40,9 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
     players_.clear();
 
     int level_points;
-    int pixeles_moved;
 
     create_players_(number_of_players);
 
-    const int MOVEMNT_SPEED = 5;
     int level_number = 1;
     window.setFramerateLimit(60);
     points_ = 0;
@@ -171,7 +146,6 @@ void Game::play_story_(int save_number, bool new_game, sf::RenderWindow &window,
 void Game::play_versus_(sf::RenderWindow& window)
 {
     bool need_to_run = true;
-    const int MOVEMNT_SPEED = 5;
     sf::Texture explosion_texture;
     game_board_ = std::make_shared<VersusModeBoard>(VersusModeBoard(NUMBER_OF_WALLS_Y, wall_texture_, box_texture_));
     while (window.isOpen() && need_to_run)
@@ -1150,5 +1124,33 @@ void Game::move_enemies_()
         {
 
         }
+    }
+}
+
+void Game::activate_textures_()
+{
+    if (!bomb_texture_.loadFromFile(BOMB_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (!door_texture_.loadFromFile(DOOR_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (!box_texture_.loadFromFile(BOX_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (!wall_texture_.loadFromFile(WALL_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (!explosion_texture_.loadFromFile(EXPLOSION_PATH))
+    {
+        throw (FliePathException());
+    }
+    if (!enemy_texture_.loadFromFile(ENEMY_PATH))
+    {
+        throw (FliePathException());
     }
 }
