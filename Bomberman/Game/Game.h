@@ -21,6 +21,9 @@ private:
 	int points_ = 1;
 	std::vector<std::shared_ptr<Player> > players_;
 	std::vector<sf::Texture> player_textures_;
+	std::vector<sf::Image> player_image_;
+	int move_forward_images_;
+	int move_sideways_images_;
 	sf::Texture enemy_texture_;
 	sf::Texture door_texture_;
 	sf::Texture bomb_texture_;
@@ -65,6 +68,7 @@ private:
 	void display_level_statistic_(int level_points, int boxes, int enemies, sf::RenderWindow& window);
 	void move_enemies_();
 	void activate_textures_();
+	void load_player_images_();
 
 public:
 	Game() {};

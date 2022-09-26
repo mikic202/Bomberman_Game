@@ -227,16 +227,9 @@ void Game::move_players_(sf::RenderWindow& window, bool versus)
         std::shared_ptr<Player> player = players_[i];
         std::vector<sf::Keyboard::Key> keys = PLAYERS_KEYS[i];
 
-        if (not (sf::Keyboard::isKeyPressed(keys[0]) || sf::Keyboard::isKeyPressed(keys[1]) || sf::Keyboard::isKeyPressed(keys[2]) || sf::Keyboard::isKeyPressed(keys[3])) && not player->can_textured_be_placed(50) && is_player_stationary_[i] != 1)
+        if (not (sf::Keyboard::isKeyPressed(keys[0]) || sf::Keyboard::isKeyPressed(keys[1]) || sf::Keyboard::isKeyPressed(keys[2]) || sf::Keyboard::isKeyPressed(keys[3])) && not player->can_textured_be_placed(100) && is_player_stationary_[i] != 1)
         {
-            if (i == 0 && !player_textures_[0].loadFromFile(PLAYER_PATH))
-            {
-                throw (FliePathException());
-            }
-            if (i == 1 && !player_textures_[1].loadFromFile(PLAYER_PATH))
-            {
-                throw (FliePathException());
-            }
+            player_textures_[i].loadFromImage(player_image_[0]);
             is_player_stationary_[i] = 1;
         }
 
@@ -524,26 +517,17 @@ void Game::create_players_(int player_number, bool versus_mode, int game_board_s
     sf::Vector2f start_position = { 0, 0 };
     player_textures_.push_back(sf::Texture());
     player_textures_.push_back(sf::Texture());
-    if (!player_textures_[0].loadFromFile(PLAYER_PATH))
-    {
-        throw (FliePathException());
-    }
+    player_textures_[0].loadFromImage(player_image_[0]);
     players_.push_back(std::make_shared<Player>(Player(start_position, player_textures_[0], TEXTURE_SCALE, 1)));
     if (player_number == 2 && not versus_mode)
     {
-        if (!player_textures_[1].loadFromFile(PLAYER_PATH))
-        {
-            throw (FliePathException());
-        }
+        player_textures_[1].loadFromImage(player_image_[0]);
         players_.push_back(std::make_shared<Player>(Player(start_position, player_textures_[1], TEXTURE_SCALE, 1)));
         player_textures_[1].setSrgb(true);
     }
     else if (player_number == 2 && versus_mode)
     {
-        if (!player_textures_[1].loadFromFile(PLAYER_PATH))
-        {
-            throw (FliePathException());
-        }
+        player_textures_[1].loadFromImage(player_image_[0]);
         players_.push_back(std::make_shared<Player>(Player({ float((game_board_size-1) * GRID_SLOT_SIZE), float((game_board_size - 1) * GRID_SLOT_SIZE)}, player_textures_[1], TEXTURE_SCALE, 1)));
         player_textures_[1].setSrgb(true);
     }
@@ -824,7 +808,7 @@ void Game::display_player_move_sideways_(std::shared_ptr<Player> player, int mul
     int add_text_pos = 0;
     if (multiplier == -1)
     {
-        add_text_pos = 2;
+        add_text_pos = 1;
     }
     for (int i = 0; i < players_.size(); i++)
     {
@@ -845,20 +829,12 @@ void Game::display_player_move_sideways_(std::shared_ptr<Player> player, int mul
     }
     if (player_number == 0)
     {
-        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number+add_text_pos];
-        if (!player_textures_[0].loadFromFile(path))
-        {
-            throw (FliePathException());
-        }
+        player_textures_[0].loadFromImage(player_image_[move_forward_images_ + 1 + texture_number + move_sideways_images_/2* add_text_pos]);
         player->place_texture();
     }
     else if (player_number == 1)
     {
-        std::string path = PLAYER_MOVE_SIDEWAYS[texture_number];
-        if (!player_textures_[1].loadFromFile(path))
-        {
-            throw (FliePathException());
-        }
+        player_textures_[1].loadFromImage(player_image_[move_forward_images_ + 1 + texture_number + move_sideways_images_ / 2 * add_text_pos]);
         player->place_texture();
     }
 }
@@ -886,20 +862,12 @@ void Game::display_player_move_forward_(std::shared_ptr<Player> player)
     }
     if (player_number == 0)
     {
-        std::string path = PLAYER_MOVE_FORWARD[texture_number];
-        if (!player_textures_[0].loadFromFile(path))
-        {
-            throw (FliePathException());
-        }
+        player_textures_[0].loadFromImage(player_image_[1 + texture_number]);
         player->place_texture();
     }
     else if (player_number == 1)
     {
-        std::string path = PLAYER_MOVE_FORWARD[texture_number];
-        if (!player_textures_[1].loadFromFile(path))
-        {
-            throw (FliePathException());
-        }
+        player_textures_[1].loadFromImage(player_image_[1 + texture_number]);
         player->place_texture();
     }
 }
@@ -1153,4 +1121,36 @@ void Game::activate_textures_()
     {
         throw (FliePathException());
     }
+    load_player_images_();
+}
+
+void Game::load_player_images_()
+{
+    int i = 1;
+    player_image_.push_back(sf::Image());
+    if (!player_image_[0].loadFromFile(PLAYER_PATH))
+    {
+        throw (FliePathException());
+    }
+
+    for (std::string path : PLAYER_MOVE_FORWARD)
+    {
+        player_image_.push_back(sf::Image());
+        if (!player_image_[i].loadFromFile(path))
+        {
+            throw (FliePathException());
+        }
+        i++;
+    }
+    move_forward_images_ = (i - 1);
+    for (std::string path : PLAYER_MOVE_SIDEWAYS)
+    {
+        player_image_.push_back(sf::Image());
+        if (!player_image_[i].loadFromFile(path))
+        {
+            throw (FliePathException());
+        }
+        i++;
+    }
+    move_sideways_images_ = i - move_forward_images_ - 1;
 }
