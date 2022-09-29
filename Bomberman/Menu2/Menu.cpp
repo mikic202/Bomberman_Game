@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include "../Exceptions/Item_exceptions.h"
 
 
 void Menu::check_quit_(sf::RenderWindow& window)
@@ -21,6 +22,15 @@ void Menu::check_if_mouse_still_pressed_()
 	{
 
 	}
+}
+
+void Menu::load_backgroun_image_()
+{
+	if (!background_texture_.loadFromFile(menu_background_path_))
+	{
+		throw (FliePathException());
+	}
+	background_sprite_.setTexture(background_texture_);
 }
 
 std::vector<GameTypeEnum> Menu::open_menu(sf::RenderWindow& window)

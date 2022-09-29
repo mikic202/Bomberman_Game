@@ -16,6 +16,10 @@ protected:
 	void virtual genarate_menu_() {};
 	void check_quit_(sf::RenderWindow& window);
 	void check_if_mouse_still_pressed_();
+	void load_backgroun_image_();
+	sf::Sprite background_sprite_;
+	sf::Texture background_texture_;
+	const std::string menu_background_path_;
 public:
 	virtual std::vector<GameTypeEnum> open_menu(sf::RenderWindow& window);
 };
